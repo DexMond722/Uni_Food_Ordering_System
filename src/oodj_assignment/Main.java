@@ -4,7 +4,8 @@
  */
 package oodj_assignment;
 
-import Login.LoginPage;
+import Login.LoginForm;
+
 
 /**
  *
@@ -16,11 +17,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LoginPage Login = new LoginPage();
+        LoginForm Login = new LoginForm();
         Login.setVisible(true);
         Login.pack();
         Login.setLocationRelativeTo(null);
-        Login.txt_Username.requestFocus();
         
     }
     
