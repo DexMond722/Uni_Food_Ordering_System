@@ -4,6 +4,8 @@
  */
 package oodj_assignment;
 
+import Login.LoginPage;
+
 /**
  *
  * @author desmondcwf
@@ -14,7 +16,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Hello World 11");
+        LoginPage Login = new LoginPage();
+        Login.setVisible(true);
+        Login.pack();
+        Login.setLocationRelativeTo(null);
+        Login.txt_Username.requestFocus();
+        
     }
     
 }
