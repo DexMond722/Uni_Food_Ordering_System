@@ -4,18 +4,66 @@
  */
 package Login;
 
+import Dashboard.AdminDashboard;
+import Dashboard.CustomerDashboard;
+import Dashboard.DeliveryDashboard;
+import Dashboard.VendorDashboard;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author desmondcwf
  */
 public class LoginForm extends javax.swing.JFrame {
 
+    private UserManager userManager;
+
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
+        userManager = new UserManager();
         initComponents();
+        btn_Login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = txtbox_Username.getText();
+                String password = new String(txtbox_Password.getPassword());
+                User user = userManager.getUserByUsernameAndPassword(username, password);
+
+                if (user != null) {
+                    openDashboard(user.getRole());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
+    
+        private void openDashboard(String role) {
+           if (role.equals("Administrator")) {
+               AdminDashboard admin = new AdminDashboard();
+               admin.setVisible(true);
+               this.dispose();
+           }
+           else if (role.equals("Vendor")) {
+               VendorDashboard vendor = new VendorDashboard();
+               vendor.setVisible(true);
+               this.dispose();
+           }
+           else if (role.equals("DeliveryRunner")) {
+               DeliveryDashboard delivery = new DeliveryDashboard();
+               delivery.setVisible(true);
+               this.dispose();
+           }
+           else if (role.equals("Customer")) {
+               CustomerDashboard customer = new CustomerDashboard();
+               customer.setVisible(true);
+               this.dispose();
+           }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,7 +219,7 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LoginActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btn_LoginActionPerformed
 
     /**
@@ -188,16 +236,24 @@ public class LoginForm extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
