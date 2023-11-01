@@ -26,6 +26,7 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         userManager = new UserManager();
         initComponents();
+        btn_Login.setOpaque(true);
         btn_Login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -41,29 +42,34 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
     }
-    
-        private void openDashboard(String role) {
-           if (role.equals("Administrator")) {
-               AdminDashboard admin = new AdminDashboard();
-               admin.setVisible(true);
-               this.dispose();
-           }
-           else if (role.equals("Vendor")) {
-               VendorDashboard vendor = new VendorDashboard();
-               vendor.setVisible(true);
-               this.dispose();
-           }
-           else if (role.equals("DeliveryRunner")) {
-               DeliveryDashboard delivery = new DeliveryDashboard();
-               delivery.setVisible(true);
-               this.dispose();
-           }
-           else if (role.equals("Customer")) {
-               CustomerDashboard customer = new CustomerDashboard();
-               customer.setVisible(true);
-               this.dispose();
-           }
-}
+
+    private void openDashboard(String role) {
+        if (role.equals("Administrator")) {
+            AdminDashboard admin = new AdminDashboard();
+            admin.setVisible(true);
+            admin.pack();
+            admin.setLocationRelativeTo(null);
+            this.dispose();
+        } else if (role.equals("Vendor")) {
+            VendorDashboard vendor = new VendorDashboard();
+            vendor.setVisible(true);
+            vendor.pack();
+            vendor.setLocationRelativeTo(null);
+            this.dispose();
+        } else if (role.equals("DeliveryRunner")) {
+            DeliveryDashboard delivery = new DeliveryDashboard();
+            delivery.setVisible(true);
+            delivery.pack();
+            delivery.setLocationRelativeTo(null);
+            this.dispose();
+        } else if (role.equals("Customer")) {
+            CustomerDashboard customer = new CustomerDashboard();
+            customer.setVisible(true);
+            customer.pack();
+            customer.setLocationRelativeTo(null);
+            this.dispose();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,18 +93,22 @@ public class LoginForm extends javax.swing.JFrame {
         btn_Login = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setFocusable(false);
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 500));
 
+        LoginForm.setFocusable(false);
         LoginForm.setPreferredSize(new java.awt.Dimension(800, 500));
         LoginForm.setSize(new java.awt.Dimension(800, 500));
         LoginForm.setLayout(null);
 
-        Left.setBackground(new java.awt.Color(103, 191, 169));
+        Left.setBackground(new java.awt.Color(0, 204, 255));
         Left.setPreferredSize(new java.awt.Dimension(400, 500));
         Left.setSize(new java.awt.Dimension(400, 500));
 
-        lbl_title.setFont(new java.awt.Font("Corsiva Hebrew", 1, 24)); // NOI18N
+        lbl_title.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_title.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
+        lbl_title.setForeground(new java.awt.Color(51, 51, 51));
         lbl_title.setText("APU Food Ordering System");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Login/logo (1).png"))); // NOI18N
@@ -113,50 +123,45 @@ public class LoginForm extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addComponent(jLabel1))
                     .addGroup(LeftLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
+                        .addGap(32, 32, 32)
                         .addComponent(lbl_title)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
                 .addContainerGap(85, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
+                .addGap(121, 121, 121))
         );
 
         LoginForm.add(Left);
         Left.setBounds(0, 0, 400, 500);
 
-        Right.setBackground(new java.awt.Color(255, 255, 255));
+        Right.setBackground(new java.awt.Color(51, 51, 51));
         Right.setPreferredSize(new java.awt.Dimension(400, 500));
         Right.setSize(new java.awt.Dimension(400, 500));
 
         lbl_Login.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
-        lbl_Login.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_Login.setForeground(new java.awt.Color(255, 255, 255));
         lbl_Login.setText("LOGIN");
 
         lbl_username.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        lbl_username.setForeground(new java.awt.Color(204, 255, 255));
         lbl_username.setText("Username");
 
         lbl_password.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        lbl_password.setForeground(new java.awt.Color(204, 255, 255));
         lbl_password.setText("Password");
 
         txtbox_Username.setFont(new java.awt.Font("Georgia", 0, 13)); // NOI18N
 
         txtbox_Password.setFont(new java.awt.Font("Georgia", 0, 13)); // NOI18N
 
-        btn_Login.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
-        btn_Login.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        btn_Login.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Login.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
         btn_Login.setText("Login");
-        btn_Login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LoginActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
@@ -172,11 +177,11 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(lbl_password)
                             .addComponent(txtbox_Password, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)))
                     .addGroup(RightLayout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addComponent(btn_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(RightLayout.createSequentialGroup()
                         .addGap(139, 139, 139)
-                        .addComponent(lbl_Login)))
+                        .addComponent(lbl_Login))
+                    .addGroup(RightLayout.createSequentialGroup()
+                        .addGap(153, 153, 153)
+                        .addComponent(btn_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
@@ -192,9 +197,9 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(lbl_password)
                 .addGap(18, 18, 18)
                 .addComponent(txtbox_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(btn_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGap(51, 51, 51)
+                .addComponent(btn_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         LoginForm.add(Right);
@@ -206,56 +211,28 @@ public class LoginForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(LoginForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 166, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(LoginForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 125, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LoginActionPerformed
-
-    }//GEN-LAST:event_btn_LoginActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
