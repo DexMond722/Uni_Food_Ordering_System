@@ -22,6 +22,10 @@ public class UserManager {
         loadUsers();
     }
 
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users);
+    }
+
     private void loadUsers() {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
@@ -32,7 +36,7 @@ public class UserManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    } 
+    }
 
     public void addUser(User user) {
         users.add(user);
@@ -57,5 +61,40 @@ public class UserManager {
             }
         }
         return null;
+    }
+
+    public User getUserByUsername(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteUser(String username) {
+        User userToDelete = null;
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                userToDelete = user;
+                break;
+            }
+        }
+        if (userToDelete != null) {
+            users.remove(userToDelete);
+            saveUsers();
+            return true;
+        }
+        return false;
+    }
+
+    public void updateUser(String oldUsername, String newUsername, String newPassword, String newRole) {
+        User userToUpdate = getUserByUsername(oldUsername);
+        if (userToUpdate != null) {
+            userToUpdate.setUsername(newUsername);
+            userToUpdate.setPassword(newPassword);
+            userToUpdate.setRole(newRole);
+            saveUsers();
+        }
     }
 }

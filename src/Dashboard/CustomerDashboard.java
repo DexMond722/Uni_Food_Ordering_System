@@ -11,7 +11,7 @@ package Dashboard;
 public class CustomerDashboard extends javax.swing.JFrame {
 
     /**
-     * Creates new form CustomerDashboard
+     * Creates new form AdminDashboard
      */
     public CustomerDashboard() {
         initComponents();
@@ -29,6 +29,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(new java.awt.Dimension(1200, 700));
 
         jLabel1.setText("Customer Dashboard");
 
@@ -36,17 +38,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(157, 157, 157)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(607, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addGap(476, 476, 476))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(114, 114, 114)
+                .addGap(312, 312, 312)
                 .addComponent(jLabel1)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(372, Short.MAX_VALUE))
         );
 
         pack();
@@ -77,6 +79,13 @@ public class CustomerDashboard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(CustomerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

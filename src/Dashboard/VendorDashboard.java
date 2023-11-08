@@ -11,7 +11,7 @@ package Dashboard;
 public class VendorDashboard extends javax.swing.JFrame {
 
     /**
-     * Creates new form VendorDashboard
+     * Creates new form AdminDashboard
      */
     public VendorDashboard() {
         initComponents();
@@ -29,6 +29,8 @@ public class VendorDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(new java.awt.Dimension(1200, 700));
 
         jLabel1.setText("Vendor Dashboard");
 
@@ -36,17 +38,17 @@ public class VendorDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(622, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addGap(476, 476, 476))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
+                .addGap(312, 312, 312)
                 .addComponent(jLabel1)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(372, Short.MAX_VALUE))
         );
 
         pack();
@@ -77,6 +79,7 @@ public class VendorDashboard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VendorDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

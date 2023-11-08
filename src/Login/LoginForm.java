@@ -160,8 +160,11 @@ public class LoginForm extends javax.swing.JFrame {
 
         txtbox_Password.setFont(new java.awt.Font("Georgia", 0, 13)); // NOI18N
 
+        btn_Login.setBackground(new java.awt.Color(204, 255, 255));
         btn_Login.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
         btn_Login.setText("Login");
+        btn_Login.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_Login.setFocusPainted(false);
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);

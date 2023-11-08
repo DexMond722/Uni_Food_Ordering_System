@@ -4,17 +4,61 @@
  */
 package Dashboard;
 
+import Login.LoginForm;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.UIManager;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author desmondcwf
  */
 public class AdminDashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AdminDashboard
-     */
+    private String Username;
+
     public AdminDashboard() {
         initComponents();
+        lbl_Welcome.setText("Welcome back, " + this.Username);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        lbl_LoggedIn.setText("Logged in time: " + dtf.format(now));
+
+        btn_CreateUser.setOpaque(true);
+        btn_CreateUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Admin_CreateUser createuser = new Admin_CreateUser();
+                createuser.setVisible(true);
+                createuser.pack();
+                createuser.setLocationRelativeTo(null);
+            }
+        });
+        btn_ManageUser.setOpaque(true);
+        btn_ManageUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Admin_ManageUser manageuser = new Admin_ManageUser();
+                manageuser.setVisible(true);
+                manageuser.pack();
+                manageuser.setLocationRelativeTo(null);
+            }
+        });
+        btn_Logout.setOpaque(true);
+        btn_Logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+
+                LoginForm login = new LoginForm();
+                login.setVisible(true);
+                login.pack();
+                login.setLocationRelativeTo(null);
+
+            }
+        });
     }
 
     /**
@@ -26,30 +70,161 @@ public class AdminDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        Top = new javax.swing.JPanel();
+        lbl_Logo = new javax.swing.JLabel();
+        lbl_Welcome = new javax.swing.JLabel();
+        lbl_LoggedIn = new javax.swing.JLabel();
+        Bottom = new javax.swing.JPanel();
+        btn_CreateUser = new javax.swing.JButton();
+        btn_Topup = new javax.swing.JButton();
+        btn_ManageUser = new javax.swing.JButton();
+        btn_Generate = new javax.swing.JButton();
+        btn_Send = new javax.swing.JButton();
+        btn_Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 700));
+        setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
-        setSize(new java.awt.Dimension(1200, 700));
+        setSize(new java.awt.Dimension(500, 700));
 
-        jLabel1.setText("Admin Dashboard");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 700));
+        jPanel1.setSize(new java.awt.Dimension(500, 700));
+        jPanel1.setLayout(null);
+
+        Top.setBackground(new java.awt.Color(153, 255, 255));
+        Top.setPreferredSize(new java.awt.Dimension(500, 200));
+
+        lbl_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dashboard/profile_picture.png"))); // NOI18N
+
+        lbl_Welcome.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lbl_Welcome.setToolTipText("");
+
+        lbl_LoggedIn.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lbl_LoggedIn.setText("ffff");
+
+        javax.swing.GroupLayout TopLayout = new javax.swing.GroupLayout(Top);
+        Top.setLayout(TopLayout);
+        TopLayout.setHorizontalGroup(
+            TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TopLayout.createSequentialGroup()
+                .addGroup(TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(TopLayout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(lbl_Logo))
+                    .addGroup(TopLayout.createSequentialGroup()
+                        .addGap(197, 197, 197)
+                        .addComponent(lbl_Welcome))
+                    .addGroup(TopLayout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(lbl_LoggedIn)))
+                .addContainerGap(192, Short.MAX_VALUE))
+        );
+        TopLayout.setVerticalGroup(
+            TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TopLayout.createSequentialGroup()
+                .addComponent(lbl_Logo)
+                .addGap(12, 12, 12)
+                .addComponent(lbl_Welcome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_LoggedIn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(Top);
+        Top.setBounds(0, 0, 500, 200);
+
+        Bottom.setBackground(new java.awt.Color(51, 51, 51));
+        Bottom.setPreferredSize(new java.awt.Dimension(500, 500));
+        Bottom.setSize(new java.awt.Dimension(500, 500));
+
+        btn_CreateUser.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_CreateUser.setText("Create User");
+        btn_CreateUser.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_CreateUser.setBorderPainted(false);
+        btn_CreateUser.setFocusPainted(false);
+
+        btn_Topup.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Topup.setText("Top-up Credit");
+        btn_Topup.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_Topup.setBorderPainted(false);
+        btn_Topup.setFocusPainted(false);
+
+        btn_ManageUser.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_ManageUser.setText("Manage User");
+        btn_ManageUser.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_ManageUser.setBorderPainted(false);
+        btn_ManageUser.setFocusPainted(false);
+
+        btn_Generate.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Generate.setText("Generate Receipt");
+        btn_Generate.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_Generate.setBorderPainted(false);
+        btn_Generate.setFocusPainted(false);
+
+        btn_Send.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Send.setText("Send Receipt");
+        btn_Send.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_Send.setBorderPainted(false);
+        btn_Send.setFocusPainted(false);
+
+        btn_Logout.setBackground(new java.awt.Color(255, 102, 102));
+        btn_Logout.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Logout.setText("Logout");
+        btn_Logout.setBorder(new javax.swing.border.MatteBorder(null));
+        btn_Logout.setBorderPainted(false);
+        btn_Logout.setFocusPainted(false);
+
+        javax.swing.GroupLayout BottomLayout = new javax.swing.GroupLayout(Bottom);
+        Bottom.setLayout(BottomLayout);
+        BottomLayout.setHorizontalGroup(
+            BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BottomLayout.createSequentialGroup()
+                .addContainerGap(177, Short.MAX_VALUE)
+                .addGroup(BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_Generate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_Topup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_ManageUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_CreateUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_Send, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                    .addComponent(btn_Logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
+        );
+        BottomLayout.setVerticalGroup(
+            BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BottomLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(btn_CreateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btn_ManageUser, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(btn_Topup, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(btn_Generate, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(btn_Send, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(btn_Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
+
+        jPanel1.add(Bottom);
+        Bottom.setBounds(0, 200, 500, 500);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(626, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(476, 476, 476))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(312, 312, 312)
-                .addComponent(jLabel1)
-                .addContainerGap(372, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -60,27 +235,11 @@ public class AdminDashboard extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -91,6 +250,17 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel Bottom;
+    private javax.swing.JPanel Top;
+    private javax.swing.JButton btn_CreateUser;
+    private javax.swing.JButton btn_Generate;
+    private javax.swing.JButton btn_Logout;
+    private javax.swing.JButton btn_ManageUser;
+    private javax.swing.JButton btn_Send;
+    private javax.swing.JButton btn_Topup;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbl_LoggedIn;
+    private javax.swing.JLabel lbl_Logo;
+    private javax.swing.JLabel lbl_Welcome;
     // End of variables declaration//GEN-END:variables
 }
