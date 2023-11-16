@@ -31,6 +31,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Admin_CreateUser createuser = new Admin_CreateUser();
+                createuser.setDefaultCloseOperation(AdminDashboard.DISPOSE_ON_CLOSE);
                 createuser.setVisible(true);
                 createuser.pack();
                 createuser.setLocationRelativeTo(null);

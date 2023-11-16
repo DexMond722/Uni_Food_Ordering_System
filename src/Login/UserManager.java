@@ -33,6 +33,7 @@ public class UserManager {
                 String[] data = line.split(",");
                 users.add(new User(data[0], data[1], data[2]));
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,6 +50,7 @@ public class UserManager {
                 bw.write(user.getUsername() + "," + user.getPassword() + "," + user.getRole());
                 bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
