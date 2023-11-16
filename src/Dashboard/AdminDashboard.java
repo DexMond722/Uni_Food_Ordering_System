@@ -5,6 +5,7 @@
 package Dashboard;
 
 import Login.LoginForm;
+import Login.User;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
@@ -17,11 +18,13 @@ import java.time.LocalDateTime;
  */
 public class AdminDashboard extends javax.swing.JFrame {
 
-    private String Username;
+    private String username;
+    
 
-    public AdminDashboard() {
+    public AdminDashboard(String username) {
         initComponents();
-        lbl_Welcome.setText("Welcome back, " + this.Username);
+        this.username = username;
+        lbl_Welcome.setText("Welcome back, " + username);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         lbl_LoggedIn.setText("Logged in time: " + dtf.format(now));
@@ -100,6 +103,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         lbl_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dashboard/profile_picture.png"))); // NOI18N
 
         lbl_Welcome.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lbl_Welcome.setText("abcd");
         lbl_Welcome.setToolTipText("");
 
         lbl_LoggedIn.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
@@ -109,26 +113,27 @@ public class AdminDashboard extends javax.swing.JFrame {
         Top.setLayout(TopLayout);
         TopLayout.setHorizontalGroup(
             TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TopLayout.createSequentialGroup()
+                .addGap(0, 196, Short.MAX_VALUE)
+                .addComponent(lbl_Logo)
+                .addGap(176, 176, 176))
             .addGroup(TopLayout.createSequentialGroup()
                 .addGroup(TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(lbl_Logo))
+                        .addGap(135, 135, 135)
+                        .addComponent(lbl_LoggedIn))
                     .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(197, 197, 197)
-                        .addComponent(lbl_Welcome))
-                    .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(lbl_LoggedIn)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                        .addGap(187, 187, 187)
+                        .addComponent(lbl_Welcome)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         TopLayout.setVerticalGroup(
             TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TopLayout.createSequentialGroup()
                 .addComponent(lbl_Logo)
-                .addGap(12, 12, 12)
-                .addComponent(lbl_Welcome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_Welcome)
+                .addGap(12, 12, 12)
                 .addComponent(lbl_LoggedIn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -245,7 +250,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminDashboard().setVisible(true);
+                new AdminDashboard("").setVisible(true);
             }
         });
     }

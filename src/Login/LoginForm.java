@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 public class LoginForm extends javax.swing.JFrame {
 
     private UserManager userManager;
+    
 
     /**
      * Creates new form LoginForm
@@ -35,7 +36,7 @@ public class LoginForm extends javax.swing.JFrame {
                 User user = userManager.getUserByUsernameAndPassword(username, password);
 
                 if (user != null) {
-                    openDashboard(user.getRole());
+                    openDashboard(user.getRole(), user.getUsername());
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -43,9 +44,9 @@ public class LoginForm extends javax.swing.JFrame {
         });
     }
 
-    private void openDashboard(String role) {
+    private void openDashboard(String role, String username) {
         if (role.equals("Administrator")) {
-            AdminDashboard admin = new AdminDashboard();
+            AdminDashboard admin = new AdminDashboard(username);
             admin.setVisible(true);
             admin.pack();
             admin.setLocationRelativeTo(null);

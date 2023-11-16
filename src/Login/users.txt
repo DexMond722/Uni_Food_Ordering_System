@@ -2,3 +2,4 @@ admin,admin,Administrator
 vendor,vendor,Vendor
 customer,customer,Customer
 delivery,delivery,DeliveryRunner
+desmond,desmond,Administrator
