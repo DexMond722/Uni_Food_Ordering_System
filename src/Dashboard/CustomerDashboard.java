@@ -1,20 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Dashboard;
 
-/**
- *
- * @author desmondcwf
- */
-public class CustomerDashboard extends javax.swing.JFrame {
+import Login.LoginForm;
+import Login.UserCustomer;
+import java.awt.event.*;
+import javax.swing.UIManager;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
-    /**
-     * Creates new form AdminDashboard
-     */
-    public CustomerDashboard() {
+public class CustomerDashboard extends javax.swing.JFrame {
+    private UserCustomer userCustomer;
+    private String username;
+    
+    public CustomerDashboard(String username) {
         initComponents();
+        this.username = username;
+        lbl_Welcome.setText("Welcome back, "+username);
+        
+        btn_ViewMenu.setOpaque(true);
+        btn_ViewMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Customer_ViewMenu viewMenu = new Customer_ViewMenu();
+                viewMenu.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
+                viewMenu.setVisible(true);
+                viewMenu.pack();
+                viewMenu.setLocationRelativeTo(null);
+            }
+        });
     }
 
     /**
@@ -26,29 +38,93 @@ public class CustomerDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        panel = new javax.swing.JPanel();
+        panel_Top = new javax.swing.JPanel();
+        lbl_Icon = new javax.swing.JLabel();
+        lbl_Welcome = new javax.swing.JLabel();
+        panel_Bottom = new javax.swing.JPanel();
+        btn_ViewMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
+        setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
-        setSize(new java.awt.Dimension(1200, 700));
+        setSize(new java.awt.Dimension(500, 700));
 
-        jLabel1.setText("Customer Dashboard");
+        panel.setMinimumSize(new java.awt.Dimension(550, 700));
+        panel.setPreferredSize(new java.awt.Dimension(550, 700));
+        panel.setLayout(null);
+
+        panel_Top.setBackground(new java.awt.Color(235, 127, 0));
+        panel_Top.setPreferredSize(new java.awt.Dimension(500, 95));
+
+        lbl_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dashboard/profile_picture2.png"))); // NOI18N
+
+        lbl_Welcome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_Welcome.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_Welcome.setText("jLabel1");
+
+        javax.swing.GroupLayout panel_TopLayout = new javax.swing.GroupLayout(panel_Top);
+        panel_Top.setLayout(panel_TopLayout);
+        panel_TopLayout.setHorizontalGroup(
+            panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_TopLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_Icon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_Welcome)
+                .addContainerGap(347, Short.MAX_VALUE))
+        );
+        panel_TopLayout.setVerticalGroup(
+            panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_TopLayout.createSequentialGroup()
+                .addGroup(panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_TopLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbl_Icon))
+                    .addGroup(panel_TopLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(lbl_Welcome)))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        panel.add(panel_Top);
+        panel_Top.setBounds(0, 0, 500, 100);
+
+        panel_Bottom.setBackground(new java.awt.Color(233, 219, 197));
+
+        btn_ViewMenu.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_ViewMenu.setText("View Menu");
+
+        javax.swing.GroupLayout panel_BottomLayout = new javax.swing.GroupLayout(panel_Bottom);
+        panel_Bottom.setLayout(panel_BottomLayout);
+        panel_BottomLayout.setHorizontalGroup(
+            panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_BottomLayout.createSequentialGroup()
+                .addGap(179, 179, 179)
+                .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(190, Short.MAX_VALUE))
+        );
+        panel_BottomLayout.setVerticalGroup(
+            panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_BottomLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(501, Short.MAX_VALUE))
+        );
+
+        panel.add(panel_Bottom);
+        panel_Bottom.setBounds(0, 100, 500, 600);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(607, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(476, 476, 476))
+            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(312, 312, 312)
-                .addComponent(jLabel1)
-                .addContainerGap(372, Short.MAX_VALUE))
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -58,45 +134,20 @@ public class CustomerDashboard extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CustomerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CustomerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CustomerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CustomerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CustomerDashboard().setVisible(true);
+                new CustomerDashboard("").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btn_ViewMenu;
+    private javax.swing.JLabel lbl_Icon;
+    private javax.swing.JLabel lbl_Welcome;
+    private javax.swing.JPanel panel;
+    private javax.swing.JPanel panel_Bottom;
+    private javax.swing.JPanel panel_Top;
     // End of variables declaration//GEN-END:variables
 }

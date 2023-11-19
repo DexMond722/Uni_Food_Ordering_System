@@ -94,7 +94,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 700));
-        jPanel1.setSize(new java.awt.Dimension(500, 700));
         jPanel1.setLayout(null);
 
         Top.setBackground(new java.awt.Color(153, 255, 255));
@@ -143,7 +142,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         Bottom.setBackground(new java.awt.Color(51, 51, 51));
         Bottom.setPreferredSize(new java.awt.Dimension(500, 500));
-        Bottom.setSize(new java.awt.Dimension(500, 500));
 
         btn_CreateUser.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
         btn_CreateUser.setText("Create User");
