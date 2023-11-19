@@ -12,9 +12,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private String username;
     
     public CustomerDashboard(String username) {
+        userCustomer = new UserCustomer();
         initComponents();
         this.username = username;
         lbl_Welcome.setText("Welcome back, "+username);
+        displayCreditAmount(username);
+        
         
         btn_ViewMenu.setOpaque(true);
         btn_ViewMenu.addActionListener(new ActionListener() {
@@ -27,6 +30,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 viewMenu.setLocationRelativeTo(null);
             }
         });
+    }
+    
+    //display Credit Amount
+    private void displayCreditAmount(String userName){
+        double credit = userCustomer.getCustomerCredit(userName);
+        lbl_CreditAmount.setText(String.format("Credit Amount: %.2f", credit));
     }
 
     /**
@@ -42,12 +51,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
         panel_Top = new javax.swing.JPanel();
         lbl_Icon = new javax.swing.JLabel();
         lbl_Welcome = new javax.swing.JLabel();
+        lbl_CreditAmount = new javax.swing.JLabel();
         panel_Bottom = new javax.swing.JPanel();
         btn_ViewMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(500, 700));
 
@@ -60,9 +69,13 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         lbl_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dashboard/profile_picture2.png"))); // NOI18N
 
-        lbl_Welcome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_Welcome.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         lbl_Welcome.setForeground(new java.awt.Color(255, 255, 255));
         lbl_Welcome.setText("jLabel1");
+
+        lbl_CreditAmount.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        lbl_CreditAmount.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_CreditAmount.setText("jLabel2");
 
         javax.swing.GroupLayout panel_TopLayout = new javax.swing.GroupLayout(panel_Top);
         panel_Top.setLayout(panel_TopLayout);
@@ -72,8 +85,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_Icon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_Welcome)
-                .addContainerGap(347, Short.MAX_VALUE))
+                .addGroup(panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_Welcome)
+                    .addComponent(lbl_CreditAmount))
+                .addContainerGap(343, Short.MAX_VALUE))
         );
         panel_TopLayout.setVerticalGroup(
             panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,8 +98,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(lbl_Icon))
                     .addGroup(panel_TopLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(lbl_Welcome)))
+                        .addGap(20, 20, 20)
+                        .addComponent(lbl_Welcome)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbl_CreditAmount)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -144,6 +161,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_ViewMenu;
+    private javax.swing.JLabel lbl_CreditAmount;
     private javax.swing.JLabel lbl_Icon;
     private javax.swing.JLabel lbl_Welcome;
     private javax.swing.JPanel panel;

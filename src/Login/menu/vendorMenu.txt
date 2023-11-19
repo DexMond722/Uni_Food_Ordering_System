@@ -1,0 +1,4 @@
+FoodID,FoodName,Price
+F01,NasiLemak,4.00
+F02,RotiCanai,2.50
+F03,RotiSusu,3.00
