@@ -18,7 +18,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lbl_Welcome.setText("Welcome back, "+username);
         displayCreditAmount(username);
         
-        
         btn_ViewMenu.setOpaque(true);
         btn_ViewMenu.addActionListener(new ActionListener() {
             @Override
@@ -112,22 +111,26 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         btn_ViewMenu.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
         btn_ViewMenu.setText("View Menu");
+        btn_ViewMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_ViewMenu.setBorderPainted(false);
+        btn_ViewMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_ViewMenu.setFocusPainted(false);
 
         javax.swing.GroupLayout panel_BottomLayout = new javax.swing.GroupLayout(panel_Bottom);
         panel_Bottom.setLayout(panel_BottomLayout);
         panel_BottomLayout.setHorizontalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addGap(179, 179, 179)
+                .addGap(176, 176, 176)
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         panel_BottomLayout.setVerticalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(31, 31, 31)
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(501, Short.MAX_VALUE))
+                .addContainerGap(512, Short.MAX_VALUE))
         );
 
         panel.add(panel_Bottom);
