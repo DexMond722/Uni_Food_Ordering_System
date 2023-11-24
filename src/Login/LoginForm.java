@@ -65,7 +65,6 @@ public class LoginForm extends javax.swing.JFrame {
             this.dispose();
         } else if (role.equals("Customer")) {
             CustomerDashboard customer = new CustomerDashboard(username);
-            UserCustomer userCustomer = new UserCustomer(username,new String(txtbox_Password.getPassword()),role);
             customer.setVisible(true);
             customer.pack();
             customer.setLocationRelativeTo(null);

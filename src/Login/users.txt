@@ -1,7 +1,6 @@
-admin,admin,Administrator
-vendor,vendor,Vendor
-customer,customer,Customer
-delivery,delivery,DeliveryRunner
-desmond,desmond,Administrator
-gec,gec,Customer
-Mixue,mixue,Vendor
+1,admin,admin,Administrator,0.0
+2,customer,customer,Customer,0.0
+3,gec,gec,Customer,0.0
+4,delivery,delivery,DeliveryRunner,0.0
+5,shh,shh,Vendor,0.0
+6,vendor,vendor,Vendor,0.0

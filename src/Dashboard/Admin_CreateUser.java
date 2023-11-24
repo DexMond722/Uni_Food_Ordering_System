@@ -38,7 +38,9 @@ public class Admin_CreateUser extends javax.swing.JFrame {
                 } else if (username.trim().isEmpty() || password.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please insert Username or Password.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    User newUser = new User(username, password, role);
+                    int newUserId = userManager.getNextUserId();
+                    double initialCredit = 0.0;
+                    User newUser = new User(newUserId,username, password, role, initialCredit);
                     userManager.addUser(newUser);
                     JOptionPane.showMessageDialog(null, "Registration successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                     txtbox_Username.setText("");

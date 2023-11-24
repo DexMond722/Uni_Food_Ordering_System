@@ -16,14 +16,25 @@ public class UserManager {
 
     private List<User> users;
     private static final String FILE_PATH = "src/login/users.txt";
+    private int lastid;
 
     public UserManager() {
         users = new ArrayList<>();
         loadUsers();
+        lastid = calculateLastUserId();
     }
 
     public List<User> getAllUsers() {
         return new ArrayList<>(users);
+    }
+
+    private int calculateLastUserId() {
+        if (users.isEmpty()) {
+            return 0; // If no users, start from ID 0
+        } else {
+            // Find the maximum user ID in the existing users
+            return users.stream().mapToInt(user -> user.getId()).max().orElse(0);
+        }
     }
 
     private void loadUsers() {
@@ -31,7 +42,12 @@ public class UserManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                users.add(new User(data[0], data[1], data[2]));
+                int id = Integer.parseInt(data[0]); // Parse user ID as an integer
+                String username = data[1];
+                String password = data[2];
+                String role = data[3];
+                double credit = Double.parseDouble(data[4]); // Parse credit as a double
+                users.add(new User(id, username, password, role, credit));
             }
             br.close();
         } catch (IOException e) {
@@ -40,6 +56,8 @@ public class UserManager {
     }
 
     public void addUser(User user) {
+        int newUserId = ++lastid;
+        user.setId(newUserId);
         users.add(user);
         saveUsers();
     }
@@ -47,7 +65,7 @@ public class UserManager {
     private void saveUsers() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (User user : users) {
-                bw.write(user.getUsername() + "," + user.getPassword() + "," + user.getRole());
+                bw.write(user.getId() + "," + user.getUsername() + "," + user.getPassword() + "," + user.getRole() + "," + user.getCredit());
                 bw.newLine();
             }
             bw.close();
@@ -98,5 +116,10 @@ public class UserManager {
             userToUpdate.setRole(newRole);
             saveUsers();
         }
+    }
+
+    public int getNextUserId() {
+        // Calculate the next user ID based on the last assigned ID
+        return lastid + 1;
     }
 }

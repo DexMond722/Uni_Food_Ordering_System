@@ -13,8 +13,8 @@ public class UserCustomer extends User {
     private static final String creditFilePath = "src/login/credit.txt";
     private static final String menuFolderPath = "src/login/menu/";
             
-    public UserCustomer(String username, String password, String role) {
-        super(username, password, role);
+    public UserCustomer(int id, String username, String password, String role, double credit) {
+        super(id,username, password, role,credit);
     }
         
     public UserCustomer() {}    
