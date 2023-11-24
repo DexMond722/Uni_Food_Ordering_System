@@ -62,13 +62,12 @@ public class UserManager {
         saveUsers();
     }
 
-    private void saveUsers() {
+    public void saveUsers() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (User user : users) {
                 bw.write(user.getId() + "," + user.getUsername() + "," + user.getPassword() + "," + user.getRole() + "," + user.getCredit());
                 bw.newLine();
             }
-            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,6 +85,15 @@ public class UserManager {
     public User getUserByUsername(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User getUserById(int userId) {
+        for (User user : users) {
+            if (user.getId() == userId) {
                 return user;
             }
         }

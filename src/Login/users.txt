@@ -1,5 +1,5 @@
-1,admin,admin,Administrator,0.0
-2,customer,customer,Customer,0.0
+1,admin,admin,Administrator,277.0
+2,customer,customer,Customer,100.0
 3,gec,gec,Customer,0.0
 4,delivery,delivery,DeliveryRunner,0.0
 5,shh,shh,Vendor,0.0

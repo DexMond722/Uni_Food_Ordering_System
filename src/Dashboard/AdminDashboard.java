@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 public class AdminDashboard extends javax.swing.JFrame {
 
     private String username;
-    
 
     public AdminDashboard(String username) {
         initComponents();
@@ -48,6 +47,17 @@ public class AdminDashboard extends javax.swing.JFrame {
                 manageuser.setVisible(true);
                 manageuser.pack();
                 manageuser.setLocationRelativeTo(null);
+            }
+        });
+        btn_Topup.setOpaque(true);
+        btn_Topup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Admin_TopUp topup = new Admin_TopUp();
+                topup.setDefaultCloseOperation(AdminDashboard.DISPOSE_ON_CLOSE);
+                topup.setVisible(true);
+                topup.pack();
+                topup.setLocationRelativeTo(null);
             }
         });
         btn_Logout.setOpaque(true);

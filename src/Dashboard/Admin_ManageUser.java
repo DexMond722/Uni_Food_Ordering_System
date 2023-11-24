@@ -174,6 +174,7 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         btn_Delete.setText("Delete");
         btn_Delete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        btn_Update.setBackground(new java.awt.Color(0, 204, 204));
         btn_Update.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_Update.setText("Update");
         btn_Update.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
