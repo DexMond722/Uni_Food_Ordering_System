@@ -22,7 +22,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_ViewMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Customer_ViewMenu viewMenu = new Customer_ViewMenu();
+                Customer_ViewMenu viewMenu = new Customer_ViewMenu(username);
                 viewMenu.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
                 viewMenu.setVisible(true);
                 viewMenu.pack();
@@ -121,16 +121,16 @@ public class CustomerDashboard extends javax.swing.JFrame {
         panel_BottomLayout.setHorizontalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addGap(176, 176, 176)
+                .addGap(184, 184, 184)
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         panel_BottomLayout.setVerticalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(30, 30, 30)
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(512, Short.MAX_VALUE))
+                .addContainerGap(513, Short.MAX_VALUE))
         );
 
         panel.add(panel_Bottom);

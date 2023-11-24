@@ -19,6 +19,7 @@ public class UserCustomer extends User {
         
     public UserCustomer() {}    
    
+    
     // get Credit of Customer
     public double getCustomerCredit(String userName){
         double credit = 0;
@@ -83,7 +84,13 @@ public class UserCustomer extends User {
         return menuItems;
     }
     
-    // place order
+    // check credit
+    public boolean checkCredit(double totalAmount, String username){
+        // get Customer Credit 
+        double availableCredit = getCustomerCredit(username);
+        return availableCredit >= totalAmount;          
+    }
     
+    // place order
     
 }

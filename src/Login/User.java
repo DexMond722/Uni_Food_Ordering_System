@@ -10,7 +10,7 @@ package Login;
  */
 public class User {
     
-    private String username;
+    String username;
     private String password;
     private String role;
 
