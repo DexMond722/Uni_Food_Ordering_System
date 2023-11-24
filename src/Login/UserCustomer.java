@@ -24,13 +24,13 @@ public class UserCustomer extends User {
     public double getCustomerCredit(String userName){
         double credit = 0;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(creditFilePath));
+            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             String line; 
             while((line = reader.readLine()) != null){
                 String[] creditData = line.split(",");
-                String customerName = creditData[0];
+                String customerName = creditData[1];
                 if (customerName.equals(userName)){
-                    credit = Double.parseDouble(creditData[1].trim());
+                    credit = Double.parseDouble(creditData[4].trim());
                     break;
                 }
             }
@@ -50,8 +50,8 @@ public class UserCustomer extends User {
             String line;
             while((line = reader.readLine()) != null){
                 String[] userData = line.split(",");
-                String userName = userData[0].trim();
-                String userRole = userData[2].trim();
+                String userName = userData[1].trim();
+                String userRole = userData[3].trim();
                 if (userRole.equalsIgnoreCase("Vendor")){
                     vendorList.add(userName);
                 }

@@ -342,7 +342,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // display the menu when the item state in combobox is change
-    private void comboBox_VendorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBox_VendorItemStateChanged
+    private void comboBox_VendorItemStateChanged(java.awt.event.ItemEvent evt) {                                                 
         if (evt.getStateChange() == evt.SELECTED) {
             String selectedVendor = (String) comboBox_Vendor.getSelectedItem();
             List<List<String>> menuItems = userCustomer.getMenuOfVendor(selectedVendor);

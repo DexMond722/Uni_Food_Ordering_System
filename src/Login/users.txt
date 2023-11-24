@@ -4,3 +4,4 @@
 4,delivery,delivery,DeliveryRunner,0.0
 5,shh,shh,Vendor,0.0
 6,vendor,vendor,Vendor,0.0
+7,Mixue,Mixue,Vendor,0.0
