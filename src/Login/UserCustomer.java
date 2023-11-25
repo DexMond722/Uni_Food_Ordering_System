@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class UserCustomer extends User {
     
@@ -12,6 +14,7 @@ public class UserCustomer extends User {
     private static final String userFilePath = "src/login/users.txt";
     private static final String creditFilePath = "src/login/credit.txt";
     private static final String menuFolderPath = "src/login/menu/";
+    private static final String orderFilePath = "src/login/order.txt";
             
     public UserCustomer(int id, String username, String password, String role, double credit) {
         super(id,username, password, role,credit);
@@ -19,29 +22,7 @@ public class UserCustomer extends User {
         
     public UserCustomer() {}    
    
-    
-    // get Credit of Customer
-    public double getCustomerCredit(String userName){
-        double credit = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
-            String line; 
-            while((line = reader.readLine()) != null){
-                String[] creditData = line.split(",");
-                String customerName = creditData[1];
-                if (customerName.equals(userName)){
-                    credit = Double.parseDouble(creditData[4].trim());
-                    break;
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return credit;
-    }
-    
+   
     // get Vendor in a list
     public List<String> getVendorList() {
         List<String> vendorList = new ArrayList<>();
@@ -84,13 +65,51 @@ public class UserCustomer extends User {
         return menuItems;
     }
     
-    // check credit
-    public boolean checkCredit(double totalAmount, String username){
-        // get Customer Credit 
-        double availableCredit = getCustomerCredit(username);
-        return availableCredit >= totalAmount;          
+    // get customer user id by username
+    public int getCustomerUserID(String username){
+        int userID = 0;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] userData = line.split(",");
+                String userName = userData[1].trim();
+                if(userName.equalsIgnoreCase(username)){
+                    userID = Integer.parseInt(userData[0].trim());
+                    break;
+                }                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userID;
     }
     
-    // place order
+    // get vendor user id by vendorname
+    public int getVendorUserID(String vendorname){
+        int vendorID = 0;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] userData = line.split(",");
+                String userName = userData[1].trim();
+                if(userName.equalsIgnoreCase(vendorname)){
+                    vendorID = Integer.parseInt(userData[0].trim());
+                    break;
+                }                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vendorID;
+    }
     
+    
+    
+ 
 }

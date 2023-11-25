@@ -2,6 +2,8 @@ package Dashboard;
 
 import Login.LoginForm;
 import Login.UserCustomer;
+import Login.CustomerOrder;
+import Login.CustomerCredit;
 import java.awt.event.*;
 import javax.swing.UIManager;
 import java.time.format.DateTimeFormatter;
@@ -9,15 +11,16 @@ import java.time.LocalDateTime;
 
 public class CustomerDashboard extends javax.swing.JFrame {
     private UserCustomer userCustomer;
+    private CustomerCredit customerCredit;
     private String username;
     
     public CustomerDashboard(String username) {
         userCustomer = new UserCustomer();
+        customerCredit = new CustomerCredit();
         initComponents();
         this.username = username;
         lbl_Welcome.setText("Welcome back, "+username);
         displayCreditAmount(username);
-        
         btn_ViewMenu.setOpaque(true);
         btn_ViewMenu.addActionListener(new ActionListener() {
             @Override
@@ -33,7 +36,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     
     //display Credit Amount
     private void displayCreditAmount(String userName){
-        double credit = userCustomer.getCustomerCredit(userName);
+        double credit = customerCredit.getCustomerCredit(userName);
         lbl_CreditAmount.setText(String.format("Credit Amount: %.2f", credit));
     }
 

@@ -2,6 +2,8 @@ package Dashboard;
 
 import Login.User;
 import Login.UserCustomer;
+import Login.CustomerOrder;
+import Login.CustomerCredit;
 import Dashboard.CustomerDashboard;
 import java.awt.event.*;
 import java.io.*;
@@ -15,7 +17,9 @@ import javax.swing.table.*;
 
 public class Customer_ViewMenu extends javax.swing.JFrame {
     
-    private UserCustomer userCustomer; 
+    private UserCustomer userCustomer;
+    private CustomerOrder customerOrder;
+    private CustomerCredit customerCredit;
     private double totalAmount;
     private String username;
     public Customer_ViewMenu(String username) {
@@ -23,6 +27,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         this.username = username;
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
         userCustomer = new UserCustomer();
+        customerCredit = new CustomerCredit();
+        customerOrder = new CustomerOrder(customerCredit);
         populateVendorComboBox();
         clearTable();
         preventMenuEdited();
@@ -78,6 +84,13 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         totalAmount = total;
         return total;
     }
+    
+     // get total amount of food in the cart
+    private double getTotalAmountOfFoodOrdered(){
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        return calculateTotal(tableCartModel);
+    }
+    
 
     // update and display the total
     private void updateAndDisplayTotal(double total) {
@@ -111,7 +124,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         radioBtn_TakeAway = new javax.swing.JRadioButton();
         radioBtn_Delivery = new javax.swing.JRadioButton();
         lbl_SelectService = new javax.swing.JLabel();
-        btn_CheckCredit = new javax.swing.JButton();
+        btn_PlaceOrder = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -227,12 +240,12 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         lbl_SelectService.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         lbl_SelectService.setText("Select Service:");
 
-        btn_CheckCredit.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
-        btn_CheckCredit.setText("Place Order");
-        btn_CheckCredit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_CheckCredit.addActionListener(new java.awt.event.ActionListener() {
+        btn_PlaceOrder.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        btn_PlaceOrder.setText("Place Order");
+        btn_PlaceOrder.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_PlaceOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CheckCreditActionPerformed(evt);
+                btn_PlaceOrderActionPerformed(evt);
             }
         });
 
@@ -279,7 +292,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                                 .addComponent(btn_DeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(160, 160, 160)
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_CheckCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_PlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lbl_DisplayTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -322,7 +335,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                     .addComponent(radioBtn_TakeAway)
                     .addComponent(radioBtn_Delivery))
                 .addGap(18, 18, 18)
-                .addComponent(btn_CheckCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_PlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(62, Short.MAX_VALUE))
         );
 
@@ -440,11 +453,38 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
 
 //GEN-LAST:event_comboBox_VendorItemStateChanged
 
-    private void btn_CheckCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CheckCreditActionPerformed
-        System.out.println(userCustomer.checkCredit(totalAmount,username));
-        totalAmount = 0;
-    }//GEN-LAST:event_btn_CheckCreditActionPerformed
+    private void btn_PlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_PlaceOrderActionPerformed
+//        System.out.println(getTableCartOrderItemsData());
+        String serviceType = getServiceType();
+        double totalAmount = getTotalAmountOfFoodOrdered();
+        String selectedVendor = (String) comboBox_Vendor.getSelectedItem();
+        // check the service type radio button is selected or not
+        if (serviceType.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please select a service type.", "Service Type not selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (customerCredit.checkCredit(totalAmount,username)){
+            customerOrder.placeOrder(totalAmount,userCustomer.getCustomerUserID(username),userCustomer.getVendorUserID(selectedVendor),serviceType,getTableCartOrderItemsData());
+            JOptionPane.showMessageDialog(this, "Order Successfully", "Order Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_PlaceOrderActionPerformed
 
+    // get service type by radio button
+    private String getServiceType() {
+        if (radioBtn_DineIn.isSelected()) {
+            return "DineIn";
+        } else if (radioBtn_TakeAway.isSelected()) {
+            return "TakeAway";
+        } else if (radioBtn_Delivery.isSelected()) {
+            return "Delivery";
+        } else {
+            // Handle the case where no radio button is selected
+            return "";
+        }
+    }
     
     // return the row index of table Cart if the food is already inside
     private int findExistingCartItem(String foodID) {
@@ -457,6 +497,23 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         return -1; // Return -1 if the item is not found
     }
     
+    // get the data in the table_Cart
+    private List<List<String>> getTableCartOrderItemsData(){
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        int rowCount = tableCartModel.getRowCount();
+        List<List<String>> OrderItemsData = new ArrayList<>();
+        for (int i = 0; i < rowCount; i++) {
+            Object foodIDObj = tableCartModel.getValueAt(i, 0); // Assuming FoodID is in the first column
+            Object quantityObj = tableCartModel.getValueAt(i, 3); // Assuming Quantity is in the fourth column
+            String foodID = String.valueOf(foodIDObj);
+            String quantity = String.valueOf(quantityObj);
+            List<String> rowList = new ArrayList<>();
+            rowList.add(foodID);
+            rowList.add(quantity);
+            OrderItemsData.add(rowList);
+        }
+        return OrderItemsData;
+    }
     
     public static void main(String args[]) { 
         
@@ -471,9 +528,9 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroup_SelectService;
     private javax.swing.JButton btn_AddQuantity;
     private javax.swing.JButton btn_AddtoCart;
-    private javax.swing.JButton btn_CheckCredit;
     private javax.swing.JButton btn_DeleteItem;
     private javax.swing.JButton btn_MinusQuantity;
+    private javax.swing.JButton btn_PlaceOrder;
     private javax.swing.JComboBox<String> comboBox_Vendor;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JScrollPane jScrollPane1;

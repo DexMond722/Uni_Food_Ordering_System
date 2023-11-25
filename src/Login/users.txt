@@ -1,7 +1,7 @@
 1,admin,admin,Administrator,277.0
-2,customer,customer,Customer,100.0
-3,gec,gec,Customer,0.0
+2,customer,customer,Customer,80.0
+3,gec,gec,Customer,5.0
 4,delivery,delivery,DeliveryRunner,0.0
 5,shh,shh,Vendor,0.0
 6,vendor,vendor,Vendor,0.0
-7,Mixue,Mixue,Vendor,0.0
+7,Mixue,Mixue,Vendor,25.0

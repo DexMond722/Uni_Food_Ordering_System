@@ -116,7 +116,7 @@
                                   <Component id="btn_DeleteItem" min="-2" pref="80" max="-2" attributes="0"/>
                                   <EmptySpace min="160" pref="160" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_CheckCredit" min="-2" pref="130" max="-2" attributes="0"/>
+                                      <Component id="btn_PlaceOrder" min="-2" pref="130" max="-2" attributes="0"/>
                                       <Component id="lbl_DisplayTotal" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -176,7 +176,7 @@
                       <Component id="radioBtn_Delivery" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btn_CheckCredit" min="-2" pref="49" max="-2" attributes="0"/>
+                  <Component id="btn_PlaceOrder" min="-2" pref="49" max="-2" attributes="0"/>
                   <EmptySpace pref="62" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -408,7 +408,7 @@
             <Property name="text" type="java.lang.String" value="Select Service:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_CheckCredit">
+        <Component class="javax.swing.JButton" name="btn_PlaceOrder">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Georgia" size="14" style="1"/>
@@ -421,7 +421,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_CheckCreditActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_PlaceOrderActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
