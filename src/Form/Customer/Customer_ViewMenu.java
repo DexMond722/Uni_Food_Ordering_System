@@ -17,6 +17,7 @@ import javax.swing.table.*;
 
 public class Customer_ViewMenu extends javax.swing.JFrame {
     
+    private CustomerDashboard customerDashboard;
     private UserCustomer userCustomer;
     private CustomerOrder customerOrder;
     private CustomerCredit customerCredit;
@@ -40,6 +41,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
         
+        
+       
     }
     
     
@@ -130,6 +133,11 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         panel.setBackground(new java.awt.Color(255, 255, 255));
         panel.setMinimumSize(new java.awt.Dimension(1100, 675));
@@ -413,7 +421,6 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Please select a row to update.", "No Selection", JOptionPane.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_btn_AddQuantityActionPerformed
 
     // add item to the table_Cart from table_Menu
@@ -470,6 +477,13 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btn_PlaceOrderActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        customerDashboard = new CustomerDashboard(username);
+        customerDashboard.setLocationRelativeTo(null);
+        customerDashboard.setVisible(true); 
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     // get service type by radio button
     private String getServiceType() {
