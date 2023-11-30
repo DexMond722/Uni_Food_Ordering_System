@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Login;
+package Class;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class CustomerCredit extends UserCustomer {
     
     // File Path
-    private static final String userFilePath = "src/login/users.txt";
+    private static final String userFilePath = "src/Database/users.txt";
     
     public CustomerCredit(int id, String username, String password, String role, double credit) {
         super(id, username, password, role, credit);

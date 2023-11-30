@@ -4,7 +4,7 @@
  */
 package oodj_assignment;
 
-import Login.LoginForm;
+import Form.Login.LoginForm;
 
 
 /**

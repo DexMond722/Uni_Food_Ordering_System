@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Login;
+package Form.Login;
 
-import Dashboard.AdminDashboard;
-import Dashboard.CustomerDashboard;
-import Dashboard.DeliveryDashboard;
-import Dashboard.VendorDashboard;
+import Class.UserManager;
+import Class.User;
+import Form.Admin.AdminDashboard;
+import Form.Customer.CustomerDashboard;
+import Form.DeliveryRunner.DeliveryDashboard;
+import Form.Vendor.VendorDashboard;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -112,7 +114,7 @@ public class LoginForm extends javax.swing.JFrame {
         lbl_title.setForeground(new java.awt.Color(51, 51, 51));
         lbl_title.setText("APU Food Ordering System");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Login/logo (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/Login/logo (1).png"))); // NOI18N
 
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);

@@ -1,9 +1,9 @@
-package Dashboard;
+package Form.Customer;
 
-import Login.LoginForm;
-import Login.UserCustomer;
-import Login.CustomerOrder;
-import Login.CustomerCredit;
+import Form.Login.LoginForm;
+import Class.UserCustomer;
+import Class.CustomerOrder;
+import Class.CustomerCredit;
 import java.awt.event.*;
 import javax.swing.UIManager;
 import java.time.format.DateTimeFormatter;
@@ -69,7 +69,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         panel_Top.setBackground(new java.awt.Color(235, 127, 0));
         panel_Top.setPreferredSize(new java.awt.Dimension(500, 95));
 
-        lbl_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dashboard/profile_picture2.png"))); // NOI18N
+        lbl_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/profile_picture2.png"))); // NOI18N
 
         lbl_Welcome.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         lbl_Welcome.setForeground(new java.awt.Color(255, 255, 255));

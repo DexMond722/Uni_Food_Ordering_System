@@ -2,7 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Login;
+package Class;
+
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserManager {
 
     private List<User> users;
-    private static final String FILE_PATH = "src/login/users.txt";
+    private static final String FILE_PATH = "src/Database/users.txt";
     private int lastid;
 
     public UserManager() {
@@ -30,9 +31,8 @@ public class UserManager {
 
     private int calculateLastUserId() {
         if (users.isEmpty()) {
-            return 0; // If no users, start from ID 0
+            return 0; 
         } else {
-            // Find the maximum user ID in the existing users
             return users.stream().mapToInt(user -> user.getId()).max().orElse(0);
         }
     }
@@ -42,11 +42,11 @@ public class UserManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                int id = Integer.parseInt(data[0]); // Parse user ID as an integer
+                int id = Integer.parseInt(data[0]); 
                 String username = data[1];
                 String password = data[2];
                 String role = data[3];
-                double credit = Double.parseDouble(data[4]); // Parse credit as a double
+                double credit = Double.parseDouble(data[4]);
                 users.add(new User(id, username, password, role, credit));
             }
             br.close();
@@ -127,7 +127,6 @@ public class UserManager {
     }
 
     public int getNextUserId() {
-        // Calculate the next user ID based on the last assigned ID
         return lastid + 1;
     }
 }

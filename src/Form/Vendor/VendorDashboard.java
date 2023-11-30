@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Dashboard;
+package Form.Vendor;
 
 /**
  *
  * @author desmondcwf
  */
-public class DeliveryDashboard extends javax.swing.JFrame {
+public class VendorDashboard extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminDashboard
      */
-    public DeliveryDashboard() {
+    public VendorDashboard() {
         initComponents();
     }
 
@@ -32,14 +32,14 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(1200, 700));
 
-        jLabel1.setText("Delivery Dashboard");
+        jLabel1.setText("Vendor Dashboard");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(616, Short.MAX_VALUE)
+                .addContainerGap(622, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(476, 476, 476))
         );
@@ -71,23 +71,21 @@ public class DeliveryDashboard extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendorDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DeliveryDashboard().setVisible(true);
+                new VendorDashboard().setVisible(true);
             }
         });
     }

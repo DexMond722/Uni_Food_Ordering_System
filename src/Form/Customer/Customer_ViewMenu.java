@@ -1,10 +1,10 @@
-package Dashboard;
+package Form.Customer;
 
-import Login.User;
-import Login.UserCustomer;
-import Login.CustomerOrder;
-import Login.CustomerCredit;
-import Dashboard.CustomerDashboard;
+import Class.User;
+import Class.UserCustomer;
+import Class.CustomerOrder;
+import Class.CustomerCredit;
+import Form.Customer.CustomerDashboard;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
@@ -130,7 +130,6 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1100, 675));
 
         panel.setBackground(new java.awt.Color(255, 255, 255));
         panel.setMinimumSize(new java.awt.Dimension(1100, 675));

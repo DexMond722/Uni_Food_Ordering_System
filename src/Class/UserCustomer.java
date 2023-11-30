@@ -1,5 +1,6 @@
-package Login;
+package Class;
 
+import Class.User;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -11,10 +12,10 @@ public class UserCustomer extends User {
     
     
     // declare file path
-    private static final String userFilePath = "src/login/users.txt";
-    private static final String creditFilePath = "src/login/credit.txt";
-    private static final String menuFolderPath = "src/login/menu/";
-    private static final String orderFilePath = "src/login/order.txt";
+    private static final String userFilePath = "src/Database/users.txt";
+    private static final String creditFilePath = "src/Database/credit.txt";
+    private static final String menuFolderPath = "src/Database/";
+    private static final String orderFilePath = "src/Database/order.txt";
             
     public UserCustomer(int id, String username, String password, String role, double credit) {
         super(id,username, password, role,credit);

@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Dashboard;
+package Form.Admin;
 
-import Login.LoginForm;
-import Login.User;
+import Form.Login.LoginForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
@@ -44,6 +43,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Admin_ManageUser manageuser = new Admin_ManageUser();
+                manageuser.setDefaultCloseOperation(AdminDashboard.DISPOSE_ON_CLOSE);
                 manageuser.setVisible(true);
                 manageuser.pack();
                 manageuser.setLocationRelativeTo(null);
@@ -109,7 +109,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         Top.setBackground(new java.awt.Color(153, 255, 255));
         Top.setPreferredSize(new java.awt.Dimension(500, 200));
 
-        lbl_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dashboard/profile_picture.png"))); // NOI18N
+        lbl_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/profile_picture.png"))); // NOI18N
 
         lbl_Welcome.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         lbl_Welcome.setText("abcd");

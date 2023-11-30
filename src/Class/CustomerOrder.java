@@ -1,5 +1,6 @@
-package Login;
+package Class;
 
+import Class.CustomerCredit;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -9,8 +10,8 @@ import java.time.LocalDateTime;
 
 public class CustomerOrder extends UserCustomer{
     
-    private static final String orderFilePath = "src/login/order.txt";
-    private static final String orderItemsFilePath = "src/login/orderItems.txt";
+    private static final String orderFilePath = "src/Database/order.txt";
+    private static final String orderItemsFilePath = "src/Database/orderItems.txt";
     
     private CustomerCredit customerCredit;
 
