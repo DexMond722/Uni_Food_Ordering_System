@@ -14,7 +14,7 @@ public class UserCustomer extends User {
     // declare file path
     private static final String userFilePath = "src/Database/users.txt";
     private static final String creditFilePath = "src/Database/credit.txt";
-    private static final String menuFolderPath = "src/Database/";
+    private static final String menuFolderPath = "src/Database/Menu/";
     private static final String orderFilePath = "src/Database/order.txt";
             
     public UserCustomer(int id, String username, String password, String role, double credit) {

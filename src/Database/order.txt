@@ -2,3 +2,4 @@ OrderID,OrderPlacementTime,OrderItemID,OrderAmount,OrderStatus,CustomerUserID,Ve
 1,2023/11/25 22:37:05,1,5.0,pending,3,7,Delivery
 2,2023/11/26 11:33:21,2,20.0,pending,2,6,DineIn
 3,2023/11/27 12:04:34,3,3.0,pending,2,6,Delivery
+4,2023/11/30 21:28:01,4,5.0,pending,3,7,Delivery
