@@ -2,6 +2,6 @@
 2,customer,customer,Customer,58.0
 3,gec,gec,Customer,0.0
 4,delivery,delivery,DeliveryRunner,0.0
-5,shh,shh,Vendor,0.0
 6,vendor,vendor,Vendor,23.0
 7,Mixue,Mixue,Vendor,30.0
+8,caffeine,caffeine,Vendor,0.0

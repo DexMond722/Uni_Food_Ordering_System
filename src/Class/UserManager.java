@@ -4,7 +4,6 @@
  */
 package Class;
 
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class UserManager {
 
     private int calculateLastUserId() {
         if (users.isEmpty()) {
-            return 0; 
+            return 0;
         } else {
             return users.stream().mapToInt(user -> user.getId()).max().orElse(0);
         }
@@ -42,7 +41,7 @@ public class UserManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                int id = Integer.parseInt(data[0]); 
+                int id = Integer.parseInt(data[0]);
                 String username = data[1];
                 String password = data[2];
                 String role = data[3];
@@ -58,6 +57,10 @@ public class UserManager {
     public void addUser(User user) {
         int newUserId = ++lastid;
         user.setId(newUserId);
+
+        if ("vendor".equalsIgnoreCase(user.getRole())) {
+            VendorMenu.createVendorMenu(user.getUsername());
+        }
         users.add(user);
         saveUsers();
     }
