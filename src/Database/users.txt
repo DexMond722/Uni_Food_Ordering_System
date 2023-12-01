@@ -4,4 +4,3 @@
 4,delivery,delivery,DeliveryRunner,0.0
 6,vendor,vendor,Vendor,23.0
 7,Mixue,Mixue,Vendor,30.0
-8,caffeine,caffeine,Vendor,0.0

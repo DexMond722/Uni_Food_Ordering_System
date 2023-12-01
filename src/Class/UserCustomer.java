@@ -1,6 +1,5 @@
 package Class;
 
-import Class.User;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;

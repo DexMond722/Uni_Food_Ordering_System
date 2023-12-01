@@ -4,7 +4,6 @@
  */
 package Class;
 
-import Class.User;
 
 
 /**

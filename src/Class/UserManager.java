@@ -113,6 +113,9 @@ public class UserManager {
         }
         if (userToDelete != null) {
             users.remove(userToDelete);
+            if ("vendor".equalsIgnoreCase(userToDelete.getRole())) {
+                VendorMenu.deleteVendorMenu(userToDelete.getUsername());
+            }
             saveUsers();
             return true;
         }

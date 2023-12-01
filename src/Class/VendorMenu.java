@@ -7,6 +7,9 @@ package Class;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -25,5 +28,16 @@ public class VendorMenu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void deleteVendorMenu(String vendorName) {
+        String menuFilePath = MENU_FOLDER_PATH + vendorName + "Menu.txt";
+        Path path = Paths.get(menuFilePath);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

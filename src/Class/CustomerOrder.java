@@ -1,6 +1,5 @@
 package Class;
 
-import Class.CustomerCredit;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
