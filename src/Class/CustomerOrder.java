@@ -29,11 +29,15 @@ public class CustomerOrder extends UserCustomer{
     // place order 
     public void placeOrder(double orderAmount, int customerUserID, int vendorUserID, String serviceType, List<List<String>> orderItems){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        if(serviceType.equals("Delivery")){
+        orderAmount += 4;
+        }
         LocalDateTime now = LocalDateTime.now();
         String currentTime = dtf.format(now);
         String orderStatus = "pending";
         int lastOrderItemsID = getLastOrderItemsID();
-        String data = getLastOrderID() + "," + currentTime + "," + lastOrderItemsID + "," + orderAmount + "," + orderStatus + "," + customerUserID + "," + vendorUserID + "," + serviceType;
+        String lastTransactionID = customerCredit.generateLastTransactionID();
+        String data = getLastOrderID() + "," + currentTime + "," + lastOrderItemsID + "," + orderAmount + "," + orderStatus + "," + customerUserID + "," + vendorUserID + "," + serviceType+","+lastTransactionID;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(orderFilePath, true))) {
             writer.write(data);
             writer.newLine(); // Add a new line for the next entry
@@ -59,31 +63,30 @@ public class CustomerOrder extends UserCustomer{
     }
     
     // calculate last orderID
-    private int getLastOrderID() {
+    public int getLastOrderID() {
         int lastOrderID = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
+        try (BufferedReader reader = new BufferedReader(new FileReader(orderFilePath))) {
+            // Skip the first line (headers)
             reader.readLine();
-            String lastLine = null;
+
             String line;
             while ((line = reader.readLine()) != null) {
-                lastLine = line;
-            }
-            reader.close();
+                String[] fields = line.split(",");
 
-            if (lastLine != null) {
-                String[] parts = lastLine.split(",");
-                lastOrderID = Integer.parseInt(parts[0]);
-                return lastOrderID + 1;
-            } else {
-                return 1;
+                // Check if the first field is not empty before parsing
+                if (!fields[0].isEmpty()) {
+                    lastOrderID = Integer.parseInt(fields[0]) + 1;
+                }
             }
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            // Handle the exception as needed (logging, etc.)
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+            // Handle the NumberFormatException (e.g., log it, handle it gracefully)
         }
+
         return lastOrderID;
     }
 

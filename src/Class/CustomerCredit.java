@@ -22,6 +22,7 @@ public class CustomerCredit extends UserCustomer {
     
     // File Path
     private static final String userFilePath = "src/Database/users.txt";
+    private static final String creditTransactionFilePath = "src/Database/credit_transaction.txt";
     
     public CustomerCredit(int id, String username, String password, String role, double credit) {
         super(id, username, password, role, credit);
@@ -133,6 +134,36 @@ public class CustomerCredit extends UserCustomer {
             e.printStackTrace();
         }
     }
+    
+    // write transaction data into credit_transaction.txt file
+    public void generateTransactionCustomerTransactionData(){
+        
+    }
+    
+    public String generateLastTransactionID(){
+        String lastTransactionID = null;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(creditTransactionFilePath));
+            reader.readLine();
+            String line;
+            while((line = reader.readLine())!=null){
+                lastTransactionID = line.split(",")[0];
+            }
+            if (lastTransactionID != null) {
+                int transactionID = Integer.parseInt(lastTransactionID.substring(lastTransactionID.length() - 5)) + 1;
+                lastTransactionID = String.format("T%05d", transactionID);
+            } else {
+                // If no line is found, set the default value
+                lastTransactionID = "T00001";
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CustomerCredit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerCredit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lastTransactionID;
+    }
+    
 
 }
 

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class CustomerDashboard extends javax.swing.JFrame {
     private UserCustomer userCustomer;
     private CustomerCredit customerCredit;
+    private CustomerOrder customerOrder;
     private String username;
     
     public CustomerDashboard(){
@@ -21,10 +22,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
     public CustomerDashboard(String username) {
         userCustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
+        customerOrder = new CustomerOrder();
         initComponents();
         this.username = username;
         lbl_Welcome.setText("Welcome back, "+username);
         displayCreditAmount(username);
+
         btn_ViewMenu.setOpaque(true);
         btn_ViewMenu.addActionListener(new ActionListener() {
             @Override
