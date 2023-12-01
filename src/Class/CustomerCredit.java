@@ -4,6 +4,7 @@
  */
 package Class;
 
+import Form.Customer.CustomerDashboard;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -67,7 +69,6 @@ public class CustomerCredit extends UserCustomer {
         double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID,totalAmount);
         updateCreditInFile(customerUserID, customerUpdatedCredit);
         updateCreditInFile(vendorUserID, vendorUpdatedCredit);
-
     }
     
     // updated credit for a customer
@@ -137,5 +138,5 @@ public class CustomerCredit extends UserCustomer {
         }
     }
 
-    
 }
+

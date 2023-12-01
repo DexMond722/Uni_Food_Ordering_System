@@ -14,6 +14,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private CustomerCredit customerCredit;
     private String username;
     
+    public CustomerDashboard(){
+        
+    }
+    
     public CustomerDashboard(String username) {
         userCustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
@@ -30,15 +34,49 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 viewMenu.setVisible(true);
                 viewMenu.pack();
                 viewMenu.setLocationRelativeTo(null);
+                setVisible(false);
+            }
+        });
+        
+        btn_CheckOrderStatus.setOpaque(true);
+        btn_CheckOrderStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Customer_CheckOrderStatus checkOrderStatus = new Customer_CheckOrderStatus(username);
+                checkOrderStatus.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
+                checkOrderStatus.setVisible(true);
+                checkOrderStatus.pack();
+                checkOrderStatus.setLocationRelativeTo(null);
+                setVisible(false);
+            }
+        });
+        
+        btn_Logout.setOpaque(true);
+        btn_Logout.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                LoginForm login = new LoginForm();
+                login.setVisible(true);
+                login.pack();
+                login.setLocationRelativeTo(null);
+
             }
         });
     }
+    
     
     //display Credit Amount
     private void displayCreditAmount(String userName){
         double credit = customerCredit.getCustomerCredit(userName);
         lbl_CreditAmount.setText(String.format("Credit Amount: %.2f", credit));
     }
+    
+    public void CreditUpdated(double newCredit) {
+        lbl_CreditAmount.setText(String.format("Credit Amount: %.2f", newCredit));
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +94,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lbl_CreditAmount = new javax.swing.JLabel();
         panel_Bottom = new javax.swing.JPanel();
         btn_ViewMenu = new javax.swing.JButton();
+        btn_Logout = new javax.swing.JButton();
+        btn_CheckOrderStatus = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -119,21 +159,44 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_ViewMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_ViewMenu.setFocusPainted(false);
 
+        btn_Logout.setBackground(new java.awt.Color(255, 51, 51));
+        btn_Logout.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Logout.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Logout.setText("Logout");
+        btn_Logout.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_Logout.setBorderPainted(false);
+        btn_Logout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_Logout.setFocusPainted(false);
+
+        btn_CheckOrderStatus.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_CheckOrderStatus.setText("Check Order Status");
+        btn_CheckOrderStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_CheckOrderStatus.setBorderPainted(false);
+        btn_CheckOrderStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_CheckOrderStatus.setFocusPainted(false);
+
         javax.swing.GroupLayout panel_BottomLayout = new javax.swing.GroupLayout(panel_Bottom);
         panel_Bottom.setLayout(panel_BottomLayout);
         panel_BottomLayout.setHorizontalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addGap(184, 184, 184)
-                .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(171, Short.MAX_VALUE)
+                .addGroup(panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(btn_ViewMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_Logout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         panel_BottomLayout.setVerticalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_BottomLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(513, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 323, Short.MAX_VALUE)
+                .addComponent(btn_Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         panel.add(panel_Bottom);
@@ -157,7 +220,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CustomerDashboard("").setVisible(true);
@@ -166,6 +228,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_CheckOrderStatus;
+    private javax.swing.JButton btn_Logout;
     private javax.swing.JButton btn_ViewMenu;
     private javax.swing.JLabel lbl_CreditAmount;
     private javax.swing.JLabel lbl_Icon;
