@@ -28,7 +28,7 @@ public class CustomerOrder extends UserCustomer{
     
     // place order 
     public void placeOrder(double orderAmount, int customerUserID, int vendorUserID, String serviceType, List<List<String>> orderItems){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if(serviceType.equals("Delivery")){
         orderAmount += 4;
         }
@@ -47,6 +47,7 @@ public class CustomerOrder extends UserCustomer{
         }
         writeOrderItemsData(orderItems,lastOrderItemsID);
         customerCredit.updateCustomerandVendorCredit(customerUserID, vendorUserID, orderAmount);
+        customerCredit.generateCustomerTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType);
     }
     
     // Write Order items data inside the text file
@@ -66,25 +67,18 @@ public class CustomerOrder extends UserCustomer{
     public int getLastOrderID() {
         int lastOrderID = 1;
         try (BufferedReader reader = new BufferedReader(new FileReader(orderFilePath))) {
-            // Skip the first line (headers)
             reader.readLine();
-
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
-
-                // Check if the first field is not empty before parsing
                 if (!fields[0].isEmpty()) {
                     lastOrderID = Integer.parseInt(fields[0]) + 1;
                 }
             }
-
         } catch (IOException ex) {
             ex.printStackTrace();
-            // Handle the exception as needed (logging, etc.)
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
-            // Handle the NumberFormatException (e.g., log it, handle it gracefully)
         }
 
         return lastOrderID;

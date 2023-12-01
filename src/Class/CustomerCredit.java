@@ -134,19 +134,38 @@ public class CustomerCredit extends UserCustomer {
             e.printStackTrace();
         }
     }
-    
-    // write transaction data into credit_transaction.txt file
-    public void generateTransactionCustomerTransactionData(){
-        
+ 
+    // write customer transaction data into credit_transaction.txt file
+    public void generateCustomerTransactionData(String transactionID, int customerID, int vendorID, double transactionAmount, String dateTime, String serviceType) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(creditTransactionFilePath, true))) {
+            String transactionCustomerData = transactionID + "," + customerID + "," + transactionAmount + "," + dateTime + "," + "Credit" + "," + serviceType;
+            writer.write(transactionCustomerData);
+            writer.newLine();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        String lastTransactionID = generateLastTransactionID();
+        String transactionVendorData = transactionID + "," + vendorID + "," + transactionAmount + "," + dateTime + "," + "Debit" + "," + "Payment Received";
+        generateVendorTransactionData(transactionVendorData);
     }
-    
-    public String generateLastTransactionID(){
+
+    // write vendor transaction data into credit_transaction.txt file
+    private void generateVendorTransactionData(String transactionVendorData) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(creditTransactionFilePath, true))) {
+            writer.write(transactionVendorData);
+            writer.newLine();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public String generateLastTransactionID() {
         String lastTransactionID = null;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(creditTransactionFilePath));
             reader.readLine();
             String line;
-            while((line = reader.readLine())!=null){
+            while ((line = reader.readLine()) != null) {
                 lastTransactionID = line.split(",")[0];
             }
             if (lastTransactionID != null) {
@@ -163,6 +182,7 @@ public class CustomerCredit extends UserCustomer {
         }
         return lastTransactionID;
     }
+
     
 
 }
