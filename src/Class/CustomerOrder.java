@@ -64,7 +64,7 @@ public class CustomerOrder extends UserCustomer{
     
     // calculate last orderID
     public int getLastOrderID() {
-        int lastOrderID = 0;
+        int lastOrderID = 1;
         try (BufferedReader reader = new BufferedReader(new FileReader(orderFilePath))) {
             // Skip the first line (headers)
             reader.readLine();

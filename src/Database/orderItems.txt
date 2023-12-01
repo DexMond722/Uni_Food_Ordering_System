@@ -1,5 +1,4 @@
 OrderItemID,FoodID,Quantity
-0,F02,1
-0,F03,1
 1,F01,1
 1,F02,1
+1,F03,1
