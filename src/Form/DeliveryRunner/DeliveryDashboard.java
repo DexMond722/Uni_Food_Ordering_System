@@ -4,6 +4,12 @@
  */
 package Form.DeliveryRunner;
 
+
+import Form.Login.LoginForm;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.UIManager;
+
 /**
  *
  * @author desmondcwf
@@ -15,6 +21,82 @@ public class DeliveryDashboard extends javax.swing.JFrame {
      */
     public DeliveryDashboard() {
         initComponents();
+        
+        btn_ViewTask.setOpaque(true);
+        btn_ViewTask.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runner_ViewTask viewTask = new Runner_ViewTask();
+                viewTask.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
+                viewTask.setVisible(true);
+                viewTask.pack();
+                viewTask.setLocationRelativeTo(null);
+                }
+        });
+        
+        btn_UpdateTaskStatus.setOpaque(true);
+        btn_UpdateTaskStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runner_UpdateTaskStatus updateTaskStatus = new Runner_UpdateTaskStatus();
+                updateTaskStatus.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
+                updateTaskStatus.setVisible(true);
+                updateTaskStatus.pack();
+                updateTaskStatus.setLocationRelativeTo(null);
+                }
+        });
+        
+        btn_CheckTaskHistory.setOpaque(true);
+        btn_CheckTaskHistory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runner_CheckTaskHistory checkTaskHistory = new Runner_CheckTaskHistory();
+                checkTaskHistory.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
+                checkTaskHistory.setVisible(true);
+                checkTaskHistory.pack();
+                checkTaskHistory.setLocationRelativeTo(null);
+                }
+        });
+        
+        btn_ReadCustomerReview.setOpaque(true);
+        btn_ReadCustomerReview.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runner_ReadCustomerReview readCustomerReview = new Runner_ReadCustomerReview();
+                readCustomerReview.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
+                readCustomerReview.setVisible(true);
+                readCustomerReview.pack();
+                readCustomerReview.setLocationRelativeTo(null);
+                }
+        });
+        
+        btn_ViewRevenue.setOpaque(true);
+        btn_ViewRevenue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runner_ViewRevenue viewRevenue = new Runner_ViewRevenue();
+                viewRevenue.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
+                viewRevenue.setVisible(true);
+                viewRevenue.pack();
+                viewRevenue.setLocationRelativeTo(null);
+                }
+        });
+        btn_logout.setOpaque(true);
+        btn_logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+
+                LoginForm login = new LoginForm();
+                login.setVisible(true);
+                login.pack();
+                login.setLocationRelativeTo(null);
+
+            }
+        });
+         
+                
+        
     }
 
     /**
@@ -27,62 +109,116 @@ public class DeliveryDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        panel = new javax.swing.JPanel();
+        btn_ViewTask = new javax.swing.JButton();
+        btn_UpdateTaskStatus = new javax.swing.JButton();
+        btn_CheckTaskHistory = new javax.swing.JButton();
+        btn_ReadCustomerReview = new javax.swing.JButton();
+        btn_ViewRevenue = new javax.swing.JButton();
+        panel_Top = new javax.swing.JPanel();
+        lbl_icon = new javax.swing.JLabel();
+        btn_logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(1200, 700));
 
-        jLabel1.setText("Delivery Dashboard");
+        panel.setPreferredSize(new java.awt.Dimension(585, 387));
+        panel.setLayout(null);
+
+        btn_ViewTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_ViewTask.setText("View Task");
+        btn_ViewTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ViewTaskActionPerformed(evt);
+            }
+        });
+        panel.add(btn_ViewTask);
+        btn_ViewTask.setBounds(220, 140, 170, 21);
+
+        btn_UpdateTaskStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_UpdateTaskStatus.setText("Update Task Status");
+        panel.add(btn_UpdateTaskStatus);
+        btn_UpdateTaskStatus.setBounds(220, 180, 170, 21);
+
+        btn_CheckTaskHistory.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_CheckTaskHistory.setText("Check Task History");
+        panel.add(btn_CheckTaskHistory);
+        btn_CheckTaskHistory.setBounds(220, 220, 170, 21);
+
+        btn_ReadCustomerReview.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_ReadCustomerReview.setText("Read Customer Review");
+        panel.add(btn_ReadCustomerReview);
+        btn_ReadCustomerReview.setBounds(220, 260, 170, 21);
+
+        btn_ViewRevenue.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_ViewRevenue.setText("View Revenue");
+        panel.add(btn_ViewRevenue);
+        btn_ViewRevenue.setBounds(220, 300, 170, 21);
+
+        panel_Top.setBackground(new java.awt.Color(0, 204, 204));
+
+        lbl_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/profile_picture2.png"))); // NOI18N
+
+        javax.swing.GroupLayout panel_TopLayout = new javax.swing.GroupLayout(panel_Top);
+        panel_Top.setLayout(panel_TopLayout);
+        panel_TopLayout.setHorizontalGroup(
+            panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_TopLayout.createSequentialGroup()
+                .addContainerGap(266, Short.MAX_VALUE)
+                .addComponent(lbl_icon)
+                .addGap(244, 244, 244))
+        );
+        panel_TopLayout.setVerticalGroup(
+            panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_TopLayout.createSequentialGroup()
+                .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 10, Short.MAX_VALUE))
+        );
+
+        panel.add(panel_Top);
+        panel_Top.setBounds(0, 20, 590, 110);
+
+        btn_logout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_logout.setText("Log Out");
+        panel.add(btn_logout);
+        btn_logout.setBounds(220, 340, 170, 21);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(616, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(476, 476, 476))
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(312, 312, 312)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(372, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_ViewTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ViewTaskActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_ViewTaskActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DeliveryDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -93,6 +229,15 @@ public class DeliveryDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_CheckTaskHistory;
+    private javax.swing.JButton btn_ReadCustomerReview;
+    private javax.swing.JButton btn_UpdateTaskStatus;
+    private javax.swing.JButton btn_ViewRevenue;
+    private javax.swing.JButton btn_ViewTask;
+    private javax.swing.JButton btn_logout;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lbl_icon;
+    private javax.swing.JPanel panel;
+    private javax.swing.JPanel panel_Top;
     // End of variables declaration//GEN-END:variables
 }
