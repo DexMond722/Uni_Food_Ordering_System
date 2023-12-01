@@ -144,8 +144,9 @@ public class CustomerCredit extends UserCustomer {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        String lastTransactionID = generateLastTransactionID();
-        String transactionVendorData = transactionID + "," + vendorID + "," + transactionAmount + "," + dateTime + "," + "Debit" + "," + "Payment Received";
+        int lastTransactionID = Integer.parseInt(transactionID.substring(transactionID.length() - 5)) + 1;
+        String lastTransactionId = String.format("T%05d", lastTransactionID);
+        String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + dateTime + "," + "Debit" + "," + "Payment Received";
         generateVendorTransactionData(transactionVendorData);
     }
 
