@@ -19,7 +19,6 @@ import javax.swing.UIManager;
 public class Admin_TopUp extends javax.swing.JFrame {
 
     private UserManager userManager;
-    private User currentUser;
 
     /**
      * Creates new form Admin_TopUp

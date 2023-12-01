@@ -60,6 +60,17 @@ public class AdminDashboard extends javax.swing.JFrame {
                 topup.setLocationRelativeTo(null);
             }
         });
+        btn_Generate.setOpaque(true);
+        btn_Generate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Admin_GenerateReceipt generate = new Admin_GenerateReceipt();
+                generate.setDefaultCloseOperation(AdminDashboard.DISPOSE_ON_CLOSE);
+                generate.setVisible(true);
+                generate.pack();
+                generate.setLocationRelativeTo(null);
+            }
+        });
         btn_Logout.setOpaque(true);
         btn_Logout.addActionListener(new ActionListener() {
             @Override
