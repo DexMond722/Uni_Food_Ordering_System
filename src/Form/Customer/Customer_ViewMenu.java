@@ -169,6 +169,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         ));
         table_Menu.setSelectionBackground(new java.awt.Color(222, 222, 222));
+        table_Menu.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(table_Menu);
 
         lbl_Menu.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
@@ -205,6 +206,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_Cart.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table_Cart);
 
         btn_AddQuantity.setText("+");
@@ -431,6 +433,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_AddQuantityActionPerformed
 
+    
     // add item to the table_Cart from table_Menu
     private void btn_AddtoCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddtoCartActionPerformed
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();

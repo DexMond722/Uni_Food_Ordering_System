@@ -34,7 +34,7 @@ public class CustomerOrder extends UserCustomer{
         }
         LocalDateTime now = LocalDateTime.now();
         String currentTime = dtf.format(now);
-        String orderStatus = "pending";
+        String orderStatus = "Pending";
         int lastOrderItemsID = getLastOrderItemsID();
         String lastTransactionID = customerCredit.generateLastTransactionID();
         String data = getLastOrderID() + "," + currentTime + "," + lastOrderItemsID + "," + orderAmount + "," + orderStatus + "," + customerUserID + "," + vendorUserID + "," + serviceType+","+lastTransactionID;
