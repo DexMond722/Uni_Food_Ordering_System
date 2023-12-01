@@ -7,6 +7,7 @@ import Class.CustomerCredit;
 import Form.Customer.CustomerDashboard;
 import java.awt.event.*;
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -37,12 +38,11 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             @Override
             public void tableChanged(TableModelEvent e) {
                 // Update and display the total when the table is changed
-                updateAndDisplayTotal(calculateTotal(tableCartModel));
+                totalAmount = calculateTotal(tableCartModel);
+                updateAndDisplayTotal(totalAmount);
             }
         });
-        
-        
-       
+        lbl_DeliveryFee.setVisible(false);
     }
     
     
@@ -98,7 +98,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
     // update and display the total
     private void updateAndDisplayTotal(double total) {
         // Assuming lbl_Total is the JLabel to display the total
-        lbl_DisplayTotal.setText("Total: RM" + total);
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        lbl_DisplayTotal.setText("Total: RM" + decimalFormat.format(total));
     }
 
  
@@ -128,6 +129,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         radioBtn_Delivery = new javax.swing.JRadioButton();
         lbl_SelectService = new javax.swing.JLabel();
         btn_PlaceOrder = new javax.swing.JButton();
+        lbl_DeliveryFee = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -227,7 +229,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         });
 
         lbl_DisplayTotal.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
-        lbl_DisplayTotal.setText("Total: ");
+        lbl_DisplayTotal.setText("Total:");
 
         radioBtn_DineIn.setBackground(new java.awt.Color(255, 255, 255));
         btnGroup_SelectService.add(radioBtn_DineIn);
@@ -243,6 +245,11 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         btnGroup_SelectService.add(radioBtn_Delivery);
         radioBtn_Delivery.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         radioBtn_Delivery.setText("Delivery");
+        radioBtn_Delivery.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                radioBtn_DeliveryItemStateChanged(evt);
+            }
+        });
 
         lbl_SelectService.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         lbl_SelectService.setText("Select Service:");
@@ -255,6 +262,9 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                 btn_PlaceOrderActionPerformed(evt);
             }
         });
+
+        lbl_DeliveryFee.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        lbl_DeliveryFee.setText("Delivery Fee: RM 4.00");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -282,15 +292,6 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                         .addComponent(btn_AddtoCart, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(111, 111, 111)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                                .addComponent(lbl_SelectService)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(radioBtn_DineIn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(radioBtn_TakeAway)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(radioBtn_Delivery)
-                                .addGap(172, 172, 172))
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addComponent(btn_AddQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)
@@ -300,7 +301,16 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                                 .addGap(160, 160, 160)
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_PlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbl_DisplayTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(lbl_DisplayTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_DeliveryFee)))
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(lbl_SelectService)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(radioBtn_DineIn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(radioBtn_TakeAway)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(radioBtn_Delivery)))))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -325,25 +335,23 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                     .addComponent(btn_AddtoCart, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(btn_AddQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(btn_MinusQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(btn_DeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_DisplayTotal)))
-                .addGap(58, 58, 58)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_AddQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_MinusQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lbl_DisplayTotal)
+                                .addComponent(btn_DeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(15, 15, 15)
+                .addComponent(lbl_DeliveryFee)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_SelectService)
-                    .addComponent(radioBtn_DineIn)
+                    .addComponent(radioBtn_Delivery)
                     .addComponent(radioBtn_TakeAway)
-                    .addComponent(radioBtn_Delivery))
-                .addGap(18, 18, 18)
+                    .addComponent(radioBtn_DineIn)
+                    .addComponent(lbl_SelectService))
+                .addGap(33, 33, 33)
                 .addComponent(btn_PlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -485,6 +493,18 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
+    private void radioBtn_DeliveryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioBtn_DeliveryItemStateChanged
+        if (radioBtn_Delivery.isSelected()) {
+            lbl_DeliveryFee.setVisible(true);
+            totalAmount += 4.00;
+            updateAndDisplayTotal(totalAmount);
+        } else {
+            lbl_DeliveryFee.setVisible(false);
+            totalAmount -= 4.00;
+            updateAndDisplayTotal(totalAmount);
+        }
+    }//GEN-LAST:event_radioBtn_DeliveryItemStateChanged
+
     // get service type by radio button
     private String getServiceType() {
         if (radioBtn_DineIn.isSelected()) {
@@ -550,6 +570,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbl_Cart;
+    private javax.swing.JLabel lbl_DeliveryFee;
     private javax.swing.JLabel lbl_DisplayTotal;
     private javax.swing.JLabel lbl_Menu;
     private javax.swing.JLabel lbl_SelectService;
