@@ -143,7 +143,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addGap(135, 135, 135)
                         .addComponent(lbl_LoggedIn))
                     .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(187, 187, 187)
+                        .addGap(176, 176, 176)
                         .addComponent(lbl_Welcome)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
