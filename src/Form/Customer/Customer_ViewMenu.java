@@ -486,6 +486,10 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a service type.", "Service Type not selected", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        if (table_Cart.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this,"Please add food into the cart.","No Food is Ordered",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
         if (customerCredit.checkCredit(totalAmount,username)){
             customerOrder.placeOrder(totalAmount,userCustomer.getCustomerUserID(username),userCustomer.getVendorUserID(selectedVendor),serviceType,getTableCartOrderItemsData());

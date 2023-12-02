@@ -63,6 +63,8 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         table_OrderItems = new javax.swing.JTable();
         lbl_OrderHistory = new javax.swing.JLabel();
         btn_CancelOrder = new javax.swing.JButton();
+        btn_Reorder = new javax.swing.JButton();
+        btn_Review = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1150, 675));
@@ -151,6 +153,24 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
             }
         });
 
+        btn_Reorder.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Reorder.setText("Reorder");
+        btn_Reorder.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Reorder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ReorderActionPerformed(evt);
+            }
+        });
+
+        btn_Review.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_Review.setText("Make Review");
+        btn_Review.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Review.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ReviewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -163,8 +183,13 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_Reorder, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_Review, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(49, 49, 49)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,8 +208,11 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Reorder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Review, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -195,9 +223,9 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -274,7 +302,40 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
         displayOrderHistory(username);
+        clearTable();
     }//GEN-LAST:event_btn_CancelOrderActionPerformed
+
+    private void btn_ReorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReorderActionPerformed
+        int selectedRowIndex = table_OrderHistory.getSelectedRow();
+        if (selectedRowIndex != -1){
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_ReorderActionPerformed
+
+    private void btn_ReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReviewActionPerformed
+        int selectedRowIndex = table_OrderHistory.getSelectedRow();
+        if (selectedRowIndex != -1){
+            String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
+            String orderStatus = table_OrderHistory.getValueAt(selectedRowIndex, 3).toString();
+            if (orderStatus.equals("Completed") || orderStatus.equals("Delivered")){
+                String feedback = JOptionPane.showInputDialog(this, "Enter your feedback:");
+                String ratingString = JOptionPane.showInputDialog(this, "Enter your rating (1-5):");
+                
+            } else if (orderStatus.equals("Cancelled") || orderStatus.equals("Declined")){
+                JOptionPane.showMessageDialog(this, "The Order is Cancelled", "Order Cancelled", JOptionPane.INFORMATION_MESSAGE);
+            } else if (orderStatus.equals("No_Runner")){
+                JOptionPane.showMessageDialog(this, "No Runner Accept the Task", "No Runner", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "The Order Doesn't Completed", "Order No Completed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        clearTable();
+    }//GEN-LAST:event_btn_ReviewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,6 +350,8 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_CancelOrder;
+    private javax.swing.JButton btn_Reorder;
+    private javax.swing.JButton btn_Review;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_OrderHistory;
