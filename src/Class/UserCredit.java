@@ -24,6 +24,10 @@ public class UserCredit extends UserManager {
         super();
         this.userManager = userManager;
     }
+    
+    public UserCredit(){
+        
+    }
 
     public boolean topUpCredit(User user, double topUpAmount) {
         if (topUpAmount >= 0) {
@@ -65,7 +69,6 @@ public class UserCredit extends UserManager {
 
     private int getNextTransactionID() {
         int lastTransactionID = 0;
-
         try (BufferedReader br = new BufferedReader(new FileReader("src/Database/credit_transaction.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {

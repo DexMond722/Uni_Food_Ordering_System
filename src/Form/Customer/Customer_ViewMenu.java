@@ -382,6 +382,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             List<List<String>> menuItems = userCustomer.getMenuOfVendor(selectedVendor);
             displayMenu(menuItems);
         }
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        tableCartModel.setRowCount(0);
     }
     // delete the row in table cart
     private void btn_DeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteItemActionPerformed
@@ -491,6 +493,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);
         }
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        tableCartModel.setRowCount(0);
     }//GEN-LAST:event_btn_PlaceOrderActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -543,8 +547,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         int rowCount = tableCartModel.getRowCount();
         List<List<String>> OrderItemsData = new ArrayList<>();
         for (int i = 0; i < rowCount; i++) {
-            Object foodIDObj = tableCartModel.getValueAt(i, 0); // Assuming FoodID is in the first column
-            Object quantityObj = tableCartModel.getValueAt(i, 3); // Assuming Quantity is in the fourth column
+            Object foodIDObj = tableCartModel.getValueAt(i, 0); 
+            Object quantityObj = tableCartModel.getValueAt(i, 3); 
             String foodID = String.valueOf(foodIDObj);
             String quantity = String.valueOf(quantityObj);
             List<String> rowList = new ArrayList<>();

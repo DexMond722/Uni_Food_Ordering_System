@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,11 +26,8 @@ public class CustomerCredit extends UserCustomer {
     private static final String userFilePath = "src/Database/users.txt";
     private static final String creditTransactionFilePath = "src/Database/credit_transaction.txt";
     
-    public CustomerCredit(int id, String username, String password, String role, double credit) {
-        super(id, username, password, role, credit);
-    }
-
-    public CustomerCredit() {
+    public CustomerCredit(){
+        
     }
     
     // get Credit of Customer
@@ -61,24 +60,32 @@ public class CustomerCredit extends UserCustomer {
     }
     
     // update customer and vendor credit after placing an order
-    public void updateCustomerandVendorCredit(int customerUserID, int vendorUserID, double totalAmount){
-        double customerUpdatedCredit = getCustomerUpdatedCredit(customerUserID,totalAmount);
-        double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID,totalAmount);
+    public void updateCustomerandVendorCredit(int customerUserID, int vendorUserID, double totalAmount, Boolean flag){
+        double customerUpdatedCredit = getCustomerUpdatedCredit(customerUserID,totalAmount,flag);
+        double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID,totalAmount,flag);
         updateCreditInFile(customerUserID, customerUpdatedCredit);
         updateCreditInFile(vendorUserID, vendorUpdatedCredit);
     }
     
     // updated credit for a customer
-    private double getCustomerUpdatedCredit(int customerID, double totalAmount) {
+    private double getCustomerUpdatedCredit(int customerID, double totalAmount, Boolean flag) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length > 0 && Integer.parseInt(fields[0]) == customerID) {
-                    double originalCredit = Double.parseDouble(fields[4]);
-                    double updatedCredit = originalCredit - totalAmount;
-                    return updatedCredit;
+                if (flag){
+                    if (fields.length > 0 && Integer.parseInt(fields[0]) == customerID) {
+                        double originalCredit = Double.parseDouble(fields[4]);
+                        double updatedCredit = originalCredit - totalAmount;
+                        return updatedCredit;
+                    }
+                } else {
+                    if (fields.length > 0 && Integer.parseInt(fields[0]) == customerID) {
+                        double originalCredit = Double.parseDouble(fields[4]);
+                        double updatedCredit = originalCredit + totalAmount;
+                        return updatedCredit;
+                    }
                 }
             }
             reader.close();
@@ -89,17 +96,25 @@ public class CustomerCredit extends UserCustomer {
     }
 
     // updated credit for a vendor
-    private double getVendorUpdatedCredit(int vendorID, double totalAmount) {
+    private double getVendorUpdatedCredit(int vendorID, double totalAmount, Boolean flag) {
         try {
             // Read the content of the file
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length > 0 && Integer.parseInt(fields[0]) == vendorID) {
-                    double originalCredit = Double.parseDouble(fields[4]);
-                    double updatedCredit = originalCredit + totalAmount;
-                    return updatedCredit;
+                if (flag){
+                    if (fields.length > 0 && Integer.parseInt(fields[0]) == vendorID) {
+                        double originalCredit = Double.parseDouble(fields[4]);
+                        double updatedCredit = originalCredit + totalAmount;
+                        return updatedCredit;
+                    }
+                } else {
+                    if (fields.length > 0 && Integer.parseInt(fields[0]) == vendorID) {
+                        double originalCredit = Double.parseDouble(fields[4]);
+                        double updatedCredit = originalCredit - totalAmount;
+                        return updatedCredit;
+                    }
                 }
             }
             reader.close();
@@ -124,7 +139,6 @@ public class CustomerCredit extends UserCustomer {
                 String modifiedLine = String.join(",", fields);
                 content.append(modifiedLine).append("\n");
             }
-            // Close the reader
             reader.close();
             BufferedWriter writer = new BufferedWriter(new FileWriter(userFilePath));
             writer.write(content.toString());
@@ -135,8 +149,8 @@ public class CustomerCredit extends UserCustomer {
         }
     }
  
-    // write customer transaction data into credit_transaction.txt file
-    public void generateCustomerTransactionData(String transactionID, int customerID, int vendorID, double transactionAmount, String dateTime, String serviceType) {
+    // write customer transaction data after placing an order into credit_transaction.txt file
+    public void generateOrderTransactionData(String transactionID, int customerID, int vendorID, double transactionAmount, String dateTime, String serviceType) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(creditTransactionFilePath, true))) {
             String transactionCustomerData = transactionID + "," + customerID + "," + transactionAmount + "," + dateTime + "," + "Credit" + "," + serviceType;
             writer.write(transactionCustomerData);
@@ -149,7 +163,26 @@ public class CustomerCredit extends UserCustomer {
         String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + dateTime + "," + "Debit" + "," + "Payment Received";
         generateVendorTransactionData(transactionVendorData);
     }
-
+     
+    // write customer transaction data after cancelling an order into credit_transaction.txt file 
+    public void generateOrderCancelledTransactionData(int customerID, int vendorID, double transactionAmount){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String currentTime = dtf.format(now);
+        String transactionID = generateLastTransactionID();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(creditTransactionFilePath, true))) {
+            String transactionCustomerData = transactionID + "," + customerID + "," + transactionAmount + "," + currentTime + "," + "Debit" + "," + "Order Cancellation Refund";
+            writer.write(transactionCustomerData);
+            writer.newLine();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        int lastTransactionID = Integer.parseInt(transactionID.substring(transactionID.length() - 5)) + 1;
+        String lastTransactionId = String.format("T%05d", lastTransactionID);
+        String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + currentTime + "," + "Credit" + "," + "Vendor Refund";
+        generateVendorTransactionData(transactionVendorData);
+    }
+    
     // write vendor transaction data into credit_transaction.txt file
     private void generateVendorTransactionData(String transactionVendorData) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(creditTransactionFilePath, true))) {
@@ -159,7 +192,8 @@ public class CustomerCredit extends UserCustomer {
             ex.printStackTrace();
         }
     }
-
+    
+    // generate Last TransactionID
     public String generateLastTransactionID() {
         String lastTransactionID = null;
         try {

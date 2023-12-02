@@ -15,7 +15,7 @@ public class CustomerOrder extends UserCustomer{
     private static final String menuFolderPath = "src/Database/Menu/";
     
     private CustomerCredit customerCredit;
-
+    private UserCredit userCredit;
     public CustomerOrder(int id, String username, String password, String role, double credit) {
         super(id, username, password, role, credit);
     }
@@ -48,8 +48,8 @@ public class CustomerOrder extends UserCustomer{
             
         }
         writeOrderItemsData(orderItems,lastOrderItemsID);
-        customerCredit.updateCustomerandVendorCredit(customerUserID, vendorUserID, orderAmount);
-        customerCredit.generateCustomerTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType);
+        customerCredit.updateCustomerandVendorCredit(customerUserID, vendorUserID, orderAmount,true);
+        customerCredit.generateOrderTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType);
     }
     
     // Write Order items data inside the text file
@@ -145,7 +145,7 @@ public class CustomerOrder extends UserCustomer{
         return orderItemsData;
     }
     
-    
+    // get Order Item Name
     private String getOrderItemName(String vendorUsername, String FoodID){
         String itemName = null;
         String menuFilePath = menuFolderPath + vendorUsername + "Menu.txt";
@@ -167,6 +167,7 @@ public class CustomerOrder extends UserCustomer{
         return itemName;
     }
     
+    // calculate Order Item Total Price
     private double calculateOrderItemTotalPrice(String vendorUsername, String FoodID, String itemQuantities){
         double totalPrice = 0;
         String menuFilePath = menuFolderPath + vendorUsername + "Menu.txt";
@@ -190,6 +191,7 @@ public class CustomerOrder extends UserCustomer{
         return totalPrice; 
     }
     
+    // get vendorID in the order.txt file by orderID
     private String getVendorID(String orderID){
         String vendorID = null;
         try {
@@ -211,6 +213,35 @@ public class CustomerOrder extends UserCustomer{
         return vendorID;
     }
     
+    // update the order status to the Cancelled in the order.txt file
+    public void cancelOrder(String orderID){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] orderData = line.split(",");
+                if (orderData[0].equals(orderID)){
+                    orderData[4] = "Cancelled";
+                    int customerID = Integer.parseInt(orderData[5]);
+                    int vendorID = Integer.parseInt(orderData[6]);
+                    double orderAmount = Double.parseDouble(orderData[3]);
+                    customerCredit.updateCustomerandVendorCredit(customerID, vendorID, orderAmount,false);
+                    customerCredit.generateOrderCancelledTransactionData(customerID, vendorID, orderAmount);
+                }
+                String modifiedLine = String.join(",", orderData);
+                content.append(modifiedLine).append("\n");
+            }
+            reader.close();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(orderFilePath));
+            writer.write(content.toString());
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
 }

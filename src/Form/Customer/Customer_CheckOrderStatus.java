@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -22,16 +23,17 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
 
     private CustomerDashboard customerDashboard;
     private CustomerOrder customerOrder;
+    private CustomerCredit customerCredit;
     private String username;
     private String orderID;
     public Customer_CheckOrderStatus(String username) {
-        customerOrder = new CustomerOrder();
+        customerCredit = new CustomerCredit();
+        customerOrder = new CustomerOrder(customerCredit);
         initComponents();
         this.username = username;
-        DefaultTableModel model = (DefaultTableModel) table_OrderHistory.getModel();
+        DefaultTableModel tableOrderHistoryModel = (DefaultTableModel) table_OrderHistory.getModel();
         clearTable();
         displayOrderHistory(username);
-        
         
         table_OrderHistory.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -45,7 +47,7 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                 }
             }
         });
-        
+        table_OrderHistory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
     }
 
@@ -60,6 +62,7 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         table_OrderItems = new javax.swing.JTable();
         lbl_OrderHistory = new javax.swing.JLabel();
+        btn_CancelOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1150, 675));
@@ -138,6 +141,16 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         lbl_OrderHistory.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         lbl_OrderHistory.setText("Order History:");
 
+        btn_CancelOrder.setBackground(new java.awt.Color(255, 51, 51));
+        btn_CancelOrder.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_CancelOrder.setForeground(new java.awt.Color(255, 255, 255));
+        btn_CancelOrder.setText("Cancel Order");
+        btn_CancelOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CancelOrderActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -149,7 +162,9 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                         .addComponent(lbl_OrderHistory))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(49, 49, 49)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,7 +182,9 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(269, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -233,6 +250,32 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
+    private void btn_CancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelOrderActionPerformed
+        int selectedRowIndex = table_OrderHistory.getSelectedRow();
+        if (selectedRowIndex != -1) {
+            String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
+            String orderStatus = table_OrderHistory.getValueAt(selectedRowIndex, 3).toString();
+            switch (orderStatus) {
+                case "Pending":
+                    customerOrder.cancelOrder(orderID);
+                    JOptionPane.showMessageDialog(this, "Order has been cancelled.", "Order Cancelled", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Cancelled":
+                    JOptionPane.showMessageDialog(this,"Order is already cancelled.","Order Cancelled",JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Pick Up":
+                    JOptionPane.showMessageDialog(this,"Order is delivering.","Order Delivered",JOptionPane.INFORMATION_MESSAGE);    
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "The food is prepared by the vendor, so the order cannot be cancelled.", "Order Cannot be Cancelled", JOptionPane.WARNING_MESSAGE);
+                    break;
+            }
+        } else {
+             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
+        displayOrderHistory(username);
+    }//GEN-LAST:event_btn_CancelOrderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -245,6 +288,7 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_CancelOrder;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_OrderHistory;
