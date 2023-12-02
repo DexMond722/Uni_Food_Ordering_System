@@ -21,8 +21,7 @@ public class UserCustomer extends User {
     }
         
     public UserCustomer() {}    
-   
-   
+
     // get Vendor in a list
     public List<String> getVendorList() {
         List<String> vendorList = new ArrayList<>();
@@ -107,6 +106,25 @@ public class UserCustomer extends User {
             Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vendorID;
+    }
+    
+    public String getVendorUserName(String vendorID){
+        String vendorUserName = null;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] userData = line.split(",");
+                if(userData[0].equals(vendorID)){
+                    vendorUserName = userData[1];
+                }                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vendorUserName;
     }
     
     

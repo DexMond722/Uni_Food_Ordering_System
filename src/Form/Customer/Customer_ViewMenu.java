@@ -27,10 +27,13 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
     public Customer_ViewMenu(String username) {
         initComponents();
         this.username = username;
+        // get table Cart Model
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        // create Object
         userCustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
         customerOrder = new CustomerOrder(customerCredit);
+        // using method
         populateVendorComboBox();
         clearTable();
         preventMenuEdited();
@@ -42,6 +45,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                 updateAndDisplayTotal(totalAmount);
             }
         });
+        // set lbl_DeliveryFee's Visibility become False
         lbl_DeliveryFee.setVisible(false);
     }
     

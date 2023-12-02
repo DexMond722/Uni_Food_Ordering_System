@@ -4,7 +4,7 @@
  */
 package Form.DeliveryRunner;
 
-
+import Class.RunnerTask;
 import Form.Login.LoginForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,14 +19,17 @@ public class DeliveryDashboard extends javax.swing.JFrame {
     /**
      * Creates new form AdminDashboard
      */
-    public DeliveryDashboard() {
+    private String username;
+    private RunnerTask r1;
+    public DeliveryDashboard(String username) {
         initComponents();
-        
+        this.username = username;
+//        System.out.println(r1.getRandomAvailableRunnerID());
         btn_ViewTask.setOpaque(true);
         btn_ViewTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Runner_ViewTask viewTask = new Runner_ViewTask();
+                Runner_ViewTask viewTask = new Runner_ViewTask(username);
                 viewTask.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
                 viewTask.setVisible(true);
                 viewTask.pack();
@@ -120,10 +123,12 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         btn_logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(32767, 32767));
         setResizable(false);
         setSize(new java.awt.Dimension(1200, 700));
 
-        panel.setPreferredSize(new java.awt.Dimension(585, 387));
+        panel.setBackground(new java.awt.Color(204, 204, 255));
+        panel.setPreferredSize(new java.awt.Dimension(643, 590));
         panel.setLayout(null);
 
         btn_ViewTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -134,29 +139,29 @@ public class DeliveryDashboard extends javax.swing.JFrame {
             }
         });
         panel.add(btn_ViewTask);
-        btn_ViewTask.setBounds(220, 140, 170, 21);
+        btn_ViewTask.setBounds(200, 130, 160, 50);
 
         btn_UpdateTaskStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_UpdateTaskStatus.setText("Update Task Status");
         panel.add(btn_UpdateTaskStatus);
-        btn_UpdateTaskStatus.setBounds(220, 180, 170, 21);
+        btn_UpdateTaskStatus.setBounds(200, 210, 160, 50);
 
         btn_CheckTaskHistory.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_CheckTaskHistory.setText("Check Task History");
         panel.add(btn_CheckTaskHistory);
-        btn_CheckTaskHistory.setBounds(220, 220, 170, 21);
+        btn_CheckTaskHistory.setBounds(200, 300, 160, 40);
 
         btn_ReadCustomerReview.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_ReadCustomerReview.setText("Read Customer Review");
         panel.add(btn_ReadCustomerReview);
-        btn_ReadCustomerReview.setBounds(220, 260, 170, 21);
+        btn_ReadCustomerReview.setBounds(200, 380, 160, 40);
 
         btn_ViewRevenue.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_ViewRevenue.setText("View Revenue");
         panel.add(btn_ViewRevenue);
-        btn_ViewRevenue.setBounds(220, 300, 170, 21);
+        btn_ViewRevenue.setBounds(200, 460, 160, 40);
 
-        panel_Top.setBackground(new java.awt.Color(0, 204, 204));
+        panel_Top.setBackground(new java.awt.Color(255, 204, 255));
 
         lbl_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/profile_picture2.png"))); // NOI18N
 
@@ -164,40 +169,38 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         panel_Top.setLayout(panel_TopLayout);
         panel_TopLayout.setHorizontalGroup(
             panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_TopLayout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addComponent(lbl_icon)
-                .addGap(244, 244, 244))
+            .addGroup(panel_TopLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(436, Short.MAX_VALUE))
         );
         panel_TopLayout.setVerticalGroup(
             panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_TopLayout.createSequentialGroup()
-                .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
+            .addComponent(lbl_icon, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
 
         panel.add(panel_Top);
-        panel_Top.setBounds(0, 20, 590, 110);
+        panel_Top.setBounds(-20, 0, 590, 110);
 
         btn_logout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_logout.setText("Log Out");
         panel.add(btn_logout);
-        btn_logout.setBounds(220, 340, 170, 21);
+        btn_logout.setBounds(240, 540, 90, 60);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(84, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(476, 476, 476))
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -223,7 +226,7 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DeliveryDashboard().setVisible(true);
+                new DeliveryDashboard("").setVisible(true);
             }
         });
     }

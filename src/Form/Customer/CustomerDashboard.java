@@ -25,9 +25,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         customerOrder = new CustomerOrder();
         initComponents();
         this.username = username;
+//        System.out.println(customerOrder.getOrderHistoryData(username));
         lbl_Welcome.setText("Welcome back, "+username);
         displayCreditAmount(username);
-
         btn_ViewMenu.setOpaque(true);
         btn_ViewMenu.addActionListener(new ActionListener() {
             @Override

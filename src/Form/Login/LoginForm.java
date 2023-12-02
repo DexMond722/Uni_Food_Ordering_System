@@ -54,13 +54,13 @@ public class LoginForm extends javax.swing.JFrame {
             admin.setLocationRelativeTo(null);
             this.dispose();
         } else if (role.equals("Vendor")) {
-            VendorDashboard vendor = new VendorDashboard();
+            VendorDashboard vendor = new VendorDashboard(username);
             vendor.setVisible(true);
             vendor.pack();
             vendor.setLocationRelativeTo(null);
             this.dispose();
         } else if (role.equals("DeliveryRunner")) {
-            DeliveryDashboard delivery = new DeliveryDashboard();
+            DeliveryDashboard delivery = new DeliveryDashboard(username);
             delivery.setVisible(true);
             delivery.pack();
             delivery.setLocationRelativeTo(null);
