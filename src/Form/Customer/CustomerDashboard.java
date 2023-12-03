@@ -4,6 +4,7 @@ import Form.Login.LoginForm;
 import Class.UserCustomer;
 import Class.CustomerOrder;
 import Class.CustomerCredit;
+import Class.Review;
 import java.awt.event.*;
 import javax.swing.UIManager;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private UserCustomer userCustomer;
     private CustomerCredit customerCredit;
     private CustomerOrder customerOrder;
+    private Review review;
     private String username;
     
     public CustomerDashboard(){
@@ -23,9 +25,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         userCustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
         customerOrder = new CustomerOrder();
+        review = new Review();
         initComponents();
         this.username = username;
-//        System.out.println(customerCredit.generateLastTransactionID());
         lbl_Welcome.setText("Welcome back, "+username);
         displayCreditAmount(username);
         btn_ViewMenu.setOpaque(true);
