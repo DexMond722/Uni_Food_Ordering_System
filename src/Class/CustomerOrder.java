@@ -36,7 +36,7 @@ public class CustomerOrder extends UserCustomer{
         }
         LocalDateTime now = LocalDateTime.now();
         String currentTime = dtf.format(now);
-        String orderStatus = "Pending";
+        String orderStatus = "Pending"; 
         int lastOrderItemsID = getLastOrderItemsID();
         String lastTransactionID = customerCredit.generateLastTransactionID();
         String data = getLastOrderID() + "," + currentTime + "," + lastOrderItemsID + "," + orderAmount + "," + orderStatus + "," + customerUserID + "," + vendorUserID + "," + serviceType+","+lastTransactionID;
@@ -52,6 +52,7 @@ public class CustomerOrder extends UserCustomer{
         customerCredit.generateOrderTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType);
     }
     
+
     // Write Order items data inside the text file
     private void writeOrderItemsData(List<List<String>> orderItems, int lastOrderItemsID){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(orderItemsFilePath,true))){
@@ -191,8 +192,8 @@ public class CustomerOrder extends UserCustomer{
         return totalPrice; 
     }
     
-    // get vendorID in the order.txt file by orderID
-    private String getVendorID(String orderID){
+    // get vendorUserID in the order.txt file by orderID
+    public String getVendorID(String orderID){
         String vendorID = null;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
@@ -211,6 +212,27 @@ public class CustomerOrder extends UserCustomer{
             Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vendorID;
+    }
+    
+    // get customerUserID in the order.txt file by orderID
+    public String getCustomerID(String orderID) {
+        String customerID = null;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
+            String line;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] orderData = line.split(",");
+                if (orderData[0].equals(orderID)) {
+                    customerID = orderData[5];
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return customerID;
     }
     
     // update the order status to the Cancelled in the order.txt file

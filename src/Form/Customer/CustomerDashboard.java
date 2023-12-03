@@ -101,6 +101,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_ViewMenu = new javax.swing.JButton();
         btn_Logout = new javax.swing.JButton();
         btn_CheckOrderStatus = new javax.swing.JButton();
+        btn_CheckTransactionHistory = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -180,17 +181,25 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_CheckOrderStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_CheckOrderStatus.setFocusPainted(false);
 
+        btn_CheckTransactionHistory.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_CheckTransactionHistory.setText("Check Transaction History");
+        btn_CheckTransactionHistory.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_CheckTransactionHistory.setBorderPainted(false);
+        btn_CheckTransactionHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_CheckTransactionHistory.setFocusPainted(false);
+
         javax.swing.GroupLayout panel_BottomLayout = new javax.swing.GroupLayout(panel_Bottom);
         panel_Bottom.setLayout(panel_BottomLayout);
         panel_BottomLayout.setHorizontalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
+                .addContainerGap(151, Short.MAX_VALUE)
                 .addGroup(panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(btn_CheckTransactionHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                    .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_ViewMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_Logout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         panel_BottomLayout.setVerticalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +208,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 323, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
+                .addComponent(btn_CheckTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
                 .addComponent(btn_Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
         );
@@ -234,6 +245,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_CheckOrderStatus;
+    private javax.swing.JButton btn_CheckTransactionHistory;
     private javax.swing.JButton btn_Logout;
     private javax.swing.JButton btn_ViewMenu;
     private javax.swing.JLabel lbl_CreditAmount;
