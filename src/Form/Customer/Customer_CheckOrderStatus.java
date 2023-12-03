@@ -317,13 +317,6 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         tableOrderItemsModel.setRowCount(0);
     }
     
-    
-    
-    
-    
-    
-    
-    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         customerDashboard = new CustomerDashboard(username);
         customerDashboard.setLocationRelativeTo(null);
@@ -366,9 +359,17 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
             int vendorID = Integer.parseInt(customerOrder.getVendorID(orderID));
             double orderAmount = Double.parseDouble(table_OrderHistory.getValueAt(selectedRowIndex, 2).toString());
             String serviceType = table_OrderHistory.getValueAt(selectedRowIndex, 4).toString();
+            if (serviceType.equals("Delivery")){
+                orderAmount -= 4.00;
+            }
+            List<List<String>> orderItemsData = customerOrder.getOrderItemsDataForReorder(orderID);
+            customerOrder.placeOrder(orderAmount, customerID, vendorID, serviceType, orderItemsData);
+            
+
         } else {
             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
+        displayOrderHistory(username);
     }//GEN-LAST:event_btn_ReorderActionPerformed
 
     private void btn_ReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReviewActionPerformed

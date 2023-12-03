@@ -56,6 +56,20 @@ public class CustomerDashboard extends javax.swing.JFrame {
             }
         });
         
+        btn_CheckTransactionHistory.setOpaque(true);
+        btn_CheckTransactionHistory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Customer_TransactionHistory transactionHistory = new Customer_TransactionHistory(username);
+                transactionHistory.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
+                transactionHistory.setVisible(true);
+                transactionHistory.pack();
+                transactionHistory.setLocationRelativeTo(null);
+                setVisible(false);
+            }
+        });
+        
+        
         btn_Logout.setOpaque(true);
         btn_Logout.addActionListener(new ActionListener(){
             @Override
@@ -175,7 +189,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_Logout.setFocusPainted(false);
 
         btn_CheckOrderStatus.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
-        btn_CheckOrderStatus.setText("Check Order Status");
+        btn_CheckOrderStatus.setText("Check Order Status And History");
         btn_CheckOrderStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_CheckOrderStatus.setBorderPainted(false);
         btn_CheckOrderStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -193,24 +207,24 @@ public class CustomerDashboard extends javax.swing.JFrame {
         panel_BottomLayout.setHorizontalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_BottomLayout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addGroup(panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_CheckTransactionHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                    .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                    .addComponent(btn_CheckTransactionHistory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_ViewMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_Logout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         panel_BottomLayout.setVerticalGroup(
             panel_BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_BottomLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(btn_ViewMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(45, 45, 45)
                 .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(46, 46, 46)
                 .addComponent(btn_CheckTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                 .addComponent(btn_Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
         );

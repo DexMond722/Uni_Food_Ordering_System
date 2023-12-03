@@ -120,7 +120,31 @@ public class CustomerOrder extends UserCustomer{
         return orderHistoryData;
     }
     
-    // get Order Items Data
+    // get OrderItemsData for reorder
+    public List<List<String>> getOrderItemsDataForReorder(String orderID) {
+        List<List<String>> orderItemsData = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(orderItemsFilePath));
+            String line; 
+            reader.readLine();
+            while ((line = reader.readLine()) != null){
+                String[] orderItems = line.split(",");
+                if (orderItems[0].equals(orderID)){
+                    List<String> orderItemsInfo = new ArrayList<>();
+                    orderItemsInfo.add(orderItems[1]);
+                    orderItemsInfo.add(orderItems[2]);
+                    orderItemsData.add(orderItemsInfo);
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orderItemsData;
+    }
+    
+    // get Order Items Data for items details
     public List<List<String>> getOrderItemsData(String orderID){
         List<List<String>> orderItemsData = new ArrayList<>();
         try {

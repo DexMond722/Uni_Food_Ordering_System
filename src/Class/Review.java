@@ -75,18 +75,19 @@ public class Review {
     }
 
     // get the rating and feedback data
-    private List<String> getRatingAndFeedbackData(String orderID){
-        List<String> ratingAndFeedbackData = new ArrayList<>();
+    public List<String> getRatingAndFeedbackData(String orderID){
+        List<String> ratingAndFeedbackInfo = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(reviewFilePath));
             String line;
             reader.readLine();
             while((line = reader.readLine())!=null){
                 String[] reviewData = line.split(",");
-                if (reviewData.length > 1 || reviewData[1].equals(orderID)){
+                if (reviewData.length > 1 && reviewData[1].equals(orderID)){
                     for (int i =2; i<reviewData.length;i++){
-                        ratingAndFeedbackData.add(reviewData[i]);
+                        ratingAndFeedbackInfo.add(reviewData[i]);
                     }
+                    break;
                 }
                 
             }
@@ -95,7 +96,7 @@ public class Review {
         } catch (IOException ex) {
             Logger.getLogger(Review.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return ratingAndFeedbackData;
+        return ratingAndFeedbackInfo;
     }
      
     // update review data

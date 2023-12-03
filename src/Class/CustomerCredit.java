@@ -126,7 +126,7 @@ public class CustomerCredit extends UserCustomer {
     }
     
     // update credit information in the user file
-    private void updateCreditInFile(int userID, double updatedCredit) {
+private void updateCreditInFile(int userID, double updatedCredit) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             StringBuilder content = new StringBuilder();
