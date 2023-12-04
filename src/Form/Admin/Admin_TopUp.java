@@ -9,8 +9,10 @@ import Class.UserCredit;
 import Class.UserManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -81,6 +83,8 @@ public class Admin_TopUp extends javax.swing.JFrame {
             }
         });
     }
+        
+            
 
 
     /**
@@ -107,7 +111,9 @@ public class Admin_TopUp extends javax.swing.JFrame {
         txtbox_Amount = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
         setPreferredSize(new java.awt.Dimension(700, 500));
+        setResizable(false);
         setSize(new java.awt.Dimension(700, 500));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

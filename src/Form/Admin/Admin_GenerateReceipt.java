@@ -5,6 +5,7 @@
 package Form.Admin;
 
 import Class.User;
+import Class.UserCredit;
 import Class.UserManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_GenerateReceipt extends javax.swing.JFrame {
 
     private UserManager userManager;
+    private UserCredit userCredit;
 
     /**
      * Creates new form Admin_GenerateReceipt
@@ -29,6 +31,7 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
     public Admin_GenerateReceipt() {
         initComponents();
         userManager = new UserManager();
+        userCredit = new UserCredit(userManager);
 
         btn_Generate.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +49,8 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
                 User user = userManager.getUserById(userId);
 
                 if (user != null) {
-                    displayTransactions(userId);
+                    // Call the displayTransactions method on the userCredit instance
+                    userCredit.displayTransactions(userId, model);
                 } else {
                     JOptionPane.showMessageDialog(null, "User ID not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -54,29 +58,6 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         });
     }
 
-    private void displayTransactions(int userId) {
-        String filePath = "src/Database/credit_transaction.txt";
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split(",");
-            if (data.length >= 2 && data[1].trim().equals(String.valueOf(userId))) {
-                // Add the relevant data to the table
-                model.addRow(new Object[]{
-                    data[0], // TransactionID
-                    Double.parseDouble(data[2]), // TransactionAmount
-                    data[3], // DateTime
-                    data[4], // TransactionType
-                    data[5] // Remark
-                });
-            }
-        }
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-        }
-    }
 
     
     

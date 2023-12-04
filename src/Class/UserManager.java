@@ -103,6 +103,15 @@ public class UserManager {
         return null;
     }
 
+    public int getUserIdByUsername(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user.getId();
+            }
+        }
+        return -1; // Return -1 if the username is not found
+    }
+
     public boolean deleteUser(String username) {
         User userToDelete = null;
         for (User user : users) {
@@ -135,4 +144,5 @@ public class UserManager {
     public int getNextUserId() {
         return lastid + 1;
     }
+
 }

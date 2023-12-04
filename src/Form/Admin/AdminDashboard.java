@@ -109,6 +109,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btn_Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
         setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(500, 700));
