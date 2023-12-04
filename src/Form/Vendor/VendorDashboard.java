@@ -40,11 +40,22 @@ public class VendorDashboard extends javax.swing.JFrame {
         btn_OrderStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Vendor_AcceptOrder acceptOrder = new Vendor_AcceptOrder(username);
-                acceptOrder.setDefaultCloseOperation(VendorDashboard.DISPOSE_ON_CLOSE);
-                acceptOrder.setVisible(true);
-                acceptOrder.pack();
-                acceptOrder.setLocationRelativeTo(null);
+                Vendor_OrderManagement orderManagement = new Vendor_OrderManagement(username);
+                orderManagement.setDefaultCloseOperation(VendorDashboard.DISPOSE_ON_CLOSE);
+                orderManagement.setVisible(true);
+                orderManagement.pack();
+                orderManagement.setLocationRelativeTo(null);
+            }
+        });
+        btn_UpdateStatus.setOpaque(true);
+        btn_UpdateStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vendor_UpdateStatus updateStatus = new Vendor_UpdateStatus(username);
+                updateStatus.setDefaultCloseOperation(VendorDashboard.DISPOSE_ON_CLOSE);
+                updateStatus.setVisible(true);
+                updateStatus.pack();
+                updateStatus.setLocationRelativeTo(null);
             }
         });
         btn_LogOut.setOpaque(true);
@@ -74,6 +85,7 @@ public class VendorDashboard extends javax.swing.JFrame {
         btn_EditMenu = new javax.swing.JButton();
         btn_OrderStatus = new javax.swing.JButton();
         btn_LogOut = new javax.swing.JButton();
+        btn_UpdateStatus = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 650));
@@ -140,6 +152,8 @@ public class VendorDashboard extends javax.swing.JFrame {
         btn_LogOut.setForeground(new java.awt.Color(255, 0, 0));
         btn_LogOut.setText("Log Out");
 
+        btn_UpdateStatus.setText("Update Order Status");
+
         javax.swing.GroupLayout PanelBottomLayout = new javax.swing.GroupLayout(PanelBottom);
         PanelBottom.setLayout(PanelBottomLayout);
         PanelBottomLayout.setHorizontalGroup(
@@ -152,7 +166,8 @@ public class VendorDashboard extends javax.swing.JFrame {
                 .addGap(171, 171, 171)
                 .addGroup(PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_OrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                    .addComponent(btn_LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(172, Short.MAX_VALUE))
         );
         PanelBottomLayout.setVerticalGroup(
@@ -162,7 +177,9 @@ public class VendorDashboard extends javax.swing.JFrame {
                 .addComponent(btn_EditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(btn_OrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
+                .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                 .addComponent(btn_LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(134, 134, 134))
         );
@@ -210,6 +227,7 @@ public class VendorDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btn_EditMenu;
     private javax.swing.JButton btn_LogOut;
     private javax.swing.JButton btn_OrderStatus;
+    private javax.swing.JButton btn_UpdateStatus;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_Icon;
     private javax.swing.JLabel lbl_Welcome;

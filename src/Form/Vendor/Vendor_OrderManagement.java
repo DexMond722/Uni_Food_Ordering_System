@@ -4,26 +4,10 @@
  */
 package Form.Vendor;
 
-import Class.UserVendor;
 import Class.VendorOrder;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -33,23 +17,25 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author User
  */
-public class Vendor_AcceptOrder extends javax.swing.JFrame {
+public class Vendor_OrderManagement extends javax.swing.JFrame {
 
     private VendorOrder vendorOrder;
-    private String username; 
+    private final String username; 
     private static final String runnerTaskFilePath = "src/Database/runnerTask.txt";
     private static final String userFilePath = "src/Database/users.txt";
     private static final String orderFilePath = "src/Database/order.txt";
 
     
     
-    public Vendor_AcceptOrder(String username) {
+    public Vendor_OrderManagement(String username) {
         initComponents();
         this.username = username;
-        DefaultTableModel tableCartModel = (DefaultTableModel) table_Order.getModel();
-        vendorOrder = new VendorOrder();
+        this.vendorOrder = new VendorOrder(username);
+        DefaultTableModel tableFoodDetailsModel = (DefaultTableModel) table_FoodDetails.getModel();
         displayOrder(vendorOrder.getVendorOrder(username));
         preventMenuEdited(); 
+        table_FoodDetails.setEnabled(false);
+        tableFoodDetailsModel.setRowCount(0);
         
         // Add ListSelectionListener to table_Order
         table_Order.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -61,10 +47,9 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
                         // Get the OrderItemID from the selected row
                         String orderItemID = (String) table_Order.getValueAt(selectedRow, 2);
                         try {
-                            displayFoodDetails(orderItemID);
+                            vendorOrder.displayFoodDetails((DefaultTableModel) table_FoodDetails.getModel(), orderItemID);
                         } catch (IOException ex) {
                             ex.printStackTrace();
-                            // Handle the exception as needed, e.g., show an error message
                         }
                     }
                 }
@@ -93,156 +78,6 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
         }
     } 
     
-    private void displayFoodDetails(String orderItemID) throws IOException {
-        DefaultTableModel model = (DefaultTableModel) table_FoodDetails.getModel();
-        model.setRowCount(0);
-
-    // Load order items data from orderItems.txt for the selected OrderItemID
-        try {
-            String menuFolderPath = "src/Database/Menu/";
-            String menuFilePath = menuFolderPath + username + "Menu.txt";
-
-            BufferedReader menuReader = new BufferedReader(new FileReader(menuFilePath));
-            Map<String, String> foodNameMap = new HashMap<>();
-
-        // Read the menu file and populate the foodNameMap
-            String menuLine;
-            while ((menuLine = menuReader.readLine()) != null) {
-                String[] menuData = menuLine.split(",");
-                String foodID = menuData[0].trim();
-                String foodName = menuData[1].trim(); // Assuming FoodName is at index 1
-                foodNameMap.put(foodID, foodName);
-            }
-        // Read the order items file and display details
-            BufferedReader orderReader = new BufferedReader(new FileReader("src/Database/orderItems.txt"));
-            orderReader.readLine(); // Skip header
-            String orderLine;
-            while ((orderLine = orderReader.readLine()) != null) {
-                List<String> orderItemDetails = Arrays.asList(orderLine.split(","));
-                String currentOrderItemID = orderItemDetails.get(0);
-
-                if (currentOrderItemID.equals(orderItemID)) {
-                    String foodID = orderItemDetails.get(1);
-                    String foodName = foodNameMap.get(foodID);
-
-                    // Replace FoodID with FoodName in the order item details
-                    orderItemDetails.set(1, foodName);
-                    model.addRow(orderItemDetails.toArray());
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void assignRunnerForDelivery(String orderID) {
-        
-        try {
-            // Check the service type of the selected order
-            String serviceType = getServiceTypeForOrder(orderID);
-            
-            if ("Delivery".equals(serviceType)) {
-                // Get the VendorID from the logged-in user
-                int vendorID = vendorOrder.getVendorUserIdByUsername(username);
-                
-                // Load users to find a suitable DeliveryRunner
-                List<String> deliveryRunnerIDs = getUsersWithRole("DeliveryRunner");
-                if (!deliveryRunnerIDs.isEmpty()) {
-                    // Get a random DeliveryRunnerID
-                    Random random = new Random();
-                    String randomDeliveryRunnerID = deliveryRunnerIDs.get(random.nextInt(deliveryRunnerIDs.size()));
-
-                    // Generate a new TaskID
-                    int newTaskID = vendorOrder.generateNewTaskID(runnerTaskFilePath);
-
-                    // Write into runnerTask.txt
-                    BufferedWriter runnerTaskWriter = new BufferedWriter(new FileWriter(runnerTaskFilePath, true));
-                    String newRunnerTask = newTaskID + "," + randomDeliveryRunnerID + "," + orderID + "," + vendorID + ",Pending";
-                    runnerTaskWriter.write(newRunnerTask);
-                    runnerTaskWriter.newLine();
-                    runnerTaskWriter.close();
-
-                    // Update order status to "Accepted"
-                    updateOrderStatus(orderID, "Accepted");
-
-                    // Refresh the order table
-                    refreshOrderTable();
-                } else {
-                    // Handle case when no DeliveryRunner is available
-                    System.out.println("No available DeliveryRunner");
-                }
-
-                // Update UI or inform the user
-            } else {
-                // Inform the user that this order doesn't require a DeliveryRunner
-                //System.out.println("This order doesn't require a DeliveryRunner");
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Handle exceptions as needed
-        }
-    }
-    
-     private List<String> getUsersWithRole(String role) {
-        List<String> userIDs = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(userFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userData = line.split(",");
-                if (userData.length >= 4 && role.equals(userData[3].trim())) {
-                    userIDs.add(userData[0]); // Assuming UserID is at index 0
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return userIDs;
-    }
-     
-    private String getServiceTypeForOrder(String orderID) throws IOException {
-        // Read the order file to find the ServiceType for the given OrderID
-        try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
-            String orderLine;
-            while ((orderLine = orderReader.readLine()) != null) {
-                String[] orderData = orderLine.split(",");
-                if (orderData.length >= 1 && orderData[0].equals(orderID)) {
-                    return orderData[7]; // Assuming ServiceType is at index 7
-                }
-            }
-        }
-        return ""; // Return empty string if ServiceType is not found for the given OrderID
-    }
-    
-    private void updateOrderStatus(String orderID, String newStatus) {
-        try {
-            // Read the order file and update the status
-            List<String> updatedOrders = new ArrayList<>();
-            BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath));
-            String orderLine;
-            while ((orderLine = orderReader.readLine()) != null) {
-                String[] orderData = orderLine.split(",");
-                if (orderData[0].equals(orderID)) {
-                    orderData[4] = newStatus; // Assuming OrderStatus is at index 4
-                }
-                updatedOrders.add(String.join(",", orderData));
-            }
-           orderReader.close();
-
-         // Rewrite the updated orders to the file
-            BufferedWriter orderWriter = new BufferedWriter(new FileWriter(orderFilePath));
-            for (String updatedOrder : updatedOrders) {
-                orderWriter.write(updatedOrder);
-                orderWriter.newLine();
-            }
-            orderWriter.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Handle exceptions as needed
-        }
-    }
-    
     private void refreshOrderTable() {
         DefaultTableModel model = (DefaultTableModel) table_Order.getModel();
         model.setRowCount(0); // Clear the existing rows
@@ -250,6 +85,11 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
         // Get the updated order items and display them in the table
         List<List<String>> orderItems = vendorOrder.getVendorOrder(username);
         displayOrder(orderItems);
+    }
+    
+    private void refreshFoodDetailsTable(){
+        DefaultTableModel foodDetailsModel = (DefaultTableModel) table_FoodDetails.getModel();
+        foodDetailsModel.setRowCount(0);
     }
     
     private void preventMenuEdited(){
@@ -316,7 +156,7 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(40, 40, 670, 240);
 
-        btn_Accept.setText("jButton1");
+        btn_Accept.setText("Accept");
         btn_Accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AcceptActionPerformed(evt);
@@ -325,7 +165,12 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
         jPanel1.add(btn_Accept);
         btn_Accept.setBounds(440, 420, 100, 40);
 
-        btn_Cancel.setText("jButton2");
+        btn_Cancel.setText("Reject");
+        btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CancelActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Cancel);
         btn_Cancel.setBounds(590, 420, 100, 40);
 
@@ -387,13 +232,35 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
         int selectedRow = table_Order.getSelectedRow();
             if (selectedRow != -1) {
                 String orderID = (String) table_Order.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
-                assignRunnerForDelivery(orderID);
-                updateOrderStatus(orderID, "Accepted");
+                vendorOrder.assignRunnerForDelivery(orderID);
+                vendorOrder.updateOrderStatus(orderID, "Accepted");
                 refreshOrderTable();
+                refreshFoodDetailsTable();
+                JOptionPane.showMessageDialog(this, "Order Accepted");
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a specific row on the Order Table");
             }
     }//GEN-LAST:event_btn_AcceptActionPerformed
+
+    private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelActionPerformed
+        int selectedRow = table_Order.getSelectedRow();
+            if (selectedRow != -1) {
+                String orderID = (String) table_Order.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
+                String customerID = (String) table_Order.getValueAt(selectedRow, 5);
+                int vendorID = Integer.parseInt(vendorOrder.getVendorID(orderID));
+                String orderAmount = vendorOrder.getOrderAmount(orderID);
+                Double doubleAmount = Double.valueOf(vendorOrder.getOrderAmount(orderID));
+                vendorOrder.updateOrderStatus(orderID, "Declined");
+                vendorOrder.createCreditTransaction(orderID, orderAmount);
+                vendorOrder.updateCustomerandVendorCredit(customerID, vendorID, doubleAmount, true);
+            
+                refreshOrderTable();
+                refreshFoodDetailsTable();
+                JOptionPane.showMessageDialog( this, "Order Rejected");
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a specific row on the Order Table");
+            }
+    }//GEN-LAST:event_btn_CancelActionPerformed
 
 
     public static void main(String args[]) {
@@ -410,20 +277,20 @@ public class Vendor_AcceptOrder extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Vendor_AcceptOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Vendor_AcceptOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Vendor_AcceptOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Vendor_AcceptOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vendor_AcceptOrder("").setVisible(true);
+                new Vendor_OrderManagement("").setVisible(true);
             }
         });
     }

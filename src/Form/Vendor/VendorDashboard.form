@@ -145,6 +145,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btn_OrderStatus" pref="157" max="32767" attributes="0"/>
                           <Component id="btn_LogOut" max="32767" attributes="0"/>
+                          <Component id="btn_UpdateStatus" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="172" max="32767" attributes="0"/>
                   </Group>
@@ -157,7 +158,9 @@
                       <Component id="btn_EditMenu" min="-2" pref="41" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="btn_OrderStatus" min="-2" pref="41" max="-2" attributes="0"/>
-                      <EmptySpace pref="184" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="btn_UpdateStatus" min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace pref="106" max="32767" attributes="0"/>
                       <Component id="btn_LogOut" min="-2" pref="41" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
                   </Group>
@@ -190,6 +193,11 @@
                   <Color blue="0" green="0" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Log Out"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_UpdateStatus">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Update Order Status"/>
               </Properties>
             </Component>
           </SubComponents>

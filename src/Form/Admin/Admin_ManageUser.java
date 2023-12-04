@@ -137,7 +137,6 @@ public class Admin_ManageUser extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 600));
-        jPanel1.setSize(new java.awt.Dimension(700, 600));
 
         lbl_ManageUser.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
         lbl_ManageUser.setForeground(new java.awt.Color(153, 153, 153));
@@ -188,12 +187,16 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         btn_Delete.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_Delete.setText("Delete");
         btn_Delete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_DeleteActionPerformed(evt);
+            }
+        });
 
         btn_Update.setBackground(new java.awt.Color(0, 204, 204));
         btn_Update.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_Update.setText("Update");
         btn_Update.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_Update.setPreferredSize(new java.awt.Dimension(77, 23));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -276,6 +279,10 @@ public class Admin_ManageUser extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_DeleteActionPerformed
 
     /**
      * @param args the command line arguments
