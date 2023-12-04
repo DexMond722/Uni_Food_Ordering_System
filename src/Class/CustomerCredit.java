@@ -12,6 +12,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -179,7 +181,7 @@ private void updateCreditInFile(int userID, double updatedCredit) {
         }
         int lastTransactionID = Integer.parseInt(transactionID.substring(transactionID.length() - 5)) + 1;
         String lastTransactionId = String.format("T%05d", lastTransactionID);
-        String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + currentTime + "," + "Credit" + "," + "Vendor Refund";
+        String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + currentTime + "," + "Credit" + "," + "Vendor Refunded";
         generateVendorTransactionData(transactionVendorData);
     }
     
@@ -217,6 +219,37 @@ private void updateCreditInFile(int userID, double updatedCredit) {
         }
         return lastTransactionID;
     }
+    
+    
+    // get transaction history data 
+    public List<List<String>> getTransactionHistoryData(String customerUserID){
+        List<List<String>> transactionHistoryData = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(creditTransactionFilePath));
+            reader.readLine();
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] transactionHistory = line.split(",");
+                if (transactionHistory[1].equals(customerUserID)){
+                    List<String> transactionHistoryInfo = new ArrayList<>();
+                    transactionHistoryInfo.add(transactionHistory[0]); // transactionID
+                    transactionHistoryInfo.add(transactionHistory[2]); // transaction Amount
+                    transactionHistoryInfo.add(transactionHistory[3]); // transaction Date Time
+                    transactionHistoryInfo.add(transactionHistory[4]); // transaction Type
+                    transactionHistoryInfo.add(transactionHistory[5]); // transaction Remark
+                    transactionHistoryData.add(transactionHistoryInfo);
+                    
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CustomerCredit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerCredit.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        
+        return transactionHistoryData;
+    }
+    
     
     
 

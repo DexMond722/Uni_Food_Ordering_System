@@ -337,8 +337,14 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                 case "Cancelled":
                     JOptionPane.showMessageDialog(this,"Order is already cancelled.","Order Cancelled",JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case "Pick Up":
+                case "Pick-Up":
                     JOptionPane.showMessageDialog(this,"Order is delivering.","Order Delivered",JOptionPane.INFORMATION_MESSAGE);    
+                    break;
+                case "No_Runner":
+                    JOptionPane.showMessageDialog(this,"No Runner Delivers This Order.","No Runner",JOptionPane.INFORMATION_MESSAGE);    
+                    break;
+                case "Refunded":
+                    JOptionPane.showMessageDialog(this, "No Runner Delivers This Order.", "No Runner", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 default:
                     JOptionPane.showMessageDialog(this, "The food is prepared by the vendor, so the order cannot be cancelled.", "Order Cannot be Cancelled", JOptionPane.WARNING_MESSAGE);
@@ -383,7 +389,10 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "The Order is Cancelled", "Order Cancelled", JOptionPane.INFORMATION_MESSAGE);
             } else if (orderStatus.equals("No_Runner")){
                 JOptionPane.showMessageDialog(this, "No Runner Accept the Task", "No Runner", JOptionPane.INFORMATION_MESSAGE);
-            } else {
+            } else if (orderStatus.equals("Refunded")) {
+                JOptionPane.showMessageDialog(this, "The Order Payment is Refunded", "Payment Refunded", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
                 JOptionPane.showMessageDialog(this, "The Order Doesn't Completed", "Order No Completed", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
@@ -395,10 +404,21 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
 
     private void btn_ModifyReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModifyReviewActionPerformed
         int selectedRowIndex = table_OrderHistory.getSelectedRow();
-        String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
-        int rating = (Integer) spinner_OrderRating.getValue();
-        String feedback = (String) txtArea_OrderFeedback.getText();
-        review.updateReviewData(orderID, rating, feedback);
+        if (selectedRowIndex != -1){
+            String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
+            int rating = (Integer) spinner_OrderRating.getValue();
+            String feedback = (String) txtArea_OrderFeedback.getText();
+            if (rating != 0 && feedback != null){
+                review.updateReviewData(orderID, rating, feedback);
+                JOptionPane.showMessageDialog(this, "Successfully Review Modification", "Successfully Review Modification", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "You Do Not Provide Review For This Order", "No Review", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
     }//GEN-LAST:event_btn_ModifyReviewActionPerformed
     
     private void provideReview(String orderID){

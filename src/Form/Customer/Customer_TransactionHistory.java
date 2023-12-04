@@ -1,15 +1,25 @@
 package Form.Customer;
 
 import Form.Customer.CustomerDashboard;
+import Class.CustomerCredit;
+import Class.UserCustomer;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class Customer_TransactionHistory extends javax.swing.JFrame {
 
     private CustomerDashboard customerDashboard;
+    private UserCustomer usercustomer; 
+    private CustomerCredit customerCredit;
     private String username;
     
     public Customer_TransactionHistory(String username) {
+        usercustomer = new UserCustomer();
+        customerCredit = new CustomerCredit();
         initComponents();
         this.username = username;
+        String customerID = String.valueOf(usercustomer.getCustomerUserID(username));
+        displayTransactionHistory(customerCredit.getTransactionHistoryData(customerID));
     }
 
     /**
@@ -21,6 +31,11 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel = new javax.swing.JPanel();
+        lbl_TransactionHistory = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_TransactionHistory = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1100, 675));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -29,20 +44,83 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
             }
         });
 
+        panel.setBackground(new java.awt.Color(255, 255, 255));
+
+        lbl_TransactionHistory.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        lbl_TransactionHistory.setText("Transaction History:");
+
+        table_TransactionHistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "TransactionID", "Transaction Amount", "Transaction Date Time", "Transaction Type", "Remark"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_TransactionHistory.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table_TransactionHistory);
+        if (table_TransactionHistory.getColumnModel().getColumnCount() > 0) {
+            table_TransactionHistory.getColumnModel().getColumn(0).setResizable(false);
+            table_TransactionHistory.getColumnModel().getColumn(1).setResizable(false);
+            table_TransactionHistory.getColumnModel().getColumn(2).setResizable(false);
+            table_TransactionHistory.getColumnModel().getColumn(3).setResizable(false);
+            table_TransactionHistory.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_TransactionHistory)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lbl_TransactionHistory)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void displayTransactionHistory(List<List<String>> transactionHistoryData){
+        DefaultTableModel transactionHistoryModel = (DefaultTableModel) table_TransactionHistory.getModel();
+        transactionHistoryModel.setRowCount(0); 
+        for (List<String> transactionHistory : transactionHistoryData) {
+            transactionHistoryModel.addRow(transactionHistory.toArray());
+        }
+    }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         customerDashboard = new CustomerDashboard(username);
         customerDashboard.setLocationRelativeTo(null);
@@ -50,8 +128,6 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
-              
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -85,5 +161,9 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_TransactionHistory;
+    private javax.swing.JPanel panel;
+    private javax.swing.JTable table_TransactionHistory;
     // End of variables declaration//GEN-END:variables
 }

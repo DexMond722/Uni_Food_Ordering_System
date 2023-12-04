@@ -42,6 +42,9 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             public void tableChanged(TableModelEvent e) {
                 // Update and display the total when the table is changed
                 totalAmount = calculateTotal(tableCartModel);
+                if(radioBtn_Delivery.isSelected()){
+                    totalAmount += 4.00;
+                }
                 updateAndDisplayTotal(totalAmount);
             }
         });
