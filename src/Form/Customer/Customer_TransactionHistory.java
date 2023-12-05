@@ -9,19 +9,20 @@ import javax.swing.table.DefaultTableModel;
 public class Customer_TransactionHistory extends javax.swing.JFrame {
 
     private CustomerDashboard customerDashboard;
-    private UserCustomer usercustomer; 
+    private UserCustomer usercustomer;
     private CustomerCredit customerCredit;
     private String username;
     private int userID;
-    
-    public Customer_TransactionHistory(String username,int userID) {
+    private String customerID;
+
+    public Customer_TransactionHistory(String username, int userID) {
         usercustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
         initComponents();
         this.username = username;
         this.userID = userID;
-        String customerID = String.valueOf(usercustomer.getCustomerUserID(username));
-        displayTransactionHistory(customerCredit.getTransactionHistoryData(customerID));
+        customerID = String.valueOf(userID);
+        displayTransactionHistory(customerCredit.getTransactionHistoryData(customerID, "All", "All"));
     }
 
     /**
@@ -37,6 +38,10 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
         lbl_TransactionHistory = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_TransactionHistory = new javax.swing.JTable();
+        lbl_TransactionType = new javax.swing.JLabel();
+        cmbBox_TransactionType = new javax.swing.JComboBox<>();
+        lbl_TransactionDateTime = new javax.swing.JLabel();
+        cmbBox_TransactionDateTime = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1100, 675));
@@ -80,25 +85,64 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
             table_TransactionHistory.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        lbl_TransactionType.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        lbl_TransactionType.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_TransactionType.setText("Transaction Type: ");
+
+        cmbBox_TransactionType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Transaction Type", "Debit", "Credit" }));
+        cmbBox_TransactionType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBox_TransactionTypeItemStateChanged(evt);
+            }
+        });
+
+        lbl_TransactionDateTime.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        lbl_TransactionDateTime.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_TransactionDateTime.setText("Transaction Date Time:");
+
+        cmbBox_TransactionDateTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Daily", "Monthly", "Yearly" }));
+        cmbBox_TransactionDateTime.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBox_TransactionDateTimeItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(33, 33, 33)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_TransactionHistory)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(panelLayout.createSequentialGroup()
+                            .addComponent(lbl_TransactionDateTime)
+                            .addGap(18, 18, 18)
+                            .addComponent(cmbBox_TransactionDateTime, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
+                            .addComponent(lbl_TransactionType)
+                            .addGap(51, 51, 51)
+                            .addComponent(cmbBox_TransactionType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(lbl_TransactionHistory)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbBox_TransactionType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_TransactionType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_TransactionDateTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbBox_TransactionDateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(39, 39, 39))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,20 +159,42 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void displayTransactionHistory(List<List<String>> transactionHistoryData){
+    private void displayTransactionHistory(List<List<String>> transactionHistoryData) {
         DefaultTableModel transactionHistoryModel = (DefaultTableModel) table_TransactionHistory.getModel();
-        transactionHistoryModel.setRowCount(0); 
+        transactionHistoryModel.setRowCount(0);
         for (List<String> transactionHistory : transactionHistoryData) {
             transactionHistoryModel.addRow(transactionHistory.toArray());
         }
     }
-    
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        customerDashboard = new CustomerDashboard(username,userID);
+        customerDashboard = new CustomerDashboard(username, userID);
         customerDashboard.setLocationRelativeTo(null);
-        customerDashboard.setVisible(true); 
+        customerDashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_formWindowClosing
+
+    private void cmbBox_TransactionTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBox_TransactionTypeItemStateChanged
+        if (evt.getStateChange() == evt.SELECTED) {
+            String transactionType = (String) cmbBox_TransactionType.getSelectedItem();
+            String transactionDateTime = (String) cmbBox_TransactionDateTime.getSelectedItem();
+            if (transactionType.equals("All Transaction Type")) {
+                transactionType = "All";
+            }
+            displayTransactionHistory(customerCredit.getTransactionHistoryData(customerID, transactionType, transactionDateTime));
+        }
+    }//GEN-LAST:event_cmbBox_TransactionTypeItemStateChanged
+
+    private void cmbBox_TransactionDateTimeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBox_TransactionDateTimeItemStateChanged
+        if (evt.getStateChange() == evt.SELECTED) {
+            String transactionType = (String) cmbBox_TransactionType.getSelectedItem();
+            String transactionDateTime = (String) cmbBox_TransactionDateTime.getSelectedItem();
+            if (transactionType.equals("All Transaction Type")) {
+                transactionType = "All";
+            }
+            displayTransactionHistory(customerCredit.getTransactionHistoryData(customerID, transactionType, transactionDateTime));
+        }
+    }//GEN-LAST:event_cmbBox_TransactionDateTimeItemStateChanged
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -157,14 +223,18 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Customer_TransactionHistory("",-1).setVisible(true);
+                new Customer_TransactionHistory("", -1).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbBox_TransactionDateTime;
+    private javax.swing.JComboBox<String> cmbBox_TransactionType;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_TransactionDateTime;
     private javax.swing.JLabel lbl_TransactionHistory;
+    private javax.swing.JLabel lbl_TransactionType;
     private javax.swing.JPanel panel;
     private javax.swing.JTable table_TransactionHistory;
     // End of variables declaration//GEN-END:variables

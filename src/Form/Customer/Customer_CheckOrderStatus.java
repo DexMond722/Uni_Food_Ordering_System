@@ -20,7 +20,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
 
-
 public class Customer_CheckOrderStatus extends javax.swing.JFrame {
 
     private CustomerDashboard customerDashboard;
@@ -30,7 +29,8 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
     private String username;
     private String orderID;
     private int userID;
-    public Customer_CheckOrderStatus(String username,int userID) {
+
+    public Customer_CheckOrderStatus(String username, int userID) {
         customerCredit = new CustomerCredit();
         customerOrder = new CustomerOrder(customerCredit);
         review = new Review();
@@ -40,28 +40,28 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         DefaultTableModel tableOrderHistoryModel = (DefaultTableModel) table_OrderHistory.getModel();
         clearTable();
         displayOrderHistory(username);
-        
+
         table_OrderHistory.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting() && table_OrderHistory.getSelectedRow() != -1) {
                     int selectedRowIndex = table_OrderHistory.getSelectedRow();
-                    String selectedOrderID = String.valueOf(table_OrderHistory.getValueAt(selectedRowIndex, 0));                    
+                    String selectedOrderID = String.valueOf(table_OrderHistory.getValueAt(selectedRowIndex, 0));
                     orderID = selectedOrderID;
                     // if existingReview == true display rating and feedback if not do nothing
                     List<List<String>> orderItemsData = customerOrder.getOrderItemsData(orderID);
                     displayOrderItems(orderItemsData);
-                    if (review.existingReview(orderID)){
+                    if (review.existingReview(orderID)) {
                         String rating = review.getRatingData(orderID);
                         String feedback = review.getFeedbackData(orderID);
                         spinner_OrderRating.setValue(Integer.parseInt(rating));
                         txtArea_OrderFeedback.setText(feedback);
-                    } else{
+                    } else {
                         spinner_OrderRating.setValue(0);
                         txtArea_OrderFeedback.setText("");
                     }
                     String orderStatus = (String) table_OrderHistory.getValueAt(selectedRowIndex, 3);
-                    if (orderStatus.equals("Refunded")){
+                    if (orderStatus.equals("Refunded")) {
                         btn_ChangingOrderStatus.setEnabled(true);
                     } else {
                         btn_ChangingOrderStatus.setEnabled(false);
@@ -70,7 +70,6 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
             }
         });
         table_OrderHistory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -242,26 +241,28 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(lbl_OrderHistory)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(panelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lbl_OrderAgain)
-                        .addGroup(panelLayout.createSequentialGroup()
-                            .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btn_Reorder, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btn_Review, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(btn_ChangingOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(421, 421, 421)
+                        .addComponent(btn_Review, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_ModifyReview, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_OrderHistory)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_OrderAgain)
+                                    .addGroup(panelLayout.createSequentialGroup()
+                                        .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btn_Reorder, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btn_ChangingOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbl_OrderItemsDetails)
@@ -269,46 +270,41 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addComponent(lbl_OrderRating)
                                 .addGap(18, 18, 18)
-                                .addComponent(spinner_OrderRating, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(50, 50, 50))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btn_ModifyReview, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(60, Short.MAX_VALUE))))
+                                .addComponent(spinner_OrderRating, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(50, 50, 50))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(lbl_OrderHistory)
-                .addGap(19, 19, 19)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(35, 35, 35)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_OrderHistory)
+                    .addComponent(lbl_OrderItemsDetails))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(lbl_OrderItemsDetails)
-                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbl_OrderRating)
                             .addComponent(spinner_OrderRating, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(lbl_OrdeFeedback)
-                        .addGap(21, 21, 21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(33, 33, 33)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_ModifyReview, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Review, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Reorder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_ModifyReview, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_CancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lbl_OrderAgain)
-                .addGap(12, 12, 12)
+                .addGap(18, 18, 18)
                 .addComponent(btn_ChangingOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -325,34 +321,34 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void displayOrderHistory(String username){
+    private void displayOrderHistory(String username) {
         DefaultTableModel model = (DefaultTableModel) table_OrderHistory.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0);
         List<List<String>> orderHistoryData = new ArrayList<>();
         orderHistoryData = customerOrder.getOrderHistoryData(username);
         for (List<String> orderInfo : orderHistoryData) {
             model.addRow(orderInfo.toArray());
         }
     }
-    
-    private void displayOrderItems(List<List<String>> orderItemsData){
+
+    private void displayOrderItems(List<List<String>> orderItemsData) {
         DefaultTableModel model = (DefaultTableModel) table_OrderItems.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0);
         for (List<String> orderItems : orderItemsData) {
             model.addRow(orderItems.toArray());
         }
-        
+
     }
-    
-    private void clearTable(){
+
+    private void clearTable() {
         DefaultTableModel tableOrderItemsModel = (DefaultTableModel) table_OrderItems.getModel();
         tableOrderItemsModel.setRowCount(0);
     }
-    
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        customerDashboard = new CustomerDashboard(username,userID);
+        customerDashboard = new CustomerDashboard(username, userID);
         customerDashboard.setLocationRelativeTo(null);
-        customerDashboard.setVisible(true); 
+        customerDashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
@@ -367,13 +363,13 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Order has been cancelled.", "Order Cancelled", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Cancelled":
-                    JOptionPane.showMessageDialog(this,"Order is already cancelled.","Order Cancelled",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Order is already cancelled.", "Order Cancelled", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Pick-Up":
-                    JOptionPane.showMessageDialog(this,"Order is delivering.","Order Delivered",JOptionPane.INFORMATION_MESSAGE);    
+                    JOptionPane.showMessageDialog(this, "Order is delivering.", "Order Delivered", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "No_Runner":
-                    JOptionPane.showMessageDialog(this,"No Runner Delivers This Order.","No Runner",JOptionPane.INFORMATION_MESSAGE);    
+                    JOptionPane.showMessageDialog(this, "No Runner Delivers This Order.", "No Runner", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Refunded":
                     JOptionPane.showMessageDialog(this, "No Runner Delivers This Order.", "No Runner", JOptionPane.INFORMATION_MESSAGE);
@@ -383,7 +379,7 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                     break;
             }
         } else {
-             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
         displayOrderHistory(username);
         clearTable();
@@ -391,18 +387,17 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
 
     private void btn_ReorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReorderActionPerformed
         int selectedRowIndex = table_OrderHistory.getSelectedRow();
-        if (selectedRowIndex != -1){
+        if (selectedRowIndex != -1) {
             String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
             int customerID = Integer.parseInt(customerOrder.getCustomerID(orderID));
             int vendorID = Integer.parseInt(customerOrder.getVendorID(orderID));
             double orderAmount = Double.parseDouble(table_OrderHistory.getValueAt(selectedRowIndex, 2).toString());
             String serviceType = table_OrderHistory.getValueAt(selectedRowIndex, 4).toString();
-            if (serviceType.equals("Delivery")){
+            if (serviceType.equals("Delivery")) {
                 orderAmount -= 4.00;
             }
             List<List<String>> orderItemsData = customerOrder.getOrderItemsDataForReorder(orderID);
             customerOrder.placeOrder(orderAmount, customerID, vendorID, serviceType, orderItemsData);
-            
 
         } else {
             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
@@ -412,37 +407,36 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
 
     private void btn_ReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReviewActionPerformed
         int selectedRowIndex = table_OrderHistory.getSelectedRow();
-        if (selectedRowIndex != -1){
+        if (selectedRowIndex != -1) {
             String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
             String orderStatus = table_OrderHistory.getValueAt(selectedRowIndex, 3).toString();
-            if (orderStatus.equals("Completed")){
-                provideReview(orderID);     
+            if (orderStatus.equals("Completed")) {
+                provideReview(orderID);
             } else if (orderStatus.equals("Delivered")) {
                 JOptionPane.showMessageDialog(this, "The Order is Delivered", "Order Delivered", JOptionPane.INFORMATION_MESSAGE);
-            } else if (orderStatus.equals("Cancelled") || orderStatus.equals("Declined")){
+            } else if (orderStatus.equals("Cancelled") || orderStatus.equals("Declined")) {
                 JOptionPane.showMessageDialog(this, "The Order is Cancelled", "Order Cancelled", JOptionPane.INFORMATION_MESSAGE);
-            } else if (orderStatus.equals("No_Runner")){
+            } else if (orderStatus.equals("No_Runner")) {
                 JOptionPane.showMessageDialog(this, "No Runner Accept the Task", "No Runner", JOptionPane.INFORMATION_MESSAGE);
             } else if (orderStatus.equals("Refunded")) {
                 JOptionPane.showMessageDialog(this, "The Order Payment is Refunded", "Payment Refunded", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(this, "The Order Doesn't Completed", "Order No Completed", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
         clearTable();
     }//GEN-LAST:event_btn_ReviewActionPerformed
 
     private void btn_ModifyReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModifyReviewActionPerformed
         int selectedRowIndex = table_OrderHistory.getSelectedRow();
-        if (selectedRowIndex != -1){
+        if (selectedRowIndex != -1) {
             String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
             int rating = (Integer) spinner_OrderRating.getValue();
             String feedback = (String) txtArea_OrderFeedback.getText();
-            if (rating != 0 && feedback != null){
+            if (rating != 0 && feedback != null) {
                 review.updateReviewData(orderID, rating, feedback);
                 JOptionPane.showMessageDialog(this, "Successfully Review Modification", "Successfully Review Modification", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -451,43 +445,43 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        
+
+
     }//GEN-LAST:event_btn_ModifyReviewActionPerformed
 
     private void btn_ChangingOrderStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ChangingOrderStatusActionPerformed
         int selectedRowIndex = table_OrderHistory.getSelectedRow();
-        if (selectedRowIndex != -1){
+        if (selectedRowIndex != -1) {
             String orderID = table_OrderHistory.getValueAt(selectedRowIndex, 0).toString();
             Object[] options = {"Dine In", "Take Away", "No"};
             int result = JOptionPane.showOptionDialog(
-                        this,
-                        "Do you want to change service type of this order or dont want this order",
-                        "Options",
-                        JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        null,
-                        options,
-                        options[2]); 
+                    this,
+                    "Do you want to change service type of this order or dont want this order",
+                    "Options",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
             String serviceType = null;
-            if (result == 0){
+            if (result == 0) {
                 serviceType = "Dine In";
-                replaceRefundedOrder(selectedRowIndex,serviceType);
-            } else if (result == 1){
+                replaceRefundedOrder(selectedRowIndex, serviceType);
+            } else if (result == 1) {
                 serviceType = "Take Away";
-                replaceRefundedOrder(selectedRowIndex,serviceType);
-            } else if (result == 2){
+                replaceRefundedOrder(selectedRowIndex, serviceType);
+            } else if (result == 2) {
                 customerOrder.updateOrderDataToSettled(orderID);
             } else {
                 return;
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
         displayOrderHistory(username);
     }//GEN-LAST:event_btn_ChangingOrderStatusActionPerformed
-    
+
     private void replaceRefundedOrder(int selectedRowIndex, String serviceType) {
         int customerID = Integer.parseInt(customerOrder.getCustomerID(orderID));
         int vendorID = Integer.parseInt(customerOrder.getVendorID(orderID));
@@ -497,12 +491,12 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         customerOrder.placeOrder(orderAmount, customerID, vendorID, serviceType, orderItemsData);
     }
 
-    private void provideReview(String orderID){
-        if (review.existingReview(orderID)){
-            JOptionPane.showMessageDialog(this,"You Have Provided Review To This Order Already, But You Can Modify Your Review At The Right Side","Review Provided",JOptionPane.INFORMATION_MESSAGE);
+    private void provideReview(String orderID) {
+        if (review.existingReview(orderID)) {
+            JOptionPane.showMessageDialog(this, "You Have Provided Review To This Order Already, But You Can Modify Your Review At The Right Side", "Review Provided", JOptionPane.INFORMATION_MESSAGE);
         } else {
             String ratingString = (String) JOptionPane.showInputDialog(this, "Enter your rating (1-5):");
-            if (ratingString.equals("")){
+            if (ratingString.equals("")) {
                 ratingString = "0";
             }
             String feedback = (String) JOptionPane.showInputDialog(this, "Enter your feedback:");
@@ -511,14 +505,14 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
             txtArea_OrderFeedback.setText(feedback);
         }
     }
- 
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Customer_CheckOrderStatus("",-1).setVisible(true);
+                new Customer_CheckOrderStatus("", -1).setVisible(true);
             }
         });
     }
