@@ -24,9 +24,11 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
     private CustomerCredit customerCredit;
     private double totalAmount;
     private String username;
-    public Customer_ViewMenu(String username) {
+    private int userID;
+    public Customer_ViewMenu(String username, int userID) {
         initComponents();
         this.username = username;
+        this.userID = userID;
         // get table Cart Model
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
         // create Object
@@ -505,7 +507,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_PlaceOrderActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        customerDashboard = new CustomerDashboard(username);
+        customerDashboard = new CustomerDashboard(username,userID);
         customerDashboard.setLocationRelativeTo(null);
         customerDashboard.setVisible(true); 
         dispose();
@@ -570,7 +572,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Customer_ViewMenu("").setVisible(true);
+                new Customer_ViewMenu("",-1).setVisible(true);
             }
         });
     }

@@ -9,6 +9,7 @@ import java.awt.event.*;
 import javax.swing.UIManager;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import Form.Notification.Notifications;
 
 public class CustomerDashboard extends javax.swing.JFrame {
     private UserCustomer userCustomer;
@@ -16,25 +17,27 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private CustomerOrder customerOrder;
     private Review review;
     private String username;
+    private int userID;
     
     public CustomerDashboard(){
         
     }
     
-    public CustomerDashboard(String username) {
+    public CustomerDashboard(String username, int userID) {
         userCustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
         customerOrder = new CustomerOrder();
         review = new Review();
         initComponents();
         this.username = username;
+        this.userID = userID;
         lbl_Welcome.setText("Welcome back, "+username);
         displayCreditAmount(username);
         btn_ViewMenu.setOpaque(true);
         btn_ViewMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Customer_ViewMenu viewMenu = new Customer_ViewMenu(username);
+                Customer_ViewMenu viewMenu = new Customer_ViewMenu(username,userID);
                 viewMenu.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
                 viewMenu.setVisible(true);
                 viewMenu.pack();
@@ -47,7 +50,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_CheckOrderStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Customer_CheckOrderStatus checkOrderStatus = new Customer_CheckOrderStatus(username);
+                Customer_CheckOrderStatus checkOrderStatus = new Customer_CheckOrderStatus(username,userID);
                 checkOrderStatus.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
                 checkOrderStatus.setVisible(true);
                 checkOrderStatus.pack();
@@ -60,7 +63,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btn_CheckTransactionHistory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Customer_TransactionHistory transactionHistory = new Customer_TransactionHistory(username);
+                Customer_TransactionHistory transactionHistory = new Customer_TransactionHistory(username,userID);
                 transactionHistory.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
                 transactionHistory.setVisible(true);
                 transactionHistory.pack();
@@ -79,6 +82,19 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 login.setVisible(true);
                 login.pack();
                 login.setLocationRelativeTo(null);
+
+            }
+        });
+        
+        btn_Notification.setOpaque(true);
+        btn_Notification.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Notifications n = new Notifications(userID);
+                n.setDefaultCloseOperation(CustomerDashboard.DISPOSE_ON_CLOSE);
+                n.setVisible(true);
+                n.pack();
+                n.setLocationRelativeTo(null);
 
             }
         });
@@ -111,6 +127,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lbl_Icon = new javax.swing.JLabel();
         lbl_Welcome = new javax.swing.JLabel();
         lbl_CreditAmount = new javax.swing.JLabel();
+        btn_Notification = new javax.swing.JButton();
         panel_Bottom = new javax.swing.JPanel();
         btn_ViewMenu = new javax.swing.JButton();
         btn_Logout = new javax.swing.JButton();
@@ -139,6 +156,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lbl_CreditAmount.setForeground(new java.awt.Color(255, 255, 255));
         lbl_CreditAmount.setText("jLabel2");
 
+        btn_Notification.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/notification.png"))); // NOI18N
+
         javax.swing.GroupLayout panel_TopLayout = new javax.swing.GroupLayout(panel_Top);
         panel_Top.setLayout(panel_TopLayout);
         panel_TopLayout.setHorizontalGroup(
@@ -150,7 +169,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 .addGroup(panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_Welcome)
                     .addComponent(lbl_CreditAmount))
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
+                .addComponent(btn_Notification, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         panel_TopLayout.setVerticalGroup(
             panel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,7 +184,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(lbl_Welcome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_CreditAmount)))
+                        .addComponent(lbl_CreditAmount))
+                    .addGroup(panel_TopLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(btn_Notification, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -224,23 +248,25 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 .addComponent(btn_CheckOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addComponent(btn_CheckTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(btn_Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         panel.add(panel_Bottom);
-        panel_Bottom.setBounds(0, 100, 500, 600);
+        panel_Bottom.setBounds(0, 100, 500, 450);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 494, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -252,7 +278,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CustomerDashboard("").setVisible(true);
+                new CustomerDashboard("",-1).setVisible(true);
             }
         });
     }
@@ -261,6 +287,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btn_CheckOrderStatus;
     private javax.swing.JButton btn_CheckTransactionHistory;
     private javax.swing.JButton btn_Logout;
+    private javax.swing.JButton btn_Notification;
     private javax.swing.JButton btn_ViewMenu;
     private javax.swing.JLabel lbl_CreditAmount;
     private javax.swing.JLabel lbl_Icon;

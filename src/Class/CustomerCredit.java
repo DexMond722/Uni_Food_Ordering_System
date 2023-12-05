@@ -27,6 +27,11 @@ public class CustomerCredit extends UserCustomer {
     // File Path
     private static final String userFilePath = "src/Database/users.txt";
     private static final String creditTransactionFilePath = "src/Database/credit_transaction.txt";
+
+    public CustomerCredit(int id, String username, String password, String role, double credit) {
+        super(id, username, password, role, credit);
+    }
+    
     
     public CustomerCredit(){
         
@@ -128,7 +133,7 @@ public class CustomerCredit extends UserCustomer {
     }
     
     // update credit information in the user file
-private void updateCreditInFile(int userID, double updatedCredit) {
+    private void updateCreditInFile(int userID, double updatedCredit) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             StringBuilder content = new StringBuilder();

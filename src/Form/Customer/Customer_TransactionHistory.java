@@ -12,12 +12,14 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
     private UserCustomer usercustomer; 
     private CustomerCredit customerCredit;
     private String username;
+    private int userID;
     
-    public Customer_TransactionHistory(String username) {
+    public Customer_TransactionHistory(String username,int userID) {
         usercustomer = new UserCustomer();
         customerCredit = new CustomerCredit();
         initComponents();
         this.username = username;
+        this.userID = userID;
         String customerID = String.valueOf(usercustomer.getCustomerUserID(username));
         displayTransactionHistory(customerCredit.getTransactionHistoryData(customerID));
     }
@@ -122,7 +124,7 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
     }
     
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        customerDashboard = new CustomerDashboard(username);
+        customerDashboard = new CustomerDashboard(username,userID);
         customerDashboard.setLocationRelativeTo(null);
         customerDashboard.setVisible(true); 
         dispose();
@@ -155,7 +157,7 @@ public class Customer_TransactionHistory extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Customer_TransactionHistory("").setVisible(true);
+                new Customer_TransactionHistory("",-1).setVisible(true);
             }
         });
     }

@@ -61,9 +61,11 @@ public class Review {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                String existingOrderID = parts[1];
-                if (existingOrderID.equals(orderID)) {
-                    return true; 
+                if (parts.length >= 4){
+                    String existingOrderID = parts[1];
+                    if (existingOrderID.equals(orderID)) {
+                        return true; 
+                    }
                 }
             }
         } catch (FileNotFoundException ex) { 

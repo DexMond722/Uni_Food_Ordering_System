@@ -15,7 +15,7 @@ public class CustomerOrder extends UserCustomer{
     private static final String menuFolderPath = "src/Database/Menu/";
     
     private CustomerCredit customerCredit;
-    private UserCredit userCredit;
+
     public CustomerOrder(int id, String username, String password, String role, double credit) {
         super(id, username, password, role, credit);
     }
@@ -50,6 +50,38 @@ public class CustomerOrder extends UserCustomer{
         writeOrderItemsData(orderItems,lastOrderItemsID);
         customerCredit.updateCustomerandVendorCredit(customerUserID, vendorUserID, orderAmount,true);
         customerCredit.generateOrderTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType);
+    }
+    
+    // update order status to Settled
+    public void updateOrderDataToSettled(String orderID){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] orderData = line.split(",");
+                if (orderData.length > 0 && orderData[0].equals(orderID)){
+                    // clear the data after reviewDta[3]
+                    if (orderData.length >= 9){
+                        String[] tempOrderwData = new String[9];
+                        System.arraycopy(orderData, 0, tempOrderwData, 0, 9);
+                        orderData = tempOrderwData;
+                    }
+                    orderData[4] = "Settled";
+
+                }
+                String modifiedLine = String.join(",", orderData);
+                content.append(modifiedLine).append("\n");
+            }
+            reader.close();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(orderFilePath));
+            writer.write(content.toString());
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Review.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Review.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 
@@ -102,7 +134,8 @@ public class CustomerOrder extends UserCustomer{
             reader.readLine();
             while((line = reader.readLine())!= null){
                 String[] orderData = line.split(",");
-                if (orderData[5].equals(customerUserID)){
+                if (orderData.length >= 9){
+                    if (orderData[5].equals(customerUserID)){
                     List<String> orderInfo = new ArrayList<>();
                     orderInfo.add(orderData[0]);  // OrderID
                     orderInfo.add(orderData[1]);  // OrderPlacementTime
@@ -110,6 +143,7 @@ public class CustomerOrder extends UserCustomer{
                     orderInfo.add(orderData[4]);  // OrderStatus
                     orderInfo.add(orderData[7]);  // ServiceType
                     orderHistoryData.add(orderInfo);
+                    }
                 }
             }
         } catch (FileNotFoundException ex) {
