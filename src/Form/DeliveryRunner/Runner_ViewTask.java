@@ -26,41 +26,33 @@ public class Runner_ViewTask extends javax.swing.JFrame {
         runnerTask = new RunnerTask();
         int vendorID = runnerTask.getRunnerID(username);
         String ID = String.valueOf(vendorID);
-        displayTask(runnerTask.getRunnerTask(ID));
+        
+        displayTask(runnerTask.getRunnerTask(ID,true));
 
     }
 
     private void displayTask(List<List<String>> taskItems) {
         DefaultTableModel model = (DefaultTableModel) table_task.getModel();
         model.setRowCount(0);
+        RunnerTask runnerTask = new RunnerTask(); // Create an instance of RunnerTask
+
         for (List<String> taskItem : taskItems) {
-            model.addRow(taskItem.toArray());
+            // Assuming taskItem contains TaskID, RunnerID, OrderID, VendorID, TaskStatus
+            String taskID = taskItem.get(0);
+            String runnerID = taskItem.get(1);
+            String orderID = taskItem.get(2);
+            String vendorID = taskItem.get(3);
+            String taskStatus = taskItem.get(4);
+
+            // Fetch usernames based on UserIDs using the instance of RunnerTask
+            String runnerUsername = runnerTask.getUsernameForUserID(runnerID);
+            String vendorUsername = runnerTask.getUsernameForUserID(vendorID);
+
+            // Add a new row with usernames
+            model.addRow(new Object[]{taskID, runnerUsername, orderID, vendorUsername, taskStatus});
         }
     }
 
-    private void assignTaskToAvailableRunner(String taskID) {
-        // Get the list of available runners
-        List<Integer> availableRunners = runnerTask.getAvailableRunners();
-
-        // If there are available runners, randomly select one
-        if (!availableRunners.isEmpty()) {
-            int randomIndex = (int) (Math.random() * availableRunners.size());
-            int newRunnerID = availableRunners.get(randomIndex);
-
-            // Update the task with the new runner ID and status "Pending"
-            RunnerTask runnerTask = new RunnerTask();
-            if (runnerTask.assignTaskToRunner(taskID, newRunnerID)) {
-                // Refresh the table to reflect the changes
-                displayTask(runnerTask.getRunnerTask(String.valueOf(runnerTask.getRunnerID(username))));
-            } else {
-                // Handle error if the task couldn't be assigned to a new runner
-            }
-        } else {
-            // Handle the case where no available runners are found
-            System.out.println("No available runners to assign the task.");
-        }
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,7 +91,7 @@ public class Runner_ViewTask extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "TaskID", "RunnerID", "OrderID", "VendorID", "TaskStatus"
+                "TaskID", "Runner", "OrderID", "Vendor", "TaskStatus"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -164,19 +156,23 @@ public class Runner_ViewTask extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_declineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_declineActionPerformed
-    int selectedRow = table_task.getSelectedRow();
-    if (selectedRow != -1) {
-        String taskID = table_task.getValueAt(selectedRow, 0).toString();
+        int selectedRow = table_task.getSelectedRow();
+        if (selectedRow != -1) {
+            String taskID = table_task.getValueAt(selectedRow, 0).toString();
 
-        // Update the task status to "Declined"
-        RunnerTask runnerTask = new RunnerTask();
-        if (runnerTask.updateTaskStatus(taskID, "Declined")) {
-            // Try to find another available runner and assign the task
-            assignTaskToAvailableRunner(taskID);
-        } else {
-            // Handle error if the task couldn't be updated
+            // Update the task status to "Declined"
+            RunnerTask runnerTask = new RunnerTask();
+            if (runnerTask.updateTaskStatus(taskID, "Declined")) {
+                // Try to find another available runner and assign the task
+                runnerTask.declineTask(taskID);
+
+//            runnerTask.assignTaskToAvailableRunner(taskID);
+                String runnerID = String.valueOf(runnerTask.getRunnerID(username));
+                displayTask(runnerTask.getRunnerTask(runnerID,true));
+            } else {
+                // Handle error if the task couldn't be updated
+            }
         }
-    }
     }//GEN-LAST:event_btn_declineActionPerformed
 
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
@@ -188,14 +184,14 @@ public class Runner_ViewTask extends javax.swing.JFrame {
             RunnerTask runnerTask = new RunnerTask();
             if (runnerTask.updateTaskStatus(taskID, "Accepted")) {
                 // Refresh the table to reflect the changes
-                displayTask(runnerTask.getRunnerTask(String.valueOf(runnerTask.getRunnerID(username))));
+                String runnerID = String.valueOf(runnerTask.getRunnerID(username));
+                displayTask(runnerTask.getRunnerTask(runnerID,true));
             } else {
                 // Handle error if the task couldn't be updated
             }
         }
     }//GEN-LAST:event_btn_acceptActionPerformed
 
-    
     /**
      * @param args the command line arguments
      */
