@@ -94,7 +94,7 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusable(false);
         setMinimumSize(new java.awt.Dimension(1150, 700));
-        setPreferredSize(new java.awt.Dimension(1150, 700));
+        setPreferredSize(new java.awt.Dimension(1150, 730));
         setResizable(false);
         setSize(new java.awt.Dimension(1150, 700));
         addWindowListener(new java.awt.event.WindowAdapter() {

@@ -19,12 +19,12 @@ public class Admin_CreateUser extends javax.swing.JFrame {
 
     private UserManager userManager;
 
-
     public Admin_CreateUser() {
         initComponents();
         btn_Register.setOpaque(true);
         userManager = new UserManager();
 
+        //Register User Button
         btn_Register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
@@ -45,6 +45,7 @@ public class Admin_CreateUser extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Registration successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                     txtbox_Username.setText("");
                     txtbox_Password.setText("");
+                    cbox_Role.setSelectedItem(null);
                 }
             }
         }
