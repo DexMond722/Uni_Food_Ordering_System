@@ -4,6 +4,7 @@
  */
 package Class;
 
+
 /**
  *
  * @author desmondcwf
@@ -66,4 +67,5 @@ public class User {
     public void setCredit(double credit) {
         this.credit = credit;
     }
+
 }

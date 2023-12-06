@@ -76,8 +76,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lbl_Icon" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lbl_Welcome" min="-2" pref="373" max="-2" attributes="0"/>
-                      <EmptySpace pref="23" max="32767" attributes="0"/>
+                      <Component id="lbl_Welcome" min="-2" pref="324" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btn_Notification" min="-2" pref="40" max="-2" attributes="0"/>
+                      <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -85,13 +87,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="lbl_Icon" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="lbl_Welcome" min="-2" pref="45" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btn_Notification" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Component id="lbl_Welcome" min="-2" pref="45" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="lbl_Icon" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="20" max="32767" attributes="0"/>
@@ -114,6 +119,16 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="jLabel1"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_Notification">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Form/notification.png"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_NotificationActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -145,6 +160,9 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btn_OrderStatus" pref="157" max="32767" attributes="0"/>
                           <Component id="btn_LogOut" max="32767" attributes="0"/>
+                          <Component id="btn_UpdateStatus" max="32767" attributes="0"/>
+                          <Component id="btn_OrderHistory" max="32767" attributes="0"/>
+                          <Component id="btn_RevenueDashboard" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="172" max="32767" attributes="0"/>
                   </Group>
@@ -155,11 +173,17 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                       <Component id="btn_EditMenu" min="-2" pref="41" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="btn_OrderStatus" min="-2" pref="41" max="-2" attributes="0"/>
-                      <EmptySpace pref="184" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btn_UpdateStatus" min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btn_OrderHistory" min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btn_RevenueDashboard" min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="btn_LogOut" min="-2" pref="41" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
+                      <EmptySpace pref="82" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -191,6 +215,24 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Log Out"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_UpdateStatus">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Update Order Status"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_OrderHistory">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="View Order History"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_RevenueDashboard">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="View Revenue"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RevenueDashboardActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

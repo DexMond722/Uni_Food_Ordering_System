@@ -1,32 +1,30 @@
 package Form.Customer;
 
-import Class.User;
 import Class.UserCustomer;
 import Class.CustomerOrder;
 import Class.CustomerCredit;
-import Form.Customer.CustomerDashboard;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
 
-
 public class Customer_ViewMenu extends javax.swing.JFrame {
-    
+
     private CustomerDashboard customerDashboard;
     private UserCustomer userCustomer;
     private CustomerOrder customerOrder;
     private CustomerCredit customerCredit;
     private double totalAmount;
     private String username;
-    public Customer_ViewMenu(String username) {
+    private int userID;
+
+    public Customer_ViewMenu(String username, int userID) {
         initComponents();
         this.username = username;
+        this.userID = userID;
         // get table Cart Model
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
         // create Object
@@ -34,6 +32,11 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         customerCredit = new CustomerCredit();
         customerOrder = new CustomerOrder(customerCredit);
         // using method
+        JTableHeader tableHeader1 = table_Menu.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 14);
+        tableHeader1.setFont(headerFont1);
+        JTableHeader tableHeader2 = table_Cart.getTableHeader();
+        tableHeader2.setFont(headerFont1);
         populateVendorComboBox();
         clearTable();
         preventMenuEdited();
@@ -42,33 +45,35 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             public void tableChanged(TableModelEvent e) {
                 // Update and display the total when the table is changed
                 totalAmount = calculateTotal(tableCartModel);
+                if (radioBtn_Delivery.isSelected()) {
+                    totalAmount += 4.00;
+                }
                 updateAndDisplayTotal(totalAmount);
             }
         });
         // set lbl_DeliveryFee's Visibility become False
         lbl_DeliveryFee.setVisible(false);
     }
-    
-    
+
     // populate all vendor in a comboBox
     private void populateVendorComboBox() {
         comboBox_Vendor.removeAllItems();
         List<String> vendorList = userCustomer.getVendorList();
         for (String vendor : vendorList) {
-           comboBox_Vendor.addItem(vendor);
+            comboBox_Vendor.addItem(vendor);
         }
         comboBox_Vendor.setSelectedIndex(-1);
     }
-    
+
     // display Menu in the table_Menu
-    private void displayMenu(List<List<String>> menuItems){
+    private void displayMenu(List<List<String>> menuItems) {
         DefaultTableModel model = (DefaultTableModel) table_Menu.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0);
         for (List<String> menuItem : menuItems) {
             model.addRow(menuItem.toArray());
         }
     }
-    
+
     // clear Item in the table
     private void clearTable() {
         DefaultTableModel tableMenuModel = (DefaultTableModel) table_Menu.getModel();
@@ -76,12 +81,12 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         tableMenuModel.setRowCount(0);
         tableCartModel.setRowCount(0);
     }
-    
+
     // make the text in the table cannot be edited 
-    private void preventMenuEdited(){
-        table_Menu.setDefaultEditor(Object.class,null);
+    private void preventMenuEdited() {
+        table_Menu.setDefaultEditor(Object.class, null);
     }
-    
+
     // calculate the total of table cart
     private double calculateTotal(DefaultTableModel model) {
         double total = 0;
@@ -91,13 +96,12 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         totalAmount = total;
         return total;
     }
-    
-     // get total amount of food in the cart
-    private double getTotalAmountOfFoodOrdered(){
+
+    // get total amount of food in the cart
+    private double getTotalAmountOfFoodOrdered() {
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
         return calculateTotal(tableCartModel);
     }
-    
 
     // update and display the total
     private void updateAndDisplayTotal(double total) {
@@ -106,7 +110,6 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         lbl_DisplayTotal.setText("Total: RM" + decimalFormat.format(total));
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,6 +142,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setFocusable(false);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -149,10 +154,10 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         panel.setMinimumSize(new java.awt.Dimension(1100, 675));
         panel.setPreferredSize(new java.awt.Dimension(1100, 675));
 
-        lbl_SelectVendor.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        lbl_SelectVendor.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         lbl_SelectVendor.setText("Select Vendor:");
 
-        comboBox_Vendor.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        comboBox_Vendor.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         comboBox_Vendor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboBox_Vendor.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -160,7 +165,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
 
-        table_Menu.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        table_Menu.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_Menu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -172,14 +177,17 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                 "FoodID", "FoodName", "Price"
             }
         ));
+        table_Menu.setRowHeight(30);
         table_Menu.setSelectionBackground(new java.awt.Color(222, 222, 222));
         table_Menu.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(table_Menu);
 
-        lbl_Menu.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        lbl_Menu.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         lbl_Menu.setText("Menu:");
 
+        btn_AddtoCart.setBackground(new java.awt.Color(0, 204, 153));
         btn_AddtoCart.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
+        btn_AddtoCart.setForeground(new java.awt.Color(255, 255, 255));
         btn_AddtoCart.setText("Add to Cart");
         btn_AddtoCart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_AddtoCart.addActionListener(new java.awt.event.ActionListener() {
@@ -188,9 +196,10 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
 
-        lbl_Cart.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        lbl_Cart.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         lbl_Cart.setText("Cart:");
 
+        table_Cart.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_Cart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -210,6 +219,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_Cart.setRowHeight(30);
         table_Cart.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table_Cart);
 
@@ -227,6 +237,8 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
 
+        btn_DeleteItem.setBackground(new java.awt.Color(255, 51, 0));
+        btn_DeleteItem.setForeground(new java.awt.Color(255, 255, 255));
         btn_DeleteItem.setText("Delete");
         btn_DeleteItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,22 +246,22 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
 
-        lbl_DisplayTotal.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        lbl_DisplayTotal.setFont(new java.awt.Font("Georgia", 1, 16)); // NOI18N
         lbl_DisplayTotal.setText("Total:");
 
         radioBtn_DineIn.setBackground(new java.awt.Color(255, 255, 255));
         btnGroup_SelectService.add(radioBtn_DineIn);
-        radioBtn_DineIn.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        radioBtn_DineIn.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         radioBtn_DineIn.setText("Dine In");
 
         radioBtn_TakeAway.setBackground(new java.awt.Color(255, 255, 255));
         btnGroup_SelectService.add(radioBtn_TakeAway);
-        radioBtn_TakeAway.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        radioBtn_TakeAway.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         radioBtn_TakeAway.setText("Take Away");
 
         radioBtn_Delivery.setBackground(new java.awt.Color(255, 255, 255));
         btnGroup_SelectService.add(radioBtn_Delivery);
-        radioBtn_Delivery.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        radioBtn_Delivery.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         radioBtn_Delivery.setText("Delivery");
         radioBtn_Delivery.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -257,10 +269,12 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
 
-        lbl_SelectService.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        lbl_SelectService.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         lbl_SelectService.setText("Select Service:");
 
+        btn_PlaceOrder.setBackground(new java.awt.Color(255, 153, 0));
         btn_PlaceOrder.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        btn_PlaceOrder.setForeground(new java.awt.Color(255, 255, 255));
         btn_PlaceOrder.setText("Place Order");
         btn_PlaceOrder.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_PlaceOrder.addActionListener(new java.awt.event.ActionListener() {
@@ -269,7 +283,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             }
         });
 
-        lbl_DeliveryFee.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        lbl_DeliveryFee.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         lbl_DeliveryFee.setText("Delivery Fee: RM 4.00");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
@@ -279,36 +293,10 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             .addGroup(panelLayout.createSequentialGroup()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(lbl_SelectVendor, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
-                        .addComponent(comboBox_Vendor, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(lbl_Menu)
-                        .addGap(439, 439, 439)
-                        .addComponent(lbl_Cart))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLayout.createSequentialGroup()
                         .addGap(271, 271, 271)
                         .addComponent(btn_AddtoCart, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(111, 111, 111)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(btn_AddQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(btn_MinusQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(btn_DeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(160, 160, 160)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_PlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbl_DisplayTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbl_DeliveryFee)))
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addComponent(lbl_SelectService)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -316,20 +304,47 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(radioBtn_TakeAway)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(radioBtn_Delivery)))))
+                                .addComponent(radioBtn_Delivery))
+                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lbl_DeliveryFee)
+                                .addGroup(panelLayout.createSequentialGroup()
+                                    .addComponent(btn_AddQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(20, 20, 20)
+                                    .addComponent(btn_MinusQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(20, 20, 20)
+                                    .addComponent(btn_DeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelLayout.createSequentialGroup()
+                                            .addGap(160, 160, 160)
+                                            .addComponent(btn_PlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(panelLayout.createSequentialGroup()
+                                            .addGap(150, 150, 150)
+                                            .addComponent(lbl_DisplayTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(panelLayout.createSequentialGroup()
+                                    .addComponent(lbl_SelectVendor, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(comboBox_Vendor, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbl_Menu))
+                        .addGap(111, 111, 111)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_Cart)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_SelectVendor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(comboBox_Vendor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(comboBox_Vendor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_Menu)
                     .addComponent(lbl_Cart))
                 .addGap(16, 16, 16)
@@ -349,7 +364,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
                                 .addComponent(btn_DeleteItem, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(15, 15, 15)
                 .addComponent(lbl_DeliveryFee)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioBtn_Delivery)
                     .addComponent(radioBtn_TakeAway)
@@ -376,13 +391,17 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // display the menu when the item state in combobox is change
-    private void comboBox_VendorItemStateChanged(java.awt.event.ItemEvent evt) {                                                 
+
+    private void comboBox_VendorItemStateChanged(java.awt.event.ItemEvent evt) {
         if (evt.getStateChange() == evt.SELECTED) {
             String selectedVendor = (String) comboBox_Vendor.getSelectedItem();
             List<List<String>> menuItems = userCustomer.getMenuOfVendor(selectedVendor);
             displayMenu(menuItems);
         }
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        tableCartModel.setRowCount(0);
     }
+
     // delete the row in table cart
     private void btn_DeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteItemActionPerformed
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
@@ -437,7 +456,6 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_AddQuantityActionPerformed
 
-    
     // add item to the table_Cart from table_Menu
     private void btn_AddtoCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddtoCartActionPerformed
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
@@ -480,23 +498,36 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         double totalAmount = getTotalAmountOfFoodOrdered();
         String selectedVendor = (String) comboBox_Vendor.getSelectedItem();
         // check the service type radio button is selected or not
-        if (serviceType.isEmpty()){
+        if (serviceType.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a service type.", "Service Type not selected", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
-        if (customerCredit.checkCredit(totalAmount,username)){
-            customerOrder.placeOrder(totalAmount,userCustomer.getCustomerUserID(username),userCustomer.getVendorUserID(selectedVendor),serviceType,getTableCartOrderItemsData());
+        if (table_Cart.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Please add food into the cart.", "No Food is Ordered", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (customerCredit.checkCredit(totalAmount, username)) {
+            customerOrder.placeOrder(totalAmount, userCustomer.getCustomerUserID(username), userCustomer.getVendorUserID(selectedVendor), serviceType, getTableCartOrderItemsData());
             JOptionPane.showMessageDialog(this, "Order Successfully", "Order Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);
         }
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
+        tableCartModel.setRowCount(0);
+        unselecteRadioButton();
+
     }//GEN-LAST:event_btn_PlaceOrderActionPerformed
 
+    // make all radio buttion is not selected
+    private void unselecteRadioButton() {
+        btnGroup_SelectService.clearSelection();
+    }
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        customerDashboard = new CustomerDashboard(username);
+        customerDashboard = new CustomerDashboard(username, userID);
         customerDashboard.setLocationRelativeTo(null);
-        customerDashboard.setVisible(true); 
+        customerDashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
@@ -525,7 +556,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
             return "";
         }
     }
-    
+
     // return the row index of table Cart if the food is already inside
     private int findExistingCartItem(String foodID) {
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
@@ -536,15 +567,15 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         }
         return -1; // Return -1 if the item is not found
     }
-    
+
     // get the data in the table_Cart
-    private List<List<String>> getTableCartOrderItemsData(){
+    private List<List<String>> getTableCartOrderItemsData() {
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
         int rowCount = tableCartModel.getRowCount();
         List<List<String>> OrderItemsData = new ArrayList<>();
         for (int i = 0; i < rowCount; i++) {
-            Object foodIDObj = tableCartModel.getValueAt(i, 0); // Assuming FoodID is in the first column
-            Object quantityObj = tableCartModel.getValueAt(i, 3); // Assuming Quantity is in the fourth column
+            Object foodIDObj = tableCartModel.getValueAt(i, 0);
+            Object quantityObj = tableCartModel.getValueAt(i, 3);
             String foodID = String.valueOf(foodIDObj);
             String quantity = String.valueOf(quantityObj);
             List<String> rowList = new ArrayList<>();
@@ -554,12 +585,12 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         }
         return OrderItemsData;
     }
-    
-    public static void main(String args[]) { 
-        
+
+    public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Customer_ViewMenu("").setVisible(true);
+                new Customer_ViewMenu("", -1).setVisible(true);
             }
         });
     }

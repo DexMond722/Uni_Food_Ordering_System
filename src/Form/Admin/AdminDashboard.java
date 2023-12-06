@@ -109,6 +109,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btn_Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
         setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(500, 700));
@@ -143,7 +144,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addGap(135, 135, 135)
                         .addComponent(lbl_LoggedIn))
                     .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(187, 187, 187)
+                        .addGap(176, 176, 176)
                         .addComponent(lbl_Welcome)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

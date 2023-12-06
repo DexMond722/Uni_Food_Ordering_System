@@ -5,6 +5,7 @@
 package Form.Admin;
 
 import Class.User;
+import Class.UserCredit;
 import Class.UserManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_GenerateReceipt extends javax.swing.JFrame {
 
     private UserManager userManager;
+    private UserCredit userCredit;
 
     /**
      * Creates new form Admin_GenerateReceipt
@@ -29,11 +31,12 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
     public Admin_GenerateReceipt() {
         initComponents();
         userManager = new UserManager();
+        userCredit = new UserCredit(userManager);
 
         btn_Generate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                DefaultTableModel model = (DefaultTableModel) table_GenerateReceipt.getModel();
                 model.setRowCount(0);
                 int userId;
                 try {
@@ -46,7 +49,8 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
                 User user = userManager.getUserById(userId);
 
                 if (user != null) {
-                    displayTransactions(userId);
+                    // Call the displayTransactions method on the userCredit instance
+                    userCredit.displayTransactions(userId, model);
                 } else {
                     JOptionPane.showMessageDialog(null, "User ID not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -54,29 +58,6 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         });
     }
 
-    private void displayTransactions(int userId) {
-        String filePath = "src/Database/credit_transaction.txt";
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split(",");
-            if (data.length >= 2 && data[1].trim().equals(String.valueOf(userId))) {
-                // Add the relevant data to the table
-                model.addRow(new Object[]{
-                    data[0], // TransactionID
-                    Double.parseDouble(data[2]), // TransactionAmount
-                    data[3], // DateTime
-                    data[4], // TransactionType
-                    data[5] // Remark
-                });
-            }
-        }
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-        }
-    }
 
     
     
@@ -93,14 +74,13 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_GenerateReceipt = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         txtbox_Userid = new javax.swing.JTextField();
         btn_Generate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusable(false);
-        setPreferredSize(new java.awt.Dimension(850, 600));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -111,8 +91,8 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 204, 204));
         jLabel1.setText("Generate Transaction Receipt");
 
-        jTable1.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_GenerateReceipt.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        table_GenerateReceipt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -131,15 +111,24 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setRowSelectionAllowed(false);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        table_GenerateReceipt.setRowSelectionAllowed(false);
+        table_GenerateReceipt.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table_GenerateReceipt);
+        if (table_GenerateReceipt.getColumnModel().getColumnCount() > 0) {
+            table_GenerateReceipt.getColumnModel().getColumn(0).setMinWidth(100);
+            table_GenerateReceipt.getColumnModel().getColumn(0).setPreferredWidth(100);
+            table_GenerateReceipt.getColumnModel().getColumn(0).setMaxWidth(100);
+            table_GenerateReceipt.getColumnModel().getColumn(1).setMinWidth(150);
+            table_GenerateReceipt.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table_GenerateReceipt.getColumnModel().getColumn(1).setMaxWidth(150);
+            table_GenerateReceipt.getColumnModel().getColumn(2).setMinWidth(200);
+            table_GenerateReceipt.getColumnModel().getColumn(2).setPreferredWidth(200);
+            table_GenerateReceipt.getColumnModel().getColumn(2).setMaxWidth(200);
+            table_GenerateReceipt.getColumnModel().getColumn(3).setMinWidth(150);
+            table_GenerateReceipt.getColumnModel().getColumn(3).setPreferredWidth(150);
+            table_GenerateReceipt.getColumnModel().getColumn(3).setMaxWidth(150);
+            table_GenerateReceipt.getColumnModel().getColumn(4).setMinWidth(200);
+            table_GenerateReceipt.getColumnModel().getColumn(4).setPreferredWidth(200);
         }
 
         jLabel2.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
@@ -252,7 +241,7 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable table_GenerateReceipt;
     private javax.swing.JTextField txtbox_Userid;
     // End of variables declaration//GEN-END:variables
 }
