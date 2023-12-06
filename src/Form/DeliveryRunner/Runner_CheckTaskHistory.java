@@ -4,7 +4,10 @@
  */
 package Form.DeliveryRunner;
 
+import Class.RunnerTask;
+import java.util.List;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,11 +15,41 @@ import javax.swing.UIManager;
  */
 public class Runner_CheckTaskHistory extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Runner_CheckTaskHistory
-     */
-    public Runner_CheckTaskHistory() {
+    private List<RunnerTask> tasks;
+    private String username;
+    private RunnerTask runnerTask;
+    
+    public Runner_CheckTaskHistory(String username) {
         initComponents();
+        this.username = username;
+        DefaultTableModel tableCartModel = (DefaultTableModel) table_taskhistory.getModel();
+        runnerTask = new RunnerTask();
+        int vendorID = runnerTask.getRunnerID(username);
+        String ID = String.valueOf(vendorID);
+        System.out.println(ID);
+        displayTaskHistory(runnerTask.getRunnerTask(ID, false));
+    }
+
+    private void displayTaskHistory(List<List<String>> taskItems) {
+        DefaultTableModel model = (DefaultTableModel) table_taskhistory.getModel();
+        model.setRowCount(0);
+        RunnerTask runnerTask = new RunnerTask(); // Create an instance of RunnerTask
+
+        for (List<String> taskItem : taskItems) {
+            // Assuming taskItem contains TaskID, RunnerID, OrderID, VendorID, TaskStatus
+            String taskID = taskItem.get(0);
+            String runnerID = taskItem.get(1);
+            String orderID = taskItem.get(2);
+            String vendorID = taskItem.get(3);
+            String taskStatus = taskItem.get(4);
+
+            // Fetch usernames based on UserIDs using the instance of RunnerTask
+            String runnerUsername = runnerTask.getUsernameForUserID(runnerID);
+            String vendorUsername = runnerTask.getUsernameForUserID(vendorID);
+
+            // Add a new row with usernames
+            model.addRow(new Object[]{taskID, runnerUsername, orderID, vendorUsername, taskStatus});
+        }
     }
 
     /**
@@ -28,17 +61,66 @@ public class Runner_CheckTaskHistory extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_taskhistory = new javax.swing.JTable();
+        lbl_taskhistory = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        table_taskhistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "TaskID", "Runner", "OrderID", "Vendor", "TaskStatus"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_taskhistory.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table_taskhistory);
+        if (table_taskhistory.getColumnModel().getColumnCount() > 0) {
+            table_taskhistory.getColumnModel().getColumn(0).setResizable(false);
+            table_taskhistory.getColumnModel().getColumn(1).setResizable(false);
+            table_taskhistory.getColumnModel().getColumn(2).setResizable(false);
+            table_taskhistory.getColumnModel().getColumn(3).setResizable(false);
+            table_taskhistory.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        lbl_taskhistory.setFont(new java.awt.Font("Microsoft YaHei", 1, 65)); // NOI18N
+        lbl_taskhistory.setText("Task History");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lbl_taskhistory, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_taskhistory, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -57,11 +139,14 @@ public class Runner_CheckTaskHistory extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Runner_CheckTaskHistory().setVisible(true);
+                new Runner_CheckTaskHistory("").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_taskhistory;
+    private javax.swing.JTable table_taskhistory;
     // End of variables declaration//GEN-END:variables
 }

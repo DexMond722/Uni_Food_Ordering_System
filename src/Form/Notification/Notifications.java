@@ -87,7 +87,9 @@ public class Notifications extends javax.swing.JFrame {
         btn_Reset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
         setPreferredSize(new java.awt.Dimension(800, 750));
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 750));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

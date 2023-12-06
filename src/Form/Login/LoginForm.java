@@ -54,7 +54,7 @@ public class LoginForm extends javax.swing.JFrame {
             admin.setLocationRelativeTo(null);
             this.dispose();
         } else if (role.equals("Vendor")) {
-            VendorDashboard vendor = new VendorDashboard(username);
+            VendorDashboard vendor = new VendorDashboard(username, userID);
             vendor.setVisible(true);
             vendor.pack();
             vendor.setLocationRelativeTo(null);

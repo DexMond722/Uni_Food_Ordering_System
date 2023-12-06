@@ -41,7 +41,7 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         btn_UpdateTaskStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Runner_UpdateTaskStatus updateTaskStatus = new Runner_UpdateTaskStatus();
+                Runner_UpdateTask updateTaskStatus = new Runner_UpdateTask(username);
                 updateTaskStatus.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
                 updateTaskStatus.setVisible(true);
                 updateTaskStatus.pack();
@@ -53,7 +53,7 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         btn_CheckTaskHistory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Runner_CheckTaskHistory checkTaskHistory = new Runner_CheckTaskHistory();
+                Runner_CheckTaskHistory checkTaskHistory = new Runner_CheckTaskHistory(username);
                 checkTaskHistory.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
                 checkTaskHistory.setVisible(true);
                 checkTaskHistory.pack();
@@ -65,7 +65,7 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         btn_ReadCustomerReview.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Runner_ReadCustomerReview readCustomerReview = new Runner_ReadCustomerReview();
+                Runner_ReadCustomerReview readCustomerReview = new Runner_ReadCustomerReview(username);
                 readCustomerReview.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
                 readCustomerReview.setVisible(true);
                 readCustomerReview.pack();
@@ -77,7 +77,7 @@ public class DeliveryDashboard extends javax.swing.JFrame {
         btn_ViewRevenue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Runner_ViewRevenue viewRevenue = new Runner_ViewRevenue();
+                Runner_ViewRevenue viewRevenue = new Runner_ViewRevenue(username);
                 viewRevenue.setDefaultCloseOperation(DeliveryDashboard.DISPOSE_ON_CLOSE);
                 viewRevenue.setVisible(true);
                 viewRevenue.pack();
@@ -143,6 +143,11 @@ public class DeliveryDashboard extends javax.swing.JFrame {
 
         btn_UpdateTaskStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_UpdateTaskStatus.setText("Update Task Status");
+        btn_UpdateTaskStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_UpdateTaskStatusActionPerformed(evt);
+            }
+        });
         panel.add(btn_UpdateTaskStatus);
         btn_UpdateTaskStatus.setBounds(200, 210, 160, 50);
 
@@ -212,6 +217,10 @@ public class DeliveryDashboard extends javax.swing.JFrame {
     private void btn_ViewTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ViewTaskActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_ViewTaskActionPerformed
+
+    private void btn_UpdateTaskStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UpdateTaskStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_UpdateTaskStatusActionPerformed
 
     /**
      * @param args the command line arguments

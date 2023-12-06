@@ -4,7 +4,15 @@
  */
 package Form.DeliveryRunner;
 
+import Class.Review;
+import Class.RunnerReview;
+import Class.RunnerTask;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,8 +23,42 @@ public class Runner_ReadCustomerReview extends javax.swing.JFrame {
     /**
      * Creates new form Runner_ReadCustomerReview
      */
-    public Runner_ReadCustomerReview() {
+    private Review review;
+    private RunnerReview runnerReview;
+    private RunnerTask runnerTask;
+    private String username;
+
+    public Runner_ReadCustomerReview(String username) {
+        this.username = username;
         initComponents();
+        review = new Review();
+        runnerReview = new RunnerReview();
+        runnerTask = new RunnerTask();
+        int runnerID = runnerTask.getRunnerID(username);
+        runnerReview.getOrderIdsByRunnerId(runnerID);
+        displayCustomerReviews(runnerID);
+    }
+
+    private void displayCustomerReviews(int runnerID) {
+        DefaultTableModel model = (DefaultTableModel) table_customerreview.getModel();
+
+        // Clear existing rows from the table
+        model.setRowCount(0);
+
+        // Use the getOrderIdsByRunnerId method to get the list of order IDs
+        List<Integer> orderIds = runnerReview.getOrderIdsByRunnerId(runnerID);
+
+        // Use the getReviewDataByOrderID method to get the review data for the list of order IDs
+        List<String[]> reviewDataList = runnerReview.getReviewDataByOrderID(orderIds);
+
+        // Add the review data to the table
+        for (String[] reviewData : reviewDataList) {
+            model.addRow(new Object[]{
+                reviewData[1], // OrderID
+                reviewData[2], // Rating
+                reviewData[3] // Feedback
+            });
+        }
     }
 
     /**
@@ -28,17 +70,66 @@ public class Runner_ReadCustomerReview extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_customerreview = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        table_customerreview.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "OrderID", "Rating", "Review"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_customerreview.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table_customerreview);
+        if (table_customerreview.getColumnModel().getColumnCount() > 0) {
+            table_customerreview.getColumnModel().getColumn(0).setResizable(false);
+            table_customerreview.getColumnModel().getColumn(0).setPreferredWidth(1);
+            table_customerreview.getColumnModel().getColumn(1).setResizable(false);
+            table_customerreview.getColumnModel().getColumn(1).setPreferredWidth(10);
+            table_customerreview.getColumnModel().getColumn(2).setResizable(false);
+            table_customerreview.getColumnModel().getColumn(2).setPreferredWidth(150);
+        }
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 65)); // NOI18N
+        jLabel1.setText("Customer Review");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -56,11 +147,14 @@ public class Runner_ReadCustomerReview extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Runner_ReadCustomerReview().setVisible(true);
+                new Runner_ReadCustomerReview("").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table_customerreview;
     // End of variables declaration//GEN-END:variables
 }

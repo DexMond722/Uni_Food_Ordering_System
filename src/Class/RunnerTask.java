@@ -26,8 +26,12 @@ public class RunnerTask extends User {
     private static final String userFilePath = "src/Database/users.txt";
     private static final String orderFilePath = "src/Database/order.txt";
 
+    public RunnerTask() {
+
+    }
+
     // Method to load tasks from the file
-    public List<List<String>> getRunnerTask(String runnerID) {
+    public List<List<String>> getRunnerTask(String runnerID, Boolean flag) {
         List<List<String>> taskItems = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath));
@@ -36,7 +40,13 @@ public class RunnerTask extends User {
             while ((line = reader.readLine()) != null) {
                 List<String> taskItem = new ArrayList<>(Arrays.asList(line.split(",")));
                 if (taskItem.size() >= 2 && taskItem.get(1).trim().equals(runnerID)) {
-                    taskItems.add(taskItem);
+                    if (flag) {
+                        if (taskItem.get(4).equals("Pending")) {
+                            taskItems.add(taskItem);
+                        }
+                    } else {
+                        taskItems.add(taskItem);
+                    }
                 }
             }
         } catch (FileNotFoundException ex) {
