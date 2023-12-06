@@ -465,10 +465,10 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
                     options[2]);
             String serviceType = null;
             if (result == 0) {
-                serviceType = "Dine In";
+                serviceType = "DineIn";
                 replaceRefundedOrder(selectedRowIndex, serviceType);
             } else if (result == 1) {
-                serviceType = "Take Away";
+                serviceType = "TakeAway";
                 replaceRefundedOrder(selectedRowIndex, serviceType);
             } else if (result == 2) {
                 customerOrder.updateOrderDataToSettled(orderID);

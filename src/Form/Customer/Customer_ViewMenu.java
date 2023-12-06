@@ -504,8 +504,15 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         }
         DefaultTableModel tableCartModel = (DefaultTableModel) table_Cart.getModel();
         tableCartModel.setRowCount(0);
+        unselecteRadioButton();
+        
     }//GEN-LAST:event_btn_PlaceOrderActionPerformed
 
+    // make all radio buttion is not selected
+    private void unselecteRadioButton(){
+        btnGroup_SelectService.clearSelection();
+    }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         customerDashboard = new CustomerDashboard(username,userID);
         customerDashboard.setLocationRelativeTo(null);
