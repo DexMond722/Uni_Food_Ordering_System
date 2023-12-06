@@ -103,9 +103,9 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="4">
                 <Column editable="false" title="TaskID" type="java.lang.Object"/>
-                <Column editable="false" title="RunnerID" type="java.lang.Object"/>
+                <Column editable="false" title="Runner" type="java.lang.Object"/>
                 <Column editable="false" title="OrderID" type="java.lang.Object"/>
-                <Column editable="false" title="VendorID" type="java.lang.Object"/>
+                <Column editable="false" title="Vendor" type="java.lang.Object"/>
                 <Column editable="false" title="TaskStatus" type="java.lang.Object"/>
               </Table>
             </Property>
