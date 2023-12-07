@@ -9,10 +9,8 @@ import Class.UserCredit;
 import Class.UserManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,13 +20,11 @@ public class Admin_TopUp extends javax.swing.JFrame {
 
     private UserManager userManager;
 
-    /**
-     * Creates new form Admin_TopUp
-     */
     public Admin_TopUp() {
         initComponents();
         userManager = new UserManager();
-
+        
+        //Search User Button
         btn_Search.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,6 +47,7 @@ public class Admin_TopUp extends javax.swing.JFrame {
                 }
             }
         });
+        //Topup Credit Button
         btn_Topup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

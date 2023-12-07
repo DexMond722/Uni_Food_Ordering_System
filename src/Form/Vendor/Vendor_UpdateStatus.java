@@ -10,9 +10,9 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -30,9 +30,11 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         vendorOrder = new VendorOrder(username);
         vendorUpdStatus = new VendorUpdStatus();
         displayOrder(vendorOrder.getVendorOrder(username));
+        JTableHeader tableHeader1 = table_OrderStatus.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 12);
+        tableHeader1.setFont(headerFont1);
         preventMenuEdited();
 
-        
     }
 
     private void displayOrder(List<List<String>> orderItems) {
@@ -40,16 +42,15 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         model.setRowCount(0);
         table_OrderStatus.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
-
         for (List<String> orderItem : orderItems) {
             String orderStatus = orderItem.get(4); // Assuming OrderStatus is at index 4
             String serviceType = orderItem.get(7);
 
             if (("Accepted".equals(orderStatus) || "Food_Preparing".equals(orderStatus))
-                && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))
-                || (("No_runner".equals(orderStatus) || "Delivered".equals(orderStatus))
-                && "Delivery".equals(serviceType))) {
-                
+                    && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))
+                    || (("No_runner".equals(orderStatus) || "Delivered".equals(orderStatus))
+                    && "Delivery".equals(serviceType))) {
+
                 List<String> displayData = new ArrayList<>();
                 displayData.add(orderItem.get(0));  // OrderID
                 displayData.add(orderItem.get(1));  // OrderPlacementTime
@@ -95,6 +96,7 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
 
                 vendorUpdStatus.updateOrderFile(orderID, "Refunded");
                 JOptionPane.showMessageDialog(this, "Order Refunded");
+                
             }
 
         } else {
@@ -130,6 +132,7 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(700, 500));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(700, 500));
         jPanel1.setMinimumSize(new java.awt.Dimension(700, 500));
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 500));
@@ -154,27 +157,31 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_OrderStatus.setRowHeight(30);
         table_OrderStatus.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_OrderStatus);
         if (table_OrderStatus.getColumnModel().getColumnCount() > 0) {
             table_OrderStatus.getColumnModel().getColumn(0).setResizable(false);
             table_OrderStatus.getColumnModel().getColumn(0).setPreferredWidth(40);
             table_OrderStatus.getColumnModel().getColumn(1).setResizable(false);
-            table_OrderStatus.getColumnModel().getColumn(1).setPreferredWidth(110);
+            table_OrderStatus.getColumnModel().getColumn(1).setPreferredWidth(120);
             table_OrderStatus.getColumnModel().getColumn(2).setResizable(false);
-            table_OrderStatus.getColumnModel().getColumn(2).setPreferredWidth(40);
+            table_OrderStatus.getColumnModel().getColumn(2).setPreferredWidth(60);
             table_OrderStatus.getColumnModel().getColumn(3).setResizable(false);
             table_OrderStatus.getColumnModel().getColumn(3).setPreferredWidth(30);
             table_OrderStatus.getColumnModel().getColumn(4).setResizable(false);
             table_OrderStatus.getColumnModel().getColumn(5).setResizable(false);
+            table_OrderStatus.getColumnModel().getColumn(5).setPreferredWidth(55);
             table_OrderStatus.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 60, 660, 300);
+        jScrollPane1.setBounds(20, 60, 660, 330);
 
-        btn_UpdateStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btn_UpdateStatus.setBackground(new java.awt.Color(255, 153, 51));
+        btn_UpdateStatus.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         btn_UpdateStatus.setText("Update Status");
+        btn_UpdateStatus.setBorder(new javax.swing.border.MatteBorder(null));
         btn_UpdateStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_UpdateStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,14 +189,14 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_UpdateStatus);
-        btn_UpdateStatus.setBounds(190, 400, 300, 50);
+        btn_UpdateStatus.setBounds(200, 410, 300, 50);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 153, 255));
         jLabel1.setText("Update Order Status");
         jLabel1.setToolTipText("");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(270, 20, 180, 30);
+        jLabel1.setBounds(160, 10, 400, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -212,13 +219,13 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
             if (orderStatus.equals("No_runner")) {
                 String orderID = (String) table_OrderStatus.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
                 String customerID = (String) table_OrderStatus.getValueAt(selectedRow, 5);
-                int vendorID = Integer.parseInt(vendorUpdStatus.getVendorID(orderID));
+                int vendorID = Integer.parseInt(vendorOrder.getVendorID(orderID));
                 String orderAmount = vendorOrder.getOrderAmount(orderID);
                 Double doubleAmount = Double.valueOf(vendorOrder.getOrderAmount(orderID));
 
                 updateOrderStatus();
-                vendorUpdStatus.createCreditTransaction(orderID, orderAmount);
-                vendorUpdStatus.updateCustomerandVendorCredit(customerID, vendorID, doubleAmount, true);
+                vendorOrder.createCreditTransaction(orderID, orderAmount);
+                vendorOrder.updateCustomerandVendorCredit(customerID, vendorID, doubleAmount, true);
             } else if (orderStatus.equals("Accepted") || orderStatus.equals("Food_Preparing") || orderStatus.equals("Delivered")) {
                 updateOrderStatus();
             }
@@ -232,8 +239,12 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */

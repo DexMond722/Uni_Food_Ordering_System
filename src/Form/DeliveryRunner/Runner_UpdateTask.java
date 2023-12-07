@@ -8,7 +8,10 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import Class.RunnerUptStatus;
+import Class.VendorOrder;
+import java.awt.Font;
 import java.util.ArrayList;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -19,6 +22,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
     private RunnerUptStatus runnerUptStatus;
     private String username;
     private String runnerID;
+    VendorOrder vo = new VendorOrder();
 
     /**
      * Creates new form Runner_UpdateTask
@@ -28,6 +32,9 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
         runnerUptStatus = new RunnerUptStatus();
         runnerID = (runnerUptStatus.getRunnerUserIdByUsername(username));
         displayTaskStatus(runnerUptStatus.getRunnerUserIdByUsername(username));
+        JTableHeader tableHeader1 = table_taskstatus.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 14);
+        tableHeader1.setFont(headerFont1);
     }
 
     private void displayTaskStatus(String runnerID) {
@@ -88,13 +95,22 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_taskstatus = new javax.swing.JTable();
         btn_pickup = new javax.swing.JButton();
         btn_delivered = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
+        setPreferredSize(new java.awt.Dimension(940, 780));
+        setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(950, 700));
+
+        table_taskstatus.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_taskstatus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -114,18 +130,28 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_taskstatus.setRowHeight(30);
         table_taskstatus.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_taskstatus);
         if (table_taskstatus.getColumnModel().getColumnCount() > 0) {
             table_taskstatus.getColumnModel().getColumn(0).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(0).setPreferredWidth(10);
             table_taskstatus.getColumnModel().getColumn(1).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(1).setPreferredWidth(95);
             table_taskstatus.getColumnModel().getColumn(2).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(2).setPreferredWidth(40);
             table_taskstatus.getColumnModel().getColumn(3).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(3).setPreferredWidth(40);
             table_taskstatus.getColumnModel().getColumn(4).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(4).setPreferredWidth(40);
             table_taskstatus.getColumnModel().getColumn(5).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(5).setPreferredWidth(45);
             table_taskstatus.getColumnModel().getColumn(6).setResizable(false);
+            table_taskstatus.getColumnModel().getColumn(6).setPreferredWidth(45);
         }
 
+        btn_pickup.setBackground(new java.awt.Color(255, 204, 102));
+        btn_pickup.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_pickup.setText("PickUp");
         btn_pickup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +159,8 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
             }
         });
 
+        btn_delivered.setBackground(new java.awt.Color(0, 204, 153));
+        btn_delivered.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_delivered.setText("Delivered");
         btn_delivered.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,32 +168,57 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 0, 204));
+        jLabel1.setText("Update Task Status");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(287, 287, 287))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_delivered, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_pickup, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(258, 258, 258))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_pickup, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(btn_delivered, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_pickup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_delivered, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
-                        .addGap(135, 135, 135))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 940, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btn_pickup)
-                .addGap(18, 18, 18)
-                .addComponent(btn_delivered)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 70, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,9 +229,13 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String orderStatus = (String) table_taskstatus.getValueAt(selectedRow, 4);
             if (orderStatus.equals("Accepted")) {
-                String orderID = (String) table_taskstatus.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
+                String orderID = (String) table_taskstatus.getValueAt(selectedRow, 0);
+                int vendorID = Integer.parseInt(runnerUptStatus.getVendorID(orderID));// Assuming OrderID is in the first column
+                int customerID= Integer.parseInt(vo.getCustomerUserID(orderID));
 
                 runnerUptStatus.updateOrderFile(orderID, "Pick-Up");
+                runnerUptStatus.generatePickUpNotification(vendorID, orderID);
+                runnerUptStatus.generatePickUpNotification(customerID, orderID);
             }
 
         }
@@ -192,12 +249,18 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
             if (orderStatus.equals("Pick-Up")) {
                 String orderID = (String) table_taskstatus.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
                 int vendorID = Integer.parseInt(runnerUptStatus.getVendorID(orderID));
+                int customerID= Integer.parseInt(vo.getCustomerUserID(orderID));
 
-                runnerUptStatus.updateOrderFile(orderID, "Delivered ");
-                
+                runnerUptStatus.updateOrderFile(orderID, "Delivered");
+
                 runnerUptStatus.createCreditTransaction(runnerID, orderID);
-                
+
                 runnerUptStatus.updateRunnerandVendorCredit(Integer.parseInt(runnerID), vendorID, true);
+                
+                runnerUptStatus.generateDeliveredNotification(vendorID, orderID);
+                runnerUptStatus.generateDeliveredNotification(customerID, orderID);
+                
+                runnerUptStatus.generateDebitFeeNotification(Integer.parseInt(runnerID), orderID);
             }
 
         }
@@ -208,7 +271,11 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -250,6 +317,8 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_delivered;
     private javax.swing.JButton btn_pickup;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table_taskstatus;
     // End of variables declaration//GEN-END:variables

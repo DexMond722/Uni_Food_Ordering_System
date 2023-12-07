@@ -106,7 +106,6 @@ public class VendorRevenue {
                 String transactionType = transactionDetails[4]; // Assuming TransactionType is at index 4
                 String transactionUserID = transactionDetails[1]; // Assuming UserID is at index 1
                 String transactionAmountS = transactionDetails[2]; // Assuming TransactionAmount is at index 2
-                System.out.println(transactionAmountS);
                 if (transactionType.equals("Debit") && transactionUserID.equals(String.valueOf(getVendorUserIdByUsername(vendorName)))) {
                     double transactionAmount = Double.parseDouble(transactionAmountS); // Parse transaction amount to int
                     debitAmount += transactionAmount; // Accumulate transaction amount for the user
@@ -131,7 +130,6 @@ public class VendorRevenue {
                 String transactionType = transactionDetails[4]; // Assuming TransactionType is at index 4
                 String transactionUserID = transactionDetails[1]; // Assuming UserID is at index 1
                 String transactionAmountS = transactionDetails[2]; // Assuming TransactionAmount is at index 2
-                System.out.println(transactionAmountS);
                 if (transactionType.equals("Credit") && transactionUserID.equals(String.valueOf(getVendorUserIdByUsername(vendorName)))) {
                     double transactionAmount = Double.parseDouble(transactionAmountS); // Parse transaction amount to int
                     creditAmount += transactionAmount; // Accumulate transaction amount for the user

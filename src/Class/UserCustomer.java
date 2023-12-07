@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 
 public class UserCustomer extends User {
     
@@ -64,8 +62,8 @@ public class UserCustomer extends User {
         return menuItems;
     }
     
-    // get customer user id by username
-    public int getCustomerUserID(String username){
+    // get vendor user id by vendorname
+    public int getUserID(String username){
         int userID = 0;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
@@ -84,28 +82,6 @@ public class UserCustomer extends User {
             Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return userID;
-    }
-    
-    // get vendor user id by vendorname
-    public int getVendorUserID(String vendorname){
-        int vendorID = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
-            String line;
-            while ((line = reader.readLine()) != null){
-                String[] userData = line.split(",");
-                String userName = userData[1].trim();
-                if(userName.equalsIgnoreCase(vendorname)){
-                    vendorID = Integer.parseInt(userData[0].trim());
-                    break;
-                }                
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UserCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return vendorID;
     }
     
     public String getVendorUserName(String vendorID){

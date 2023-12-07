@@ -6,6 +6,7 @@ package Form.Admin;
 
 import Class.User;
 import Class.UserManager;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -23,23 +25,24 @@ public class Admin_ManageUser extends javax.swing.JFrame {
 
     private UserManager userManager;
     private DefaultTableModel tableModel;
-
-    /**
-     * Creates new form Admin_ManageUser
-     */
+    
     public Admin_ManageUser() {
         initComponents();
         userManager = new UserManager();
         String[] columnNames = {"Username", "Password", "Role"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        jTable1.setModel(tableModel);
+        table_ManageUser.setModel(tableModel);
+        //Change header font for table
+        JTableHeader tableHeader1 = table_ManageUser.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 14);
+        tableHeader1.setFont(headerFont1);
         loadUsersIntoTable();
 
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        table_ManageUser.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRow = jTable1.getSelectedRow();
+                    int selectedRow = table_ManageUser.getSelectedRow();
                     if (selectedRow >= 0) {
                         // Get the data from the selected row
                         String username = (String) tableModel.getValueAt(selectedRow, 0);
@@ -59,7 +62,7 @@ public class Admin_ManageUser extends javax.swing.JFrame {
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = jTable1.getSelectedRow();
+                int selectedRow = table_ManageUser.getSelectedRow();
                 if (selectedRow >= 0) {
                     String usernameToDelete = (String) tableModel.getValueAt(selectedRow, 0);
                     tableModel.removeRow(selectedRow);
@@ -79,12 +82,12 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         btn_Update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = jTable1.getSelectedRow();
+                int selectedRow = table_ManageUser.getSelectedRow();
                 if (selectedRow >= 0) {
                     String oldUsername = (String) tableModel.getValueAt(selectedRow, 0);
                     String newUsername = txtbox_Username.getText();
                     String newPassword = txtbox_Password.getText();
-                    String newRole = (String) cbox_Role.getSelectedItem(); 
+                    String newRole = (String) cbox_Role.getSelectedItem();
 
                     userManager.updateUser(oldUsername, newUsername, newPassword, newRole);
 
@@ -100,9 +103,9 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         });
     }
 
+    //Load users into the table
     private void loadUsersIntoTable() {
         tableModel.setRowCount(0);
-
         List<User> usersList = userManager.getAllUsers();
         for (User user : usersList) {
             tableModel.addRow(new Object[]{user.getUsername(), user.getPassword(), user.getRole()});
@@ -121,7 +124,7 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lbl_ManageUser = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_ManageUser = new javax.swing.JTable();
         lbl_Username = new javax.swing.JLabel();
         lbl_Password = new javax.swing.JLabel();
         lbl_Role = new javax.swing.JLabel();
@@ -133,7 +136,6 @@ public class Admin_ManageUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusable(false);
-        setPreferredSize(new java.awt.Dimension(700, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(700, 600));
 
@@ -145,8 +147,8 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         lbl_ManageUser.setForeground(new java.awt.Color(153, 153, 153));
         lbl_ManageUser.setText("Manage User");
 
-        jTable1.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_ManageUser.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
+        table_ManageUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -165,13 +167,14 @@ public class Admin_ManageUser extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        table_ManageUser.setRowHeight(30);
+        table_ManageUser.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table_ManageUser);
+        if (table_ManageUser.getColumnModel().getColumnCount() > 0) {
+            table_ManageUser.getColumnModel().getColumn(0).setResizable(false);
+            table_ManageUser.getColumnModel().getColumn(1).setResizable(false);
+            table_ManageUser.getColumnModel().getColumn(2).setResizable(false);
+            table_ManageUser.getColumnModel().getColumn(3).setResizable(false);
         }
 
         lbl_Username.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
@@ -224,10 +227,10 @@ public class Admin_ManageUser extends javax.swing.JFrame {
                                 .addComponent(lbl_Role, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(113, 113, 113)
                                 .addComponent(cbox_Role, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(89, 89, 89)
+                        .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btn_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(360, 360, 360))
         );
         jPanel1Layout.setVerticalGroup(
@@ -304,11 +307,11 @@ public class Admin_ManageUser extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbox_Role;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbl_ManageUser;
     private javax.swing.JLabel lbl_Password;
     private javax.swing.JLabel lbl_Role;
     private javax.swing.JLabel lbl_Username;
+    private javax.swing.JTable table_ManageUser;
     private javax.swing.JTextField txtbox_Password;
     private javax.swing.JTextField txtbox_Username;
     // End of variables declaration//GEN-END:variables

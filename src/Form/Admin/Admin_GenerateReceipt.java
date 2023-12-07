@@ -7,14 +7,13 @@ package Form.Admin;
 import Class.User;
 import Class.UserCredit;
 import Class.UserManager;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -25,14 +24,16 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
     private UserManager userManager;
     private UserCredit userCredit;
 
-    /**
-     * Creates new form Admin_GenerateReceipt
-     */
     public Admin_GenerateReceipt() {
         initComponents();
         userManager = new UserManager();
         userCredit = new UserCredit(userManager);
+        //Change header font for table
+        JTableHeader tableHeader1 = table_GenerateReceipt.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 14);
+        tableHeader1.setFont(headerFont1);
 
+        //Generate Transaction Receipt Button
         btn_Generate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,10 +58,6 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
             }
         });
     }
-
-
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -91,7 +88,7 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 204, 204));
         jLabel1.setText("Generate Transaction Receipt");
 
-        table_GenerateReceipt.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        table_GenerateReceipt.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_GenerateReceipt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -111,6 +108,7 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_GenerateReceipt.setRowHeight(30);
         table_GenerateReceipt.setRowSelectionAllowed(false);
         table_GenerateReceipt.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_GenerateReceipt);
@@ -137,6 +135,7 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         txtbox_Userid.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
 
         btn_Generate.setBackground(new java.awt.Color(204, 255, 204));
+        btn_Generate.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         btn_Generate.setText("Generate");
         btn_Generate.setBorder(new javax.swing.border.MatteBorder(null));
 

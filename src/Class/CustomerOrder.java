@@ -15,6 +15,7 @@ public class CustomerOrder extends UserCustomer {
     private static final String menuFolderPath = "src/Database/Menu/";
 
     private CustomerCredit customerCredit;
+    DateTime dt = new DateTime();
 
     public CustomerOrder(int id, String username, String password, String role, double credit) {
         super(id, username, password, role, credit);
@@ -39,17 +40,37 @@ public class CustomerOrder extends UserCustomer {
         String orderStatus = "Pending";
         int lastOrderItemsID = getLastOrderItemsID();
         String lastTransactionID = customerCredit.generateLastTransactionID();
-        String data = getLastOrderID() + "," + currentTime + "," + lastOrderItemsID + "," + orderAmount + "," + orderStatus + "," + customerUserID + "," + vendorUserID + "," + serviceType + "," + lastTransactionID;
+        int lastOrderID = getLastOrderID();
+        String data = lastOrderID + "," + currentTime + "," + lastOrderItemsID + "," + orderAmount + "," + orderStatus + "," + customerUserID + "," + vendorUserID + "," + serviceType + "," + lastTransactionID;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(orderFilePath, true))) {
             writer.write(data);
-            writer.newLine(); // Add a new line for the next entry
+            writer.newLine();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
 
         }
         writeOrderItemsData(orderItems, lastOrderItemsID);
         customerCredit.updateCustomerandVendorCredit(customerUserID, vendorUserID, orderAmount, true);
-        customerCredit.generateOrderTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType);
+        customerCredit.generateOrderTransactionData(lastTransactionID, customerUserID, vendorUserID, orderAmount, currentTime, serviceType, lastOrderID);
+        generatePlaceOrderNotification(vendorUserID, lastOrderID);
+    }
+
+    private void generatePlaceOrderNotification(int userId, int orderID) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "You have received a new order. Order ID: " + orderID;
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // update order status to Settled
@@ -126,7 +147,7 @@ public class CustomerOrder extends UserCustomer {
     // get corressponding Customer Order History 
     public List<List<String>> getOrderHistoryData(String username) {
         List<List<String>> orderHistoryData = new ArrayList<>();
-        String customerUserID = String.valueOf(super.getCustomerUserID(username));
+        String customerUserID = String.valueOf(super.getUserID(username));
         try {
             BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
             String line;
@@ -321,5 +342,4 @@ public class CustomerOrder extends UserCustomer {
             Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

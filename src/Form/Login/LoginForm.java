@@ -45,7 +45,8 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    //Open Dashboard
     private void openDashboard(String role, String username, int userID) {
         if (role.equals("Administrator")) {
             AdminDashboard admin = new AdminDashboard(username);
@@ -60,7 +61,7 @@ public class LoginForm extends javax.swing.JFrame {
             vendor.setLocationRelativeTo(null);
             this.dispose();
         } else if (role.equals("DeliveryRunner")) {
-            DeliveryDashboard delivery = new DeliveryDashboard(username);
+            DeliveryDashboard delivery = new DeliveryDashboard(username, userID);
             delivery.setVisible(true);
             delivery.pack();
             delivery.setLocationRelativeTo(null);

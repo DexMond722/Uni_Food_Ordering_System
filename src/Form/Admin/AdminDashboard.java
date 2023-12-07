@@ -27,6 +27,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         LocalDateTime now = LocalDateTime.now();
         lbl_LoggedIn.setText("Logged in time: " + dtf.format(now));
 
+        //Create User Button
         btn_CreateUser.setOpaque(true);
         btn_CreateUser.addActionListener(new ActionListener() {
             @Override
@@ -38,6 +39,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 createuser.setLocationRelativeTo(null);
             }
         });
+        //Manage User Button
         btn_ManageUser.setOpaque(true);
         btn_ManageUser.addActionListener(new ActionListener() {
             @Override
@@ -49,6 +51,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 manageuser.setLocationRelativeTo(null);
             }
         });
+        //Topup Credit Button 
         btn_Topup.setOpaque(true);
         btn_Topup.addActionListener(new ActionListener() {
             @Override
@@ -60,6 +63,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 topup.setLocationRelativeTo(null);
             }
         });
+        //Generate Transaction Receipt Button
         btn_Generate.setOpaque(true);
         btn_Generate.addActionListener(new ActionListener() {
             @Override
@@ -71,6 +75,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 generate.setLocationRelativeTo(null);
             }
         });
+        //Logout Button
         btn_Logout.setOpaque(true);
         btn_Logout.addActionListener(new ActionListener() {
             @Override
@@ -105,7 +110,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         btn_Topup = new javax.swing.JButton();
         btn_ManageUser = new javax.swing.JButton();
         btn_Generate = new javax.swing.JButton();
-        btn_Send = new javax.swing.JButton();
         btn_Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,11 +127,11 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         lbl_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/profile_picture.png"))); // NOI18N
 
-        lbl_Welcome.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lbl_Welcome.setFont(new java.awt.Font("Comic Sans MS", 1, 16)); // NOI18N
         lbl_Welcome.setText("abcd");
         lbl_Welcome.setToolTipText("");
 
-        lbl_LoggedIn.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lbl_LoggedIn.setFont(new java.awt.Font("Comic Sans MS", 1, 16)); // NOI18N
         lbl_LoggedIn.setText("ffff");
 
         javax.swing.GroupLayout TopLayout = new javax.swing.GroupLayout(Top);
@@ -141,20 +145,20 @@ public class AdminDashboard extends javax.swing.JFrame {
             .addGroup(TopLayout.createSequentialGroup()
                 .addGroup(TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(lbl_LoggedIn))
+                        .addGap(165, 165, 165)
+                        .addComponent(lbl_Welcome))
                     .addGroup(TopLayout.createSequentialGroup()
-                        .addGap(176, 176, 176)
-                        .addComponent(lbl_Welcome)))
+                        .addGap(97, 97, 97)
+                        .addComponent(lbl_LoggedIn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         TopLayout.setVerticalGroup(
             TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TopLayout.createSequentialGroup()
                 .addComponent(lbl_Logo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_Welcome)
                 .addGap(12, 12, 12)
+                .addComponent(lbl_Welcome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_LoggedIn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -189,12 +193,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         btn_Generate.setBorderPainted(false);
         btn_Generate.setFocusPainted(false);
 
-        btn_Send.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
-        btn_Send.setText("Send Receipt");
-        btn_Send.setBorder(new javax.swing.border.MatteBorder(null));
-        btn_Send.setBorderPainted(false);
-        btn_Send.setFocusPainted(false);
-
         btn_Logout.setBackground(new java.awt.Color(255, 102, 102));
         btn_Logout.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
         btn_Logout.setText("Logout");
@@ -213,26 +211,23 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addComponent(btn_Topup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_ManageUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_CreateUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_Send, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                     .addComponent(btn_Logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
                 .addContainerGap(178, Short.MAX_VALUE))
         );
         BottomLayout.setVerticalGroup(
             BottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BottomLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(24, 24, 24)
                 .addComponent(btn_CreateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(39, 39, 39)
                 .addComponent(btn_ManageUser, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGap(41, 41, 41)
                 .addComponent(btn_Topup, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(45, 45, 45)
                 .addComponent(btn_Generate, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btn_Send, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(btn_Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addGap(53, 53, 53))
         );
 
         jPanel1.add(Bottom);
@@ -282,7 +277,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btn_Generate;
     private javax.swing.JButton btn_Logout;
     private javax.swing.JButton btn_ManageUser;
-    private javax.swing.JButton btn_Send;
     private javax.swing.JButton btn_Topup;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_LoggedIn;

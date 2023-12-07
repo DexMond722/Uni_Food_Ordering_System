@@ -4,12 +4,13 @@
  */
 package Form.Vendor;
 
-import Class.UserVendor;
 import Class.VendorRevenue;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -26,6 +27,11 @@ public class Vendor_RevenueDashboard extends javax.swing.JFrame {
         this.vendorRevenue = new VendorRevenue(username);
         displayDebitTransactions(vendorRevenue.getDebitTransaction(username));
         displayCreditTransactions(vendorRevenue.getCreditTransaction(username));
+        JTableHeader tableHeader1 = table_Debit.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 12);
+        tableHeader1.setFont(headerFont1);
+        JTableHeader tableHeader2 = table_Credit.getTableHeader();
+        tableHeader2.setFont(headerFont1);
         setDebitAndCreditLabel();
     }
 
@@ -33,20 +39,19 @@ public class Vendor_RevenueDashboard extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) table_Debit.getModel();
         model.setRowCount(0); // Clear existing rows
         table_Debit.setFont(new Font("Segoe UI", Font.PLAIN, 13));
- 
+
         for (List<String> transactionLine : debitTransactions) {
 
             List<String> displayData = new ArrayList<>();
-            displayData.add(transactionLine.get(0));  // OrderID
-            displayData.add(transactionLine.get(2));  // OrderPlacementTime
-            displayData.add(transactionLine.get(3));  // OrderItemID
-            displayData.add(transactionLine.get(4));  // OrderAmount
+            displayData.add(transactionLine.get(0)); 
+            displayData.add(transactionLine.get(2));  
+            displayData.add(transactionLine.get(3)); 
             displayData.add(transactionLine.get(5));
             model.addRow(displayData.toArray());
-            
+
         }
     }
-    
+
     private void displayCreditTransactions(List<List<String>> creditTransactions) {
         DefaultTableModel model = (DefaultTableModel) table_Credit.getModel();
         model.setRowCount(0); // Clear existing rows
@@ -55,32 +60,30 @@ public class Vendor_RevenueDashboard extends javax.swing.JFrame {
         for (List<String> transactionLine : creditTransactions) {
 
             List<String> displayData = new ArrayList<>();
-            displayData.add(transactionLine.get(0));  // OrderID
-            displayData.add(transactionLine.get(2));  // OrderPlacementTime
-            displayData.add(transactionLine.get(3));  // OrderItemID
-            displayData.add(transactionLine.get(4));  // OrderAmount
+            displayData.add(transactionLine.get(0)); 
+            displayData.add(transactionLine.get(2));
+            displayData.add(transactionLine.get(3));  
             displayData.add(transactionLine.get(5));
             model.addRow(displayData.toArray());
-            
+
         }
     }
-   
 
     private void setDebitAndCreditLabel() {
-          double debitAmount = vendorRevenue.getDebitTransactionAmount(username);
-          String debitCount = String.valueOf(debitAmount);
-          
-          double creditAmount = vendorRevenue.getCreditTransactionAmount(username);
-          String creditCount = String.valueOf(creditAmount);
-          
-          double totalAmount = debitAmount - creditAmount;
-          String totalCount = String.valueOf(totalAmount);
+        double debitAmount = vendorRevenue.getDebitTransactionAmount(username);
+        String debitCount = String.valueOf(debitAmount);
+
+        double creditAmount = vendorRevenue.getCreditTransactionAmount(username);
+        String creditCount = String.valueOf(creditAmount);
+
+        double totalAmount = debitAmount - creditAmount;
+        String totalCount = String.valueOf(totalAmount);
 
         lbl_TotalDebit.setText("Total Debit Amount: RM" + debitCount);
         lbl_TotalCredit.setText("Total Credit Amount: RM" + creditCount);
         lbl_TotalProfit.setText("Total Profit: RM" + totalCount);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,98 +107,102 @@ public class Vendor_RevenueDashboard extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1200, 650));
         getContentPane().setLayout(null);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMaximumSize(new java.awt.Dimension(1200, 650));
         jPanel2.setMinimumSize(new java.awt.Dimension(1200, 650));
         jPanel2.setPreferredSize(new java.awt.Dimension(1200, 650));
 
-        table_Debit.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        table_Debit.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_Debit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "TransactionID", "Amount", "DateTime", "TransactionType", "Remark"
+                "TransactionID", "Amount", "DateTime", "Remark"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        table_Debit.setRowHeight(30);
         table_Debit.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_Debit);
         if (table_Debit.getColumnModel().getColumnCount() > 0) {
             table_Debit.getColumnModel().getColumn(0).setResizable(false);
+            table_Debit.getColumnModel().getColumn(0).setPreferredWidth(30);
             table_Debit.getColumnModel().getColumn(1).setResizable(false);
-            table_Debit.getColumnModel().getColumn(1).setPreferredWidth(40);
+            table_Debit.getColumnModel().getColumn(1).setPreferredWidth(10);
             table_Debit.getColumnModel().getColumn(2).setResizable(false);
             table_Debit.getColumnModel().getColumn(2).setPreferredWidth(90);
             table_Debit.getColumnModel().getColumn(3).setResizable(false);
-            table_Debit.getColumnModel().getColumn(3).setPreferredWidth(50);
-            table_Debit.getColumnModel().getColumn(4).setResizable(false);
+            table_Debit.getColumnModel().getColumn(3).setPreferredWidth(160);
         }
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         jLabel1.setText("Debit Transaction");
 
+        table_Credit.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_Credit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "TransactionID", "Amount", "DateTime", "TransactionType", "Remark"
+                "TransactionID", "Amount", "DateTime", "Remark"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        table_Credit.setRowHeight(30);
         table_Credit.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table_Credit);
         if (table_Credit.getColumnModel().getColumnCount() > 0) {
             table_Credit.getColumnModel().getColumn(0).setResizable(false);
+            table_Credit.getColumnModel().getColumn(0).setPreferredWidth(30);
             table_Credit.getColumnModel().getColumn(1).setResizable(false);
-            table_Credit.getColumnModel().getColumn(1).setPreferredWidth(40);
+            table_Credit.getColumnModel().getColumn(1).setPreferredWidth(10);
             table_Credit.getColumnModel().getColumn(2).setResizable(false);
             table_Credit.getColumnModel().getColumn(2).setPreferredWidth(90);
             table_Credit.getColumnModel().getColumn(3).setResizable(false);
-            table_Credit.getColumnModel().getColumn(3).setPreferredWidth(50);
-            table_Credit.getColumnModel().getColumn(4).setResizable(false);
+            table_Credit.getColumnModel().getColumn(3).setPreferredWidth(160);
         }
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         jLabel2.setText("Credit Transaction");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(153, 153, 255));
+        jLabel3.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 153, 204));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("View Revenue");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        lbl_TotalDebit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_TotalDebit.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         lbl_TotalDebit.setForeground(new java.awt.Color(255, 51, 0));
         lbl_TotalDebit.setText("Total Debit Amount:");
         lbl_TotalDebit.setMaximumSize(new java.awt.Dimension(110, 16));
         lbl_TotalDebit.setMinimumSize(new java.awt.Dimension(110, 16));
 
-        lbl_TotalCredit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_TotalCredit.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         lbl_TotalCredit.setForeground(new java.awt.Color(255, 51, 51));
         lbl_TotalCredit.setText("Total Credit Amount:");
 
-        lbl_TotalProfit.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_TotalProfit.setFont(new java.awt.Font("Georgia", 0, 36)); // NOI18N
         lbl_TotalProfit.setForeground(new java.awt.Color(255, 51, 51));
         lbl_TotalProfit.setText("jLabel4");
 
@@ -206,48 +213,47 @@ public class Vendor_RevenueDashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbl_TotalDebit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel1)
+                                .addGap(152, 152, 152)
+                                .addComponent(lbl_TotalDebit, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbl_TotalCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(129, 129, 129)
+                                .addComponent(lbl_TotalCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(462, 462, 462)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbl_TotalProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(442, 442, 442)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbl_TotalProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(373, 373, 373))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_TotalDebit, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_TotalCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_TotalCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_TotalDebit, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
                 .addComponent(lbl_TotalProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(114, 114, 114))
+                .addGap(64, 64, 64))
         );
 
         getContentPane().add(jPanel2);
@@ -260,8 +266,12 @@ public class Vendor_RevenueDashboard extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */

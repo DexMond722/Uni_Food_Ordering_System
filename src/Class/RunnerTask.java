@@ -25,6 +25,9 @@ public class RunnerTask extends User {
     private static final String runnertaskFilePath = "src/Database/runnertask.txt";
     private static final String userFilePath = "src/Database/users.txt";
     private static final String orderFilePath = "src/Database/order.txt";
+    UserCustomer uc = new UserCustomer();
+    VendorOrder vo = new VendorOrder();
+    DateTime dt = new DateTime();
 
     public RunnerTask() {
 
@@ -55,27 +58,6 @@ public class RunnerTask extends User {
             Logger.getLogger(RunnerTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         return taskItems;
-    }
-
-    public int getRunnerID(String username) {
-        int userID = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userData = line.split(",");
-                String userName = userData[1].trim();
-                if (userName.equalsIgnoreCase(username)) {
-                    userID = Integer.parseInt(userData[0].trim());
-                    break;
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RunnerTask.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RunnerTask.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return userID;
     }
 
     public boolean updateTaskStatus(String taskID, String newStatus) {
@@ -116,121 +98,23 @@ public class RunnerTask extends User {
         return taskUpdated;
     }
 
-//    public boolean assignTaskToRunner(String taskID, int newRunnerID) {
-//        List<String> updatedLines = new ArrayList<>();
-//        boolean taskAssigned = false;
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath))) {
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                List<String> taskItem = new ArrayList<>(Arrays.asList(line.split(",")));
-//
-//                if (taskItem.size() >= 1 && taskItem.get(0).trim().equals(taskID)) {
-//                    // Found the task, create a new line with updated runner ID and status
-//                    String updatedLine = taskID + "," + newRunnerID + "," + taskItem.get(2) + "," + taskItem.get(3) + ",Pending";
-//                    updatedLines.add(updatedLine);
-//                    taskAssigned = true;
-//                } else {
-//                    updatedLines.add(line);
-//                }
-//            }
-//        } catch (FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        if (taskAssigned) {
-//            // Write the updated lines back to the file
-//            try (BufferedWriter writer = new BufferedWriter(new FileWriter(runnertaskFilePath))) {
-//                for (String updatedLine : updatedLines) {
-//                    writer.write(updatedLine);
-//                    writer.newLine();
-//                }
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//
-//        return taskAssigned;
-//    }
-//
-//    public List<Integer> getAvailableRunners() {
-//        List<Integer> availableRunners = new ArrayList<>();
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader(userFilePath))) {
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                String[] userData = line.split(",");
-//                int userID = Integer.parseInt(userData[0].trim());
-//                String userType = userData[3].trim();
-//
-//                // Check if the user is a DeliveryRunner and has availability
-//                if ("DeliveryRunner".equals(userType) && userID != getRunnerID(getUsername())) {
-//                    availableRunners.add(userID);
-//                }
-//            }
-//        } catch (FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        return availableRunners;
-//    }
-//
-//    public void assignTaskToAvailableRunner(String taskID) {
-//        // Get the list of available runners
-//        List<Integer> availableRunners = getAvailableRunners();
-//
-//        // If there are available runners, randomly select one
-//        if (!availableRunners.isEmpty()) {
-//            int randomIndex = (int) (Math.random() * availableRunners.size());
-//            int newRunnerID = availableRunners.get(randomIndex);
-//
-//            // Update the task with the new runner ID and status "Pending"
-//            if (assignTaskToRunner(taskID, newRunnerID)) {
-//                // Print a message or perform additional actions if needed
-//                System.out.println("Task assigned to runner: " + newRunnerID);
-//            } else {
-//                // Handle the case where the task could not be assigned
-//                System.out.println("Error assigning task to runner.");
-//            }
-//        } else {
-//            // Handle the case where no available runners are found
-//            System.out.println("No available runners to assign the task.");
-//        }
-//    }
-//    public void declineTask(String taskID) {
-//        String orderID = null;
-//        try {
-//            BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath));
-//            StringBuilder content = new StringBuilder();
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                String[] fields = line.split(",");
-//                if (fields[0].equals(taskID)) {
-//                    fields[4] = String.valueOf("Declined");
-//                    orderID = fields[2];
-//                }
-//                String modifiedLine = String.join(",", fields);
-//                content.append(modifiedLine).append("\n");
-//            }
-//            // Close the reader
-//            reader.close();
-//            BufferedWriter writer = new BufferedWriter(new FileWriter(runnertaskFilePath));
-//            writer.write(content.toString());
-//            // Close the writer
-//            writer.close();
-//
-//        } catch (IOException | NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//        List<Integer> declinedRunnerID = getDeclinedRunnerIDsForOrder(orderID);
-//        int availableRunnerID = assignTaskToAvailableRunner(findAvailableRunnersExcluding(declinedRunnerID));
-//
-////        System.out.println(generateNewTaskID(runnertaskFilePath));
-//    }
+    public void generateDeliveryAssignedNotification(int userId, String orderID) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "A Delivery Runner has been assigned to Order ID: " + orderID;
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void declineTask(String taskID) {
         String orderID = null;
         try {
@@ -270,8 +154,9 @@ public class RunnerTask extends User {
                     BufferedWriter writer = new BufferedWriter(new FileWriter(runnertaskFilePath));
                     writer.write(content.toString());
                     writer.close(); // Close the writer
-                    // Continue with your logic for assigning the new task to the runner
-                    // ...
+
+                    vo.generateTaskAssignedNotification(availableRunnerID);
+
                 }
             }
 
@@ -280,21 +165,6 @@ public class RunnerTask extends User {
         }
     }
 
-    // Your existing methods...
-//    public int generateNewTaskID(String filePath) throws IOException {
-//        int newTaskID = 1;
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-//            reader.readLine(); // Skip the header
-//            while (reader.readLine() != null) {
-//                newTaskID++;
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return newTaskID;
-//    }
     public List<Integer> getDeclinedRunnerIDsForOrder(String orderID) {
         List<Integer> declinedRunnerIDs = new ArrayList<>();
 
@@ -376,31 +246,32 @@ public class RunnerTask extends User {
             writer.write(content.toString());
             writer.close(); // Close the writer
 
+            int customerID = Integer.parseInt(vo.getCustomerUserID(orderID));
+            generateNoRunnerNotification(customerID, orderID);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-//    public int generateNewTaskID(String runnertaskFilePath) throws IOException {
-//        int newTaskID = 1; // Default value for the first TaskID
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath))) {
-//            // Skip the header if needed
-//            reader.readLine();
-//
-//            // Count the existing TaskIDs
-//            while (reader.readLine() != null) {
-//                newTaskID++;
-//            }
-//        } catch (FileNotFoundException e) {
-//            // Handle file not found exception
-//            e.printStackTrace();
-//           } catch (IOException e) {
-//        // Handle other IO exceptions
-//        e.printStackTrace();
-//    }
-//
-//        return newTaskID;
-//    }
+
+    public void generateNoRunnerNotification(int userId, String orderID) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "No runners have accepted Order ID: " + orderID;
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public int generateNewTaskID(String runnertaskFilePath) throws IOException {
         int newTaskID = 1; // Default value for the first TaskID
@@ -463,5 +334,23 @@ public class RunnerTask extends User {
             ex.printStackTrace();
         }
         return username;
+    }
+
+    public String getOrderIdForTaskId(String taskId) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length >= 1 && fields[0].trim().equals(taskId)) {
+                    // Assuming OrderID is in the 3rd column (index 2)
+                    return fields[2].trim();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Return a default value or handle the case when the TaskID is not found
+        return "DefaultOrderID";
     }
 }
