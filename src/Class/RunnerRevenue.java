@@ -60,7 +60,6 @@ public class RunnerRevenue extends User {
                 String transactionUserID = transactionDetails.get(1); // Assuming UserID is at index 1
 
                 if (transactionType.equals("Debit") && transactionUserID.equals(String.valueOf(getRunnerUserIdByUsername(runnerID)))) {
-                    System.out.println("Transaction added: " + transactionDetails);
                     debitTransactions.add(transactionDetails);
                 }
             }

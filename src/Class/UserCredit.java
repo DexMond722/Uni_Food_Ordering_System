@@ -9,9 +9,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,6 +21,11 @@ public class UserCredit extends UserManager {
 
     private UserManager userManager;
     private List<String> notifications;
+    DateTime dt = new DateTime();
+    
+    public UserCredit() {
+        super();
+    }
 
     public UserCredit(UserManager userManager) {
         super();
@@ -30,6 +33,7 @@ public class UserCredit extends UserManager {
         this.notifications = new ArrayList<>();
     }
 
+    //Top up Credit 
     public boolean topUpCredit(User user, double topUpAmount) {
         if (topUpAmount >= 0) {
             double currentCredit = user.getCredit();
@@ -48,9 +52,10 @@ public class UserCredit extends UserManager {
         return false;
     }
 
+    //Generate TopUp Transaction Record
     private void generateTransactionRecord(int userId, double transactionAmount) {
         String transactionID = generateTransactionID();
-        String dateTime = getCurrentDateTime();
+        String dateTime = dt.getCurrentDateTime();
         String transactionType = "Debit";
         String remark = "CreditTopUp";
 
@@ -67,8 +72,9 @@ public class UserCredit extends UserManager {
         }
     }
 
+    //Generate TopUp Transaction Notification
     private void generateTransactionNotification(int userId, double transactionAmount) {
-        String dateTime = getCurrentDateTime();
+        String dateTime = dt.getCurrentDateTime();
         String content = "You have successfully topped up " + transactionAmount + " credits";
         String category = "Credit";
 
@@ -84,6 +90,7 @@ public class UserCredit extends UserManager {
         }
     }
 
+    //Dsiplay Transaction details into table
     public void displayTransactions(int userId, DefaultTableModel model) {
         String filePath = "src/Database/credit_transaction.txt";
 
@@ -93,11 +100,11 @@ public class UserCredit extends UserManager {
                 String[] data = line.split(",");
                 if (data.length >= 2 && data[1].trim().equals(String.valueOf(userId))) {
                     model.addRow(new Object[]{
-                        data[0], 
-                        Double.parseDouble(data[2]), 
-                        data[3], 
-                        data[4], 
-                        data[5] 
+                        data[0],
+                        Double.parseDouble(data[2]),
+                        data[3],
+                        data[4],
+                        data[5]
                     });
                 }
             }
@@ -106,6 +113,7 @@ public class UserCredit extends UserManager {
         }
     }
 
+    //Display Transactions details into notifcations
     public void displayTransactionsNotifications(int userId, DefaultTableModel model) {
         String filePath = "src/Database/notifications.txt";
 
@@ -115,9 +123,8 @@ public class UserCredit extends UserManager {
                 String[] data = line.split(",");
                 if (data.length >= 2 && data[0].trim().equals(String.valueOf(userId))) {
                     model.addRow(new Object[]{
-                        data[1], 
-                        data[2], 
-                    });
+                        data[1],
+                        data[2],});
                 }
             }
         } catch (IOException | NumberFormatException e) {
@@ -125,6 +132,7 @@ public class UserCredit extends UserManager {
         }
     }
 
+    //Display Selected transaction details into notifications according to the category
     public void displaySelectedTransactionsNotifications(int userId, String category, DefaultTableModel model) {
         String filePath = "src/Database/notifications.txt";
 
@@ -136,8 +144,7 @@ public class UserCredit extends UserManager {
                     if (category == null || data[3].trim().equalsIgnoreCase(category)) {
                         model.addRow(new Object[]{
                             data[1],
-                            data[2], 
-                        });
+                            data[2],});
                     }
                 }
             }
@@ -146,11 +153,7 @@ public class UserCredit extends UserManager {
         }
     }
 
-    private String generateTransactionID() {
-        int nextTransactionID = getNextTransactionID();
-        return String.format("T%05d", nextTransactionID);
-    }
-
+    //Get next transaction id
     private int getNextTransactionID() {
         int lastTransactionID = 0;
 
@@ -174,9 +177,9 @@ public class UserCredit extends UserManager {
         return lastTransactionID + 1;
     }
 
-    private String getCurrentDateTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return dateFormat.format(new Date());
+    //Generate new transaction id
+    public String generateTransactionID() {
+        int nextTransactionID = getNextTransactionID();
+        return String.format("T%05d", nextTransactionID);
     }
-
 }

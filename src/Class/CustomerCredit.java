@@ -134,7 +134,7 @@ public class CustomerCredit extends UserCustomer {
     }
 
     // update credit information in the user file
-    private void updateCreditInFile(int userID, double updatedCredit) {
+    public void updateCreditInFile(int userID, double updatedCredit) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             StringBuilder content = new StringBuilder();
@@ -158,9 +158,9 @@ public class CustomerCredit extends UserCustomer {
     }
 
     // write customer transaction data after placing an order into credit_transaction.txt file
-    public void generateOrderTransactionData(String transactionID, int customerID, int vendorID, double transactionAmount, String dateTime, String serviceType) {
+    public void generateOrderTransactionData(String transactionID, int customerID, int vendorID, double transactionAmount, String dateTime, String serviceType, int orderID) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(creditTransactionFilePath, true))) {
-            String transactionCustomerData = transactionID + "," + customerID + "," + transactionAmount + "," + dateTime + "," + "Credit" + "," + serviceType;
+            String transactionCustomerData = transactionID + "," + customerID + "," + transactionAmount + "," + dateTime + "," + "Credit" + "," + "Payment for Order ID: " + orderID;
             writer.write(transactionCustomerData);
             writer.newLine();
         } catch (IOException ex) {
@@ -168,7 +168,7 @@ public class CustomerCredit extends UserCustomer {
         }
         int lastTransactionID = Integer.parseInt(transactionID.substring(transactionID.length() - 5)) + 1;
         String lastTransactionId = String.format("T%05d", lastTransactionID);
-        String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + dateTime + "," + "Debit" + "," + "Payment Received";
+        String transactionVendorData = lastTransactionId + "," + vendorID + "," + transactionAmount + "," + dateTime + "," + "Debit" + "," + "Payment Received for Order ID: " +orderID;
         generateVendorTransactionData(transactionVendorData);
     }
 

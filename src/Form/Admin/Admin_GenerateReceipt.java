@@ -28,6 +28,7 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
         initComponents();
         userManager = new UserManager();
         userCredit = new UserCredit(userManager);
+        //Change header font for table
         JTableHeader tableHeader1 = table_GenerateReceipt.getTableHeader();
         Font headerFont1 = new Font("Georgia", Font.BOLD, 14);
         tableHeader1.setFont(headerFont1);

@@ -10,7 +10,6 @@ import Class.UserManager;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -28,12 +27,12 @@ public class Notifications extends javax.swing.JFrame {
      * Creates new form Notifications
      */
     public Notifications(int userID) {
-        int id = userID;
         initComponents();
         userManager = new UserManager();
         userCredit = new UserCredit(userManager);
+        //Change header font for table
         JTableHeader tableHeader = table_notifications.getTableHeader();
-        Font headerFont = new Font("Georgia", Font.BOLD, 20);
+        Font headerFont = new Font("Georgia", Font.BOLD, 14);
         tableHeader.setFont(headerFont);
         displayTable(userID);
 
@@ -53,7 +52,8 @@ public class Notifications extends javax.swing.JFrame {
         });
 
     }
-
+    
+    //Add notification details into the table
     public void displayTable(int userID) {
         DefaultTableModel model = (DefaultTableModel) table_notifications.getModel();
         model.setRowCount(0);
@@ -88,14 +88,14 @@ public class Notifications extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusable(false);
-        setPreferredSize(new java.awt.Dimension(800, 750));
+        setPreferredSize(new java.awt.Dimension(800, 725));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 750));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 750));
 
-        table_notifications.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        table_notifications.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_notifications.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -115,15 +115,16 @@ public class Notifications extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table_notifications.setRowHeight(40);
+        table_notifications.setRowHeight(30);
         table_notifications.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_notifications);
         if (table_notifications.getColumnModel().getColumnCount() > 0) {
             table_notifications.getColumnModel().getColumn(0).setResizable(false);
+            table_notifications.getColumnModel().getColumn(0).setPreferredWidth(350);
             table_notifications.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        jLabel1.setFont(new java.awt.Font("Georgia", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setText("Notifications");
 
@@ -151,14 +152,14 @@ public class Notifications extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(lbl_Category)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbox_Category, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(75, 75, 75)
                         .addComponent(btn_Reset, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(110, 110, 110))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(236, 236, 236))))
+                        .addGap(263, 263, 263))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +173,7 @@ public class Notifications extends javax.swing.JFrame {
                     .addComponent(btn_Reset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -186,8 +187,8 @@ public class Notifications extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 28, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 65, Short.MAX_VALUE))
         );
 
         pack();

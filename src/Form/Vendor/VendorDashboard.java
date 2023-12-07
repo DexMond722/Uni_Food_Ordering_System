@@ -4,13 +4,15 @@
  */
 package Form.Vendor;
 
+import Class.CustomerCredit;
+import Class.CustomerOrder;
 import Class.UserVendor;
 import Form.Notification.Notifications;
 import Form.Customer.CustomerDashboard;
-import Form.Customer.Customer_ViewMenu;
 import Form.Login.LoginForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.UIManager;
 
 /**
  *
@@ -18,16 +20,18 @@ import java.awt.event.ActionListener;
  */
 public class VendorDashboard extends javax.swing.JFrame {
 
+    private CustomerCredit customerCredit;
+    private CustomerOrder customerOrder;
     private UserVendor userVendor;
     private String username;
     private int userID;
-    
+
     public VendorDashboard(String username, int userID) {
         userVendor = new UserVendor();
         initComponents();
-         this.username = username;
-         this.userID = userID;
-        lbl_Welcome.setText("Welcome back, "+username);
+        this.username = username;
+        this.userID = userID;
+        lbl_Welcome.setText("Welcome back, " + username);
         btn_EditMenu.setOpaque(true);
         btn_EditMenu.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +96,7 @@ public class VendorDashboard extends javax.swing.JFrame {
                 n.setVisible(true);
                 n.pack();
                 n.setLocationRelativeTo(null);
- 
+
             }
         });
         btn_LogOut.setOpaque(true);
@@ -109,6 +113,7 @@ public class VendorDashboard extends javax.swing.JFrame {
             }
         });
     }
+    //display Credit Amount
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -128,12 +133,14 @@ public class VendorDashboard extends javax.swing.JFrame {
         btn_RevenueDashboard = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(500, 650));
+        setMinimumSize(new java.awt.Dimension(500, 700));
+        setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
-        setSize(new java.awt.Dimension(500, 650));
+        setSize(new java.awt.Dimension(500, 700));
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(500, 650));
-        jPanel1.setMinimumSize(new java.awt.Dimension(500, 650));
+        jPanel1.setMaximumSize(new java.awt.Dimension(500, 700));
+        jPanel1.setMinimumSize(new java.awt.Dimension(500, 700));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 700));
         jPanel1.setLayout(null);
 
         PanelTop.setBackground(new java.awt.Color(63, 222, 183));
@@ -141,7 +148,7 @@ public class VendorDashboard extends javax.swing.JFrame {
 
         lbl_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/profile_picture2.png"))); // NOI18N
 
-        lbl_Welcome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_Welcome.setFont(new java.awt.Font("Georgia", 1, 18)); // NOI18N
         lbl_Welcome.setText("jLabel1");
 
         btn_Notification.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Form/notification.png"))); // NOI18N
@@ -161,22 +168,21 @@ public class VendorDashboard extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lbl_Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_Notification, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(btn_Notification)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         PanelTopLayout.setVerticalGroup(
             PanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTopLayout.createSequentialGroup()
-                .addGroup(PanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelTopLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(PanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_Notification, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(PanelTopLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(lbl_Icon)))
+                .addGap(20, 20, 20)
+                .addComponent(lbl_Icon)
                 .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTopLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(PanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Notification)
+                    .addComponent(lbl_Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34))
         );
 
         jPanel1.add(PanelTop);
@@ -184,7 +190,9 @@ public class VendorDashboard extends javax.swing.JFrame {
 
         PanelBottom.setBackground(new java.awt.Color(204, 255, 204));
         PanelBottom.setMaximumSize(new java.awt.Dimension(500, 530));
+        PanelBottom.setPreferredSize(new java.awt.Dimension(500, 610));
 
+        btn_EditMenu.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_EditMenu.setText("Edit Menu");
         btn_EditMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,7 +200,11 @@ public class VendorDashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_OrderStatus.setText("Accept/Cancel Order");
+        btn_OrderStatus.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
+        btn_OrderStatus.setText("Manage Order");
+        btn_OrderStatus.setMaximumSize(new java.awt.Dimension(105, 23));
+        btn_OrderStatus.setMinimumSize(new java.awt.Dimension(105, 23));
+        btn_OrderStatus.setPreferredSize(new java.awt.Dimension(177, 23));
         btn_OrderStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_OrderStatusActionPerformed(evt);
@@ -200,13 +212,19 @@ public class VendorDashboard extends javax.swing.JFrame {
         });
 
         btn_LogOut.setBackground(new java.awt.Color(235, 235, 235));
+        btn_LogOut.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_LogOut.setForeground(new java.awt.Color(255, 0, 0));
         btn_LogOut.setText("Log Out");
 
+        btn_UpdateStatus.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_UpdateStatus.setText("Update Order Status");
+        btn_UpdateStatus.setMaximumSize(new java.awt.Dimension(179, 53));
+        btn_UpdateStatus.setMinimumSize(new java.awt.Dimension(179, 53));
 
+        btn_OrderHistory.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_OrderHistory.setText("View Order History");
 
+        btn_RevenueDashboard.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_RevenueDashboard.setText("View Revenue");
         btn_RevenueDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,40 +236,37 @@ public class VendorDashboard extends javax.swing.JFrame {
         PanelBottom.setLayout(PanelBottomLayout);
         PanelBottomLayout.setHorizontalGroup(
             PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelBottomLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_EditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(PanelBottomLayout.createSequentialGroup()
-                .addGap(171, 171, 171)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBottomLayout.createSequentialGroup()
+                .addContainerGap(167, Short.MAX_VALUE)
                 .addGroup(PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_OrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                     .addComponent(btn_LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_OrderHistory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(172, Short.MAX_VALUE))
+                    .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                    .addComponent(btn_EditMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_OrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(154, 154, 154))
         );
         PanelBottomLayout.setVerticalGroup(
             PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBottomLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(btn_EditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btn_OrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btn_OrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btn_LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(btn_EditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(btn_OrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(btn_OrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(btn_LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jPanel1.add(PanelBottom);
-        PanelBottom.setBounds(-10, 120, 500, 530);
+        PanelBottom.setBounds(-10, 120, 510, 610);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -261,7 +276,7 @@ public class VendorDashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
         );
 
         pack();
@@ -283,14 +298,16 @@ public class VendorDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_NotificationActionPerformed
 
-
     public static void main(String args[]) {
-
-
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VendorDashboard("",-1).setVisible(true);
+                new VendorDashboard("", -1).setVisible(true);
             }
         });
     }

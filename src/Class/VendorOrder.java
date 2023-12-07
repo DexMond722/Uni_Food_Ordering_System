@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,7 +31,12 @@ public class VendorOrder extends User {
     private static final String creditTransactionFilePath = "src/Database/credit_transaction.txt";
     private static final String runnerTaskFilePath = "src/Database/runnerTask.txt";
     private String username;
+    DateTime dt = new DateTime();
 
+    public VendorOrder() {
+        
+    }
+    
     public VendorOrder(int id, String username, String password, String role) {
 
     }
@@ -67,6 +70,7 @@ public class VendorOrder extends User {
         }
         return orderItems;
     }
+
 
     public int getVendorUserIdByUsername(String vendorName) {
         try {
@@ -132,11 +136,9 @@ public class VendorOrder extends User {
     }
 
     public void assignRunnerForDelivery(String orderID) {
-
         try {
             // Check the service type of the selected order
             String serviceType = getServiceTypeForOrder(orderID);
-
             if ("Delivery".equals(serviceType)) {
                 // Get the VendorID from the logged-in user
                 int vendorID = getVendorUserIdByUsername(username);
@@ -147,6 +149,7 @@ public class VendorOrder extends User {
                     // Get a random DeliveryRunnerID
                     Random random = new Random();
                     String randomDeliveryRunnerID = deliveryRunnerIDs.get(random.nextInt(deliveryRunnerIDs.size()));
+                    int runnerID = Integer.parseInt(randomDeliveryRunnerID);
 
                     // Generate a new TaskID
                     int newTaskID = generateNewTaskID(runnerTaskFilePath);
@@ -157,18 +160,29 @@ public class VendorOrder extends User {
                     runnerTaskWriter.write(newRunnerTask);
                     runnerTaskWriter.newLine();
                     runnerTaskWriter.close();
-
-                } else {
-                    System.out.println("No available DeliveryRunner");
+                    
+                    generateTaskAssignedNotification(runnerID);
                 }
-
-            } else {
-                // Inform the user that this order doesn't require a DeliveryRunner
-                //System.out.println("This order doesn't require a DeliveryRunner");
             }
         } catch (IOException ex) {
             ex.printStackTrace();
             // Handle exceptions as needed
+        }
+    }
+    public void generateTaskAssignedNotification(int userId) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "You have received a new delivery task";
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -194,9 +208,29 @@ public class VendorOrder extends User {
                 orderWriter.newLine();
             }
             orderWriter.close();
+            generateUpdateStatusNotification(orderID, newStatus);
         } catch (IOException ex) {
             ex.printStackTrace();
             // Handle exceptions as needed
+        }
+    }
+
+    public void generateUpdateStatusNotification(String orderID, String newStatus) {
+        String customerUserID = getCustomerUserID(orderID);
+        int userID = Integer.parseInt(customerUserID);
+        String dateTime = dt.getCurrentDateTime();
+        String content = "Order ID: " + orderID + " has been " + newStatus + " by Vendor";
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userID, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -231,21 +265,6 @@ public class VendorOrder extends User {
         return "0.0"; // Return default value if OrderAmount is not found
     }
 
-    public String getCustomerUserID(String orderID) {
-        try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
-            String orderLine;
-            while ((orderLine = orderReader.readLine()) != null) {
-                String[] orderData = orderLine.split(",");
-                if (orderData[0].equals(orderID)) {
-                    return orderData[5]; // Assuming CustomerUserID is at index 5
-                }
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return "-1"; // Return default value if CustomerUserID is not found
-    }
-
     public String getVendorID(String orderID) {
         try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
             String orderLine;
@@ -253,6 +272,21 @@ public class VendorOrder extends User {
                 String[] orderData = orderLine.split(",");
                 if (orderData[0].equals(orderID)) {
                     return orderData[6]; // Assuming CustomerUserID is at index 5
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return "-1"; // Return default value if CustomerUserID is not found
+    }
+    
+    public String getCustomerUserID(String orderID) {
+        try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
+            String orderLine;
+            while ((orderLine = orderReader.readLine()) != null) {
+                String[] orderData = orderLine.split(",");
+                if (orderData[0].equals(orderID)) {
+                    return orderData[5].trim();
                 }
             }
         } catch (IOException ex) {
@@ -280,7 +314,7 @@ public class VendorOrder extends User {
             String transactionID = generateNewTransactionID();
             String customerUserID = getCustomerUserID(orderID);
             String vendorUserID = getVendorID(orderID);
-            String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String currentDateTime = dt.getCurrentDateTime();
 
             BufferedWriter transactionWriter = new BufferedWriter(new FileWriter(creditTransactionFilePath, true));
             String newTransaction = transactionID + "," + customerUserID + "," + orderAmount + ","
@@ -446,7 +480,7 @@ public class VendorOrder extends User {
         return ordersWithStatus;
     }
 
-    public static List<List<String>> filterOrderByDateInterval(List<List<String>> orderItems, String selectedDateInterval) {
+    public List<List<String>> filterOrderByDateInterval(List<List<String>> orderItems, String selectedDateInterval) {
         LocalDateTime current = LocalDateTime.now();
         LocalDateTime orderTime;
         List<List<String>> filteredOrders = new ArrayList<>();

@@ -6,14 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,9 +21,12 @@ public class RunnerUptStatus extends User {
     private static final String userFilePath = "src/Database/users.txt";
     private static final String orderFilePath = "src/Database/order.txt";
     private static final String creditTransactionFilePath = "src/Database/credit_transaction.txt";
+    DateTime dt = new DateTime();
+    UserCredit uc = new UserCredit();
+    CustomerCredit cc = new CustomerCredit();
 
     public RunnerUptStatus() {
- 
+
     }
 
     public String getRunnerUserIdByUsername(String runnerID) {
@@ -64,18 +63,15 @@ public class RunnerUptStatus extends User {
                     if (taskRunnerID.equals(runnerID)) {
                         int orderID = Integer.parseInt(values[2].trim());
                         String taskStatus = values[4].trim();
-
                         // Check if TaskStatus is "Accepted" before adding the Order details to the list
                         if ("Accepted".equals(taskStatus)) {
                             List<String> orderDetails = getOrderItemDetails(orderID);
+                            String orderStatus = orderDetails.get(4);
                             if (orderDetails != null) {
-                                acceptedOrderDetailsList.add(orderDetails);
-                                System.out.println(orderDetails);
-                            } else {
-                                System.out.println("Order details not found for ID: " + orderID);
+                                if (orderStatus.equals("Accepted") || orderStatus.equals("Pick-Up")) {
+                                    acceptedOrderDetailsList.add(orderDetails);
+                                }
                             }
-                        } else {
-                            System.out.println("Order ID declined: " + orderID);
                         }
                     }
                 }
@@ -87,33 +83,6 @@ public class RunnerUptStatus extends User {
         return acceptedOrderDetailsList;
     }
 
-    // get all order id accepted by runner
-//  public List<Integer> getAcceptedOrderIDs(String runnerID) {
-//        List<Integer> acceptedOrderIDs = new ArrayList<>();
-//        try (BufferedReader br = new BufferedReader(new FileReader(runnertaskFilePath))) {
-//            String line;
-//            br.readLine();
-//
-//            while ((line = br.readLine()) != null) {
-//                String[] values = line.split(",");
-//                // Assuming the order of columns in the file is TaskID,RunnerID,OrderID,VendorID,TaskStatus
-//                if (values.length >= 5){
-//                    int orderID = Integer.parseInt(values[2].trim());
-//                    String taskStatus = values[4].trim();
-//
-//                    // Check if TaskStatus is "Accepted" and add the OrderID to the list
-//                    if (taskStatus.equals("Accepted")) {
-//                        acceptedOrderIDs.add(orderID);
-//                    }
-//                }
-//            }
-//        } catch (IOException | NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return acceptedOrderIDs;
-//    }
-//  
     public List<Integer> getAcceptedDeliveryOrderIDs(String orderFilePath) {
         List<Integer> acceptedDeliveryOrderIDs = new ArrayList<>();
 
@@ -216,9 +185,9 @@ public class RunnerUptStatus extends User {
     public void createCreditTransaction(String runnerID, String orderID) {
         double orderAmount = 4.00;
         try {
-            String transactionID = generateTransactionID();
+            String transactionID = uc.generateTransactionID();
             String vendorID = getVendorID(orderID);
-            String currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String currentDateTime = dt.getCurrentDateTime();
 
             BufferedWriter transactionWriter = new BufferedWriter(new FileWriter(creditTransactionFilePath, true));
             String newTransaction = transactionID + "," + runnerID + "," + orderAmount + ","
@@ -241,8 +210,80 @@ public class RunnerUptStatus extends User {
     public void updateRunnerandVendorCredit(int runnerUserID, int vendorUserID, Boolean flag) {
         double runnerUpdatedCredit = getRunnerUpdatedCredit(runnerUserID, flag);
         double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID, flag);
-        updateCreditInFile(runnerUserID, runnerUpdatedCredit);
-        updateCreditInFile(vendorUserID, vendorUpdatedCredit);
+        cc.updateCreditInFile(runnerUserID, runnerUpdatedCredit);
+        cc.updateCreditInFile(vendorUserID, vendorUpdatedCredit);
+    }
+
+    public void generatePickUpNotification(int userId, String orderID) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "Order ID: " + orderID + " has been picked up by Runner";
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void generateDeliveredNotification(int userId, String orderID) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "Order ID: " + orderID + " has been delivered";
+        String category = "Order";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void generateDebitFeeNotification(int userId, String orderID) {
+        String dateTime = dt.getCurrentDateTime();
+        String content = "Delivery Fee for Order ID: " + orderID + " has been debited";
+        String category = "Credit";
+
+        String notifications = String.format("%d,%s,%s,%s",
+                userId, content, dateTime, category);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/Database/notifications.txt", true))) {
+            bw.write(notifications);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getUserID(String orderID) {
+        String userID = null;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
+            String line;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] orderData = line.split(",");
+                if (orderData[0].equals(orderID)) {
+                    userID = orderData[6];
+                }
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userID;
     }
 
     // updated credit for a customer
@@ -303,83 +344,5 @@ public class RunnerUptStatus extends User {
             e.printStackTrace();
         }
         return 0;
-    }
-    // update credit information in the user file
-
-    private void updateCreditInFile(int userID, double updatedCredit) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-                if (fields.length > 0 && Integer.parseInt(fields[0]) == userID) {
-                    fields[4] = String.valueOf(updatedCredit);
-                }
-                String modifiedLine = String.join(",", fields);
-                content.append(modifiedLine).append("\n");
-            }
-            reader.close();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(userFilePath));
-            writer.write(content.toString());
-            // Close the writer
-            writer.close();
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String generateTransactionID() {
-        int nextTransactionID = getNextTransactionID();
-        return String.format("T%05d", nextTransactionID);
-    }
-
-    private int getNextTransactionID() {
-        int lastTransactionID = 0;
-
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Database/credit_transaction.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length > 0) {
-                    try {
-                        String numericPart = data[0].substring(1);
-                        int transactionID = Integer.parseInt(numericPart);
-                        lastTransactionID = Math.max(lastTransactionID, transactionID);
-                    } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return lastTransactionID + 1;
-    }
-
-    public String generateLastTransactionID() {
-        String lastTransactionID = null;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(creditTransactionFilePath));
-            reader.readLine();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lastTransactionID = line.split(",")[0];
-            }
-            if (lastTransactionID != null) {
-                int transactionID = Integer.parseInt(lastTransactionID.substring(lastTransactionID.length() - 5)) + 1;
-                lastTransactionID = String.format("T%05d", transactionID);
-            } else {
-                // If no line is found, set the default value
-                lastTransactionID = "T00001";
-            }
-
-        } catch (FileNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RunnerUptStatus.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(RunnerUptStatus.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        return lastTransactionID;
     }
 }

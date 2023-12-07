@@ -32,6 +32,7 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         String[] columnNames = {"Username", "Password", "Role"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table_ManageUser.setModel(tableModel);
+        //Change header font for table
         JTableHeader tableHeader1 = table_ManageUser.getTableHeader();
         Font headerFont1 = new Font("Georgia", Font.BOLD, 14);
         tableHeader1.setFont(headerFont1);
@@ -102,9 +103,9 @@ public class Admin_ManageUser extends javax.swing.JFrame {
         });
     }
 
+    //Load users into the table
     private void loadUsersIntoTable() {
         tableModel.setRowCount(0);
-
         List<User> usersList = userManager.getAllUsers();
         for (User user : usersList) {
             tableModel.addRow(new Object[]{user.getUsername(), user.getPassword(), user.getRole()});

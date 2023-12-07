@@ -3,6 +3,7 @@ package Form.Customer;
 import Class.UserCustomer;
 import Class.CustomerOrder;
 import Class.CustomerCredit;
+import Class.UserCredit;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -508,7 +509,7 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         }
 
         if (customerCredit.checkCredit(totalAmount, username)) {
-            customerOrder.placeOrder(totalAmount, userCustomer.getCustomerUserID(username), userCustomer.getVendorUserID(selectedVendor), serviceType, getTableCartOrderItemsData());
+            customerOrder.placeOrder(totalAmount, userCustomer.getUserID(username), userCustomer.getUserID(selectedVendor), serviceType, getTableCartOrderItemsData());
             JOptionPane.showMessageDialog(this, "Order Successfully", "Order Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);

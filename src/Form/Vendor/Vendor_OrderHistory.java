@@ -9,14 +9,14 @@ import Class.VendorOrder;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -34,6 +34,9 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
         this.vendorOrder = new VendorOrder(username);
         this.review = new Review();
         displayOrder(vendorOrder.getVendorOrder(username));
+        JTableHeader tableHeader1 = table_AllOrder.getTableHeader();
+        Font headerFont1 = new Font("Georgia", Font.BOLD, 12);
+        tableHeader1.setFont(headerFont1);
         preventMenuEdited();
 
         comboBox_Status.addActionListener(new ActionListener() {
@@ -101,10 +104,10 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
         List<List<String>> filteredOrders;
 
         if (selectedStatus.equals("All")) {
-            filteredOrders = VendorOrder.filterOrderByDateInterval(vendorOrder.getVendorOrder(username), selectedDateInterval);
+            filteredOrders = vendorOrder.filterOrderByDateInterval(vendorOrder.getVendorOrder(username), selectedDateInterval);
         } else {
             filteredOrders = vendorOrder.getOrderStatusFromFile(selectedStatus);
-            filteredOrders = VendorOrder.filterOrderByDateInterval(filteredOrders, selectedDateInterval);
+            filteredOrders = vendorOrder.filterOrderByDateInterval(filteredOrders, selectedDateInterval);
         }
         displayOrder(filteredOrders);
     }
@@ -132,9 +135,11 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(750, 565));
         getContentPane().setLayout(null);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(750, 565));
         jPanel1.setMinimumSize(new java.awt.Dimension(750, 565));
 
+        table_AllOrder.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_AllOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -143,7 +148,7 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "OrderID", "PlacementTime", "OrderItemID", "Amount", "OrderStatus", "CustomerID", "ServiceType"
+                "ID", "PlacementTime", "OrderItemID", "Amount", "OrderStatus", "CustomerID", "ServiceType"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -154,12 +159,14 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_AllOrder.setRowHeight(30);
         table_AllOrder.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_AllOrder);
         if (table_AllOrder.getColumnModel().getColumnCount() > 0) {
             table_AllOrder.getColumnModel().getColumn(0).setResizable(false);
+            table_AllOrder.getColumnModel().getColumn(0).setPreferredWidth(30);
             table_AllOrder.getColumnModel().getColumn(1).setResizable(false);
-            table_AllOrder.getColumnModel().getColumn(1).setPreferredWidth(120);
+            table_AllOrder.getColumnModel().getColumn(1).setPreferredWidth(130);
             table_AllOrder.getColumnModel().getColumn(2).setResizable(false);
             table_AllOrder.getColumnModel().getColumn(3).setResizable(false);
             table_AllOrder.getColumnModel().getColumn(4).setResizable(false);
@@ -167,6 +174,7 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
             table_AllOrder.getColumnModel().getColumn(6).setResizable(false);
         }
 
+        btn_ReviewFeedback.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_ReviewFeedback.setText("Check Review");
         btn_ReviewFeedback.setEnabled(false);
         btn_ReviewFeedback.addActionListener(new java.awt.event.ActionListener() {
@@ -175,6 +183,7 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
             }
         });
 
+        comboBox_Status.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         comboBox_Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Pending", "Accepted", "Declined", "Food_Preparing", "Delivered", "Pick-Up", "No_Runner", "Refunded", "Completed" }));
         comboBox_Status.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         comboBox_Status.addActionListener(new java.awt.event.ActionListener() {
@@ -183,11 +192,12 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
             }
         });
 
+        comboBox_Date.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         comboBox_Date.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Daily", "Monthly", "Quarterly", "Yearly" }));
         comboBox_Date.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(102, 102, 255));
+        jLabel1.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 153, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Order History");
 
@@ -207,14 +217,14 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(268, 268, 268))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(219, 219, 219))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(comboBox_Status, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,7 +258,7 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
                         }
                     }
                     JOptionPane.showMessageDialog(this, reviewFeedback);
-                } 
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "No review yet.");
             }
@@ -265,8 +275,12 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
