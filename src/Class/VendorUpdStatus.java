@@ -33,6 +33,7 @@ public class VendorUpdStatus {
 
     }
 
+    //update order status into file
     public void updateOrderFile(String orderID, String newStatus) {
         try {
             List<String> updatedOrders = new ArrayList<>();
@@ -63,6 +64,7 @@ public class VendorUpdStatus {
         }
     }
 
+    //generate update status notification
     public void generateUpdateStatusNotification(String orderID, String newStatus) {
         String customerUserID = vo.getCustomerUserID(orderID);
         int userID = Integer.parseInt(customerUserID);
@@ -93,6 +95,7 @@ public class VendorUpdStatus {
         }
     }
 
+    //get runnerid by orderid
     public String getRunnerID(String orderID) {
         try (BufferedReader runnerReader = new BufferedReader(new FileReader(runnerFilePath))) {
             String runnerLine;
@@ -105,6 +108,6 @@ public class VendorUpdStatus {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return "-1"; // Return default value if RunnerID is not found for the given OrderID
+        return "-1";
     }
 }

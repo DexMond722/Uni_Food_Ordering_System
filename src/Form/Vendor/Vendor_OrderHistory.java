@@ -78,20 +78,19 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
         for (List<String> orderItem : orderItems) {
 
             List<String> displayData = new ArrayList<>();
-            displayData.add(orderItem.get(0));  // OrderID
-            displayData.add(orderItem.get(1));  // OrderPlacementTime
-            displayData.add(orderItem.get(2));  // OrderItemID
-            displayData.add(orderItem.get(3));  // OrderAmount
-            displayData.add(orderItem.get(4));  // OrderStatus
-            displayData.add(orderItem.get(5));  // CustomerUserID
-            displayData.add(orderItem.get(7));  // ServiceType
+            displayData.add(orderItem.get(0));  
+            displayData.add(orderItem.get(1)); 
+            displayData.add(orderItem.get(2));  
+            displayData.add(orderItem.get(3)); 
+            displayData.add(orderItem.get(4));  
+            displayData.add(orderItem.get(5));  
+            displayData.add(orderItem.get(7)); 
             model.addRow(displayData.toArray());
 
         }
     }
 
     private void updateTableBasedOnStatus(String selectedStatus) {
-        // Read the order file and filter orders based on the selected status
         if (selectedStatus.equals("All")) {
             displayOrder(vendorOrder.getVendorOrder(username));
         } else {
@@ -254,7 +253,7 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
                     for (int i = 0; i < reviewFeedbackData.size(); i++) {
                         reviewFeedback += reviewFeedbackData.get(i);
                         if (i < reviewFeedbackData.size() - 1) {
-                            reviewFeedback += ", "; // Add comma after each element except the last one
+                            reviewFeedback += ", "; 
                         }
                     }
                     JOptionPane.showMessageDialog(this, reviewFeedback);

@@ -33,7 +33,7 @@ public class RunnerTask extends User {
 
     }
 
-    // Method to load tasks from the file
+    //load runnertask 
     public List<List<String>> getRunnerTask(String runnerID, Boolean flag) {
         List<List<String>> taskItems = new ArrayList<>();
         try {
@@ -60,6 +60,7 @@ public class RunnerTask extends User {
         return taskItems;
     }
 
+    //Update task status
     public boolean updateTaskStatus(String taskID, String newStatus) {
         List<String> updatedLines = new ArrayList<>();
         boolean taskUpdated = false;
@@ -84,7 +85,6 @@ public class RunnerTask extends User {
         }
 
         if (taskUpdated) {
-            // Write the updated lines back to the file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(runnertaskFilePath))) {
                 for (String updatedLine : updatedLines) {
                     writer.write(updatedLine);
@@ -98,6 +98,7 @@ public class RunnerTask extends User {
         return taskUpdated;
     }
 
+    //Generate DeliveryRunner Assigned notification
     public void generateDeliveryAssignedNotification(int userId, String orderID) {
         String dateTime = dt.getCurrentDateTime();
         String content = "A Delivery Runner has been assigned to Order ID: " + orderID;
@@ -115,10 +116,10 @@ public class RunnerTask extends User {
         }
     }
 
+    //Decline task
     public void declineTask(String taskID) {
         String orderID = null;
         try {
-            // Read and modify the task information
             BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath));
             StringBuilder content = new StringBuilder();
             String line;
@@ -131,29 +132,23 @@ public class RunnerTask extends User {
                 String modifiedLine = String.join(",", fields);
                 content.append(modifiedLine).append("\n");
             }
-            reader.close(); // Close the reader
+            reader.close();
 
-            // If an order ID was found, proceed with assigning a new task
             if (orderID != null) {
-                // Generate a new task ID
                 int newTaskID = generateNewTaskID(runnertaskFilePath);
                 List<Integer> declinedRunnerID = getDeclinedRunnerIDsForOrder(orderID);
-                // Assign the new task to a randomly chosen runner
                 int availableRunnerID = assignTaskToAvailableRunner(findAvailableRunnersExcluding(declinedRunnerID));
                 String vendorID = getVendorIDForOrder(orderID);
-                // Create a new line for the declined task
 
                 if (availableRunnerID == -1) {
-                    // No runner available, update order status to "No_runner"
                     updateOrderStatusToNoRunner(orderID);
                 } else {
                     String newTaskLine = String.format("%d,%d,%s,%s,Pending\n", newTaskID, availableRunnerID, orderID, vendorID);
                     content.append(newTaskLine);
 
-                    // Write the modified content (including the new task line) back to the file
                     BufferedWriter writer = new BufferedWriter(new FileWriter(runnertaskFilePath));
                     writer.write(content.toString());
-                    writer.close(); // Close the writer
+                    writer.close();
 
                     vo.generateTaskAssignedNotification(availableRunnerID);
 
@@ -165,6 +160,7 @@ public class RunnerTask extends User {
         }
     }
 
+    //Get declined runnerid based on orderid
     public List<Integer> getDeclinedRunnerIDsForOrder(String orderID) {
         List<Integer> declinedRunnerIDs = new ArrayList<>();
 
@@ -173,7 +169,6 @@ public class RunnerTask extends User {
             while ((line = reader.readLine()) != null) {
                 List<String> taskItem = Arrays.asList(line.split(","));
 
-                // Check if the task has the same orderID and taskStatus is "Declined"
                 if (taskItem.size() >= 3 && taskItem.get(2).trim().equals(orderID)
                         && taskItem.get(taskItem.size() - 1).trim().equals("Declined")) {
                     int runnerID = Integer.parseInt(taskItem.get(1).trim());
@@ -189,6 +184,7 @@ public class RunnerTask extends User {
         return declinedRunnerIDs;
     }
 
+    //Find remaining available runner
     public List<Integer> findAvailableRunnersExcluding(List<Integer> declinedRunnerIDs) {
         List<Integer> availableRunners = new ArrayList<>();
 
@@ -199,7 +195,6 @@ public class RunnerTask extends User {
                 int userID = Integer.parseInt(userData[0].trim());
                 String userType = userData[3].trim();
 
-                // Check if the user is a DeliveryRunner and has availability
                 if ("DeliveryRunner".equals(userType) && !declinedRunnerIDs.contains(userID)) {
                     availableRunners.add(userID);
                 }
@@ -213,6 +208,7 @@ public class RunnerTask extends User {
         return availableRunners;
     }
 
+    //Assign task to available runner
     public int assignTaskToAvailableRunner(List<Integer> availableRunners) {
         int availableRunnerID = 0;
         if (!availableRunners.isEmpty()) {
@@ -224,8 +220,8 @@ public class RunnerTask extends User {
         return availableRunnerID;
     }
 
+    //Update no_runner status
     private void updateOrderStatusToNoRunner(String orderID) {
-        // Read and modify the order.txt file to update the order status to "No_runner"
         try {
             BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
             StringBuilder content = new StringBuilder();
@@ -233,27 +229,28 @@ public class RunnerTask extends User {
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length >= 1 && fields[0].equals(orderID)) {
-                    // Assuming OrderStatus is in the 5th column (index 4)
                     fields[4] = "No_runner";
                 }
                 String modifiedLine = String.join(",", fields);
                 content.append(modifiedLine).append("\n");
             }
-            reader.close(); // Close the reader
+            reader.close();
 
-            // Write the modified content back to the file
             BufferedWriter writer = new BufferedWriter(new FileWriter(orderFilePath));
             writer.write(content.toString());
-            writer.close(); // Close the writer
+            writer.close();
 
             int customerID = Integer.parseInt(vo.getCustomerUserID(orderID));
+            int vendorID = Integer.parseInt(vo.getVendorID(orderID));
             generateNoRunnerNotification(customerID, orderID);
+            generateNoRunnerNotification(vendorID, orderID);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    //gENERATE no_runner notification
     public void generateNoRunnerNotification(int userId, String orderID) {
         String dateTime = dt.getCurrentDateTime();
         String content = "No runners have accepted Order ID: " + orderID;
@@ -271,38 +268,32 @@ public class RunnerTask extends User {
         }
     }
 
-
-
+    //Generate new taskID
     public int generateNewTaskID(String runnertaskFilePath) throws IOException {
-        int newTaskID = 1; // Default value for the first TaskID
+        int newTaskID = 1;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath))) {
-            // Skip the header if needed
             reader.readLine();
 
-            // Count the existing TaskIDs
             while (reader.readLine() != null) {
                 newTaskID++;
             }
         } catch (FileNotFoundException e) {
-            // Handle file not found exception
             e.printStackTrace();
         } catch (IOException e) {
-            // Handle other IO exceptions, including IOException from FileReader
             e.printStackTrace();
         }
 
         return newTaskID;
     }
 
+    //get vendorid based on orderid
     private String getVendorIDForOrder(String orderID) {
-        // Read the runnertask.txt file and find the VendorID based on OrderID
         try (BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length >= 4 && fields[2].equals(orderID)) {
-                    // Assuming VendorID is in the 4th column (index 3)
                     return fields[3];
                 }
             }
@@ -310,10 +301,10 @@ public class RunnerTask extends User {
             e.printStackTrace();
         }
 
-        // Return a default value or handle the case when the OrderID is not found
         return "DefaultVendor";
     }
 
+    //get username from userID
     public String getUsernameForUserID(String userID) {
         String username = "";
         try {
@@ -336,13 +327,13 @@ public class RunnerTask extends User {
         return username;
     }
 
+    //get orderid from taskid
     public String getOrderIdForTaskId(String taskId) {
         try (BufferedReader reader = new BufferedReader(new FileReader(runnertaskFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length >= 1 && fields[0].trim().equals(taskId)) {
-                    // Assuming OrderID is in the 3rd column (index 2)
                     return fields[2].trim();
                 }
             }
@@ -350,7 +341,6 @@ public class RunnerTask extends User {
             e.printStackTrace();
         }
 
-        // Return a default value or handle the case when the TaskID is not found
-        return "DefaultOrderID";
+        return "-1";
     }
 }

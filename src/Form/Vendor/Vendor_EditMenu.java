@@ -62,12 +62,12 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
         String foodName = JOptionPane.showInputDialog(this, "Enter Food Name:");
         if (foodName == null) {
             JOptionPane.showMessageDialog(this, "Function Cancelled.");
-            return;  // Exit the method
+            return;  
         }
 
-        if (!foodName.isEmpty()) {  // User entered a non-empty food name
+        if (!foodName.isEmpty()) {  
             String inputPrice = JOptionPane.showInputDialog(this, "Enter Price:");
-            if (inputPrice != null) {  // User pressed OK
+            if (inputPrice != null) {  
                 try {
                     double price = Double.parseDouble(inputPrice);
                     String selectedVendor = username;
@@ -88,7 +88,7 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
     }
 
     private String getCurrentFoodNameFromTable(int selectedRow) {
-        return table_Menu.getValueAt(selectedRow, 1).toString(); // Assuming FoodName is in the second column
+        return table_Menu.getValueAt(selectedRow, 1).toString(); 
     }
 
     public double getCurrentPriceFromTable(int selectedRow) {
@@ -96,13 +96,13 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
     }
 
     private void editFoodName(int selectedRow) {
-        String foodID = table_Menu.getValueAt(selectedRow, 0).toString(); // Assuming FoodID is in the first column
+        String foodID = table_Menu.getValueAt(selectedRow, 0).toString(); 
 
         String editedFoodName = JOptionPane.showInputDialog(this, "Enter New FoodName:");
 
         if (editedFoodName == null) {
             JOptionPane.showMessageDialog(this, "Editing Cancelled.");
-            return; // Exit the method
+            return; 
         }
 
         try {
@@ -121,13 +121,13 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
     }
 
     private void editPrice(int selectedRow) {
-        String foodID = table_Menu.getValueAt(selectedRow, 0).toString(); // Assuming FoodID is in the first column
+        String foodID = table_Menu.getValueAt(selectedRow, 0).toString(); 
 
         String newPrice = JOptionPane.showInputDialog(this, "Enter edited price:");
 
         if (newPrice == null) {
             JOptionPane.showMessageDialog(this, "Editing cancelled.");
-            return; // Exit the method
+            return; 
         }
 
         try {
@@ -135,9 +135,8 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
             if (!newPrice.isEmpty()) {
                 editedPrice = Double.parseDouble(newPrice);
             } else {
-                // Handle empty input of price
                 JOptionPane.showMessageDialog(this, "Price input cannot be empty.");
-                return; // Exit the method
+                return; 
             }
 
             userVendor.editMenuItem(username, foodID, getCurrentFoodNameFromTable(selectedRow), editedPrice);
@@ -149,11 +148,11 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
     }
 
     private void deleteMenuItem(int selectedRow) {
-        String vendorName = username; // Assuming you have this available
+        String vendorName = username; 
 
         if (selectedRow != -1) {
             userVendor.deleteMenuItem(vendorName, selectedRow);
-            refreshMenuTable(vendorName); // Refresh the table after deletion
+            refreshMenuTable(vendorName); 
             JOptionPane.showMessageDialog(this, "Successfully Deleted.");
         } else {
             JOptionPane.showMessageDialog(this, "Please select a row to delete.");

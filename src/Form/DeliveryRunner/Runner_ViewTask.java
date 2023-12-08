@@ -44,21 +44,18 @@ public class Runner_ViewTask extends javax.swing.JFrame {
     private void displayTask(List<List<String>> taskItems) {
         DefaultTableModel model = (DefaultTableModel) table_task.getModel();
         model.setRowCount(0);
-        RunnerTask runnerTask = new RunnerTask(); // Create an instance of RunnerTask
+        RunnerTask runnerTask = new RunnerTask(); 
 
         for (List<String> taskItem : taskItems) {
-            // Assuming taskItem contains TaskID, RunnerID, OrderID, VendorID, TaskStatus
             String taskID = taskItem.get(0);
             String runnerID = taskItem.get(1);
             String orderID = taskItem.get(2);
             String vendorID = taskItem.get(3);
             String taskStatus = taskItem.get(4);
 
-            // Fetch usernames based on UserIDs using the instance of RunnerTask
             String runnerUsername = runnerTask.getUsernameForUserID(runnerID);
             String vendorUsername = runnerTask.getUsernameForUserID(vendorID);
 
-            // Add a new row with usernames
             model.addRow(new Object[]{taskID, runnerUsername, orderID, vendorUsername, taskStatus});
         }
     }
@@ -188,17 +185,12 @@ public class Runner_ViewTask extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String taskID = table_task.getValueAt(selectedRow, 0).toString();
 
-            // Update the task status to "Declined"
             RunnerTask runnerTask = new RunnerTask();
             if (runnerTask.updateTaskStatus(taskID, "Declined")) {
-                // Try to find another available runner and assign the task
                 runnerTask.declineTask(taskID);
 
-//            runnerTask.assignTaskToAvailableRunner(taskID);
                 String runnerID = String.valueOf(userCustomer.getUserID(username));
                 displayTask(runnerTask.getRunnerTask(runnerID, true));
-            } else {
-                // Handle error if the task couldn't be updated
             }
         }
     }//GEN-LAST:event_btn_declineActionPerformed
@@ -208,10 +200,8 @@ public class Runner_ViewTask extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String taskID = table_task.getValueAt(selectedRow, 0).toString();
 
-            // Update the task status to "Accepted"
             RunnerTask runnerTask = new RunnerTask();
             if (runnerTask.updateTaskStatus(taskID, "Accepted")) {
-                // Refresh the table to reflect the changes
                 String runnerID = String.valueOf(userCustomer.getUserID(username));
                 displayTask(runnerTask.getRunnerTask(runnerID, true));
 
@@ -222,8 +212,6 @@ public class Runner_ViewTask extends javax.swing.JFrame {
                 runnerTask.generateDeliveryAssignedNotification(customerID, orderID);
                 runnerTask.generateDeliveryAssignedNotification(vendorID, orderID);
                 
-            } else {
-                // Handle error if the task couldn't be updated
             }
         }
     }//GEN-LAST:event_btn_acceptActionPerformed

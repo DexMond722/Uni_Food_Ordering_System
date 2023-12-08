@@ -49,7 +49,7 @@ public class Admin_ManageUser extends javax.swing.JFrame {
                         String password = (String) tableModel.getValueAt(selectedRow, 1);
                         String role = (String) tableModel.getValueAt(selectedRow, 2);
 
-                        // Display the data in text fields
+                        // Display the data in textbox
                         txtbox_Username.setText(username);
                         txtbox_Password.setText(password);
                         cbox_Role.setSelectedItem(role);

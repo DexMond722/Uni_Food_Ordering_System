@@ -19,6 +19,7 @@ public class VendorMenu {
 
     private static final String MENU_FOLDER_PATH = "src/Database/Menu/";
 
+    //create vendor menu text file
     public static void createVendorMenu(String vendorName) {
         String menuFilePath = MENU_FOLDER_PATH + vendorName + "Menu.txt";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(menuFilePath))) {
@@ -30,6 +31,7 @@ public class VendorMenu {
         }
     }
 
+    //delete vnndormenu text file
     public static void deleteVendorMenu(String vendorName) {
         String menuFilePath = MENU_FOLDER_PATH + vendorName + "Menu.txt";
         Path path = Paths.get(menuFilePath);

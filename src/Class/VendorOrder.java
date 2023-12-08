@@ -45,20 +45,18 @@ public class VendorOrder extends User {
         this.username = username;
     }
 
+    //get vendor order from textfile
     public List<List<String>> getVendorOrder(String vendorName) {
         List<List<String>> orderItems = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(orderFilePath));
-            reader.readLine(); // Skip header
+            reader.readLine(); 
             String line;
             while ((line = reader.readLine()) != null) {
                 List<String> orderItem = new ArrayList<>(Arrays.asList(line.split(",")));
-
-                // Assuming the VendorUserID is at index 6 in the order data
                 int orderVendorID = Integer.parseInt(orderItem.get(6));
 
-                // Check if the order is related to the specific vendor
                 if (orderVendorID == getVendorUserIdByUsername(vendorName)) {
                     orderItems.add(orderItem);
                 }
@@ -72,6 +70,7 @@ public class VendorOrder extends User {
     }
 
 
+    //get vendorid from username
     public int getVendorUserIdByUsername(String vendorName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
@@ -79,7 +78,7 @@ public class VendorOrder extends User {
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
                 String userName = userData[1].trim();
-                int userID = Integer.parseInt(userData[0].trim()); // Assuming UserID is at index 0
+                int userID = Integer.parseInt(userData[0].trim());
                 if (userName.equalsIgnoreCase(vendorName)) {
                     return userID;
                 }
@@ -89,13 +88,12 @@ public class VendorOrder extends User {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return -1; // Return -1 if the username is not found (handle appropriately in your code)
+        return -1; 
     }
 
+    //display food details in table
     public void displayFoodDetails(DefaultTableModel model, String orderItemID) throws IOException {
         model.setRowCount(0);
-
-        // Load order items data from orderItems.txt for the selected OrderItemID
         try {
             String menuFolderPath = "src/Database/Menu/";
             String menuFilePath = menuFolderPath + username + "Menu.txt";
@@ -103,17 +101,15 @@ public class VendorOrder extends User {
             BufferedReader menuReader = new BufferedReader(new FileReader(menuFilePath));
             Map<String, String> foodNameMap = new HashMap<>();
 
-            // Read the menu file and populate the foodNameMap
             String menuLine;
             while ((menuLine = menuReader.readLine()) != null) {
                 String[] menuData = menuLine.split(",");
                 String foodID = menuData[0].trim();
-                String foodName = menuData[1].trim(); // Assuming FoodName is at index 1
+                String foodName = menuData[1].trim(); 
                 foodNameMap.put(foodID, foodName);
             }
-            // Read the order items file and display details
             BufferedReader orderReader = new BufferedReader(new FileReader("src/Database/orderItems.txt"));
-            orderReader.readLine(); // Skip header
+            orderReader.readLine(); 
             String orderLine;
             while ((orderLine = orderReader.readLine()) != null) {
                 List<String> orderItemDetails = Arrays.asList(orderLine.split(","));
@@ -123,7 +119,6 @@ public class VendorOrder extends User {
                     String foodID = orderItemDetails.get(1);
                     String foodName = foodNameMap.get(foodID);
 
-                    // Replace FoodID with FoodName in the order item details
                     orderItemDetails.set(1, foodName);
                     model.addRow(orderItemDetails.toArray());
                 }
@@ -135,26 +130,21 @@ public class VendorOrder extends User {
         }
     }
 
+    //assign runner for delivery
     public void assignRunnerForDelivery(String orderID) {
         try {
-            // Check the service type of the selected order
             String serviceType = getServiceTypeForOrder(orderID);
             if ("Delivery".equals(serviceType)) {
-                // Get the VendorID from the logged-in user
                 int vendorID = getVendorUserIdByUsername(username);
 
-                // Load users to find a suitable DeliveryRunner
                 List<String> deliveryRunnerIDs = getUsersWithRole("DeliveryRunner");
                 if (!deliveryRunnerIDs.isEmpty()) {
-                    // Get a random DeliveryRunnerID
                     Random random = new Random();
                     String randomDeliveryRunnerID = deliveryRunnerIDs.get(random.nextInt(deliveryRunnerIDs.size()));
                     int runnerID = Integer.parseInt(randomDeliveryRunnerID);
 
-                    // Generate a new TaskID
                     int newTaskID = generateNewTaskID(runnerTaskFilePath);
 
-                    // Write into runnerTask.txt
                     BufferedWriter runnerTaskWriter = new BufferedWriter(new FileWriter(runnerTaskFilePath, true));
                     String newRunnerTask = newTaskID + "," + randomDeliveryRunnerID + "," + orderID + "," + vendorID + ",Pending";
                     runnerTaskWriter.write(newRunnerTask);
@@ -166,9 +156,10 @@ public class VendorOrder extends User {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
-            // Handle exceptions as needed
         }
     }
+    
+    //generate task assigned notification
     public void generateTaskAssignedNotification(int userId) {
         String dateTime = dt.getCurrentDateTime();
         String content = "You have received a new delivery task";
@@ -186,22 +177,21 @@ public class VendorOrder extends User {
         }
     }
 
+    //update order status
     public void updateOrderStatus(String orderID, String newStatus) {
         try {
-            // Read the order file and update the status
             List<String> updatedOrders = new ArrayList<>();
             BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath));
             String orderLine;
             while ((orderLine = orderReader.readLine()) != null) {
                 String[] orderData = orderLine.split(",");
                 if (orderData[0].equals(orderID)) {
-                    orderData[4] = newStatus; // Assuming OrderStatus is at index 4
+                    orderData[4] = newStatus; 
                 }
                 updatedOrders.add(String.join(",", orderData));
             }
             orderReader.close();
 
-            // Rewrite the updated orders to the file
             BufferedWriter orderWriter = new BufferedWriter(new FileWriter(orderFilePath));
             for (String updatedOrder : updatedOrders) {
                 orderWriter.write(updatedOrder);
@@ -211,10 +201,10 @@ public class VendorOrder extends User {
             generateUpdateStatusNotification(orderID, newStatus);
         } catch (IOException ex) {
             ex.printStackTrace();
-            // Handle exceptions as needed
         }
     }
 
+    //generate update status notification
     public void generateUpdateStatusNotification(String orderID, String newStatus) {
         String customerUserID = getCustomerUserID(orderID);
         int userID = Integer.parseInt(customerUserID);
@@ -234,6 +224,7 @@ public class VendorOrder extends User {
         }
     }
 
+    //get users role
     public List<String> getUsersWithRole(String role) {
         List<String> userIDs = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(userFilePath))) {
@@ -241,7 +232,7 @@ public class VendorOrder extends User {
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
                 if (userData.length >= 4 && role.equals(userData[3].trim())) {
-                    userIDs.add(userData[0]); // Assuming UserID is at index 0
+                    userIDs.add(userData[0]);
                 }
             }
         } catch (IOException e) {
@@ -250,36 +241,39 @@ public class VendorOrder extends User {
         return userIDs;
     }
 
+    //get orderamount from orderid
     public String getOrderAmount(String orderID) {
         try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
             String orderLine;
             while ((orderLine = orderReader.readLine()) != null) {
                 String[] orderData = orderLine.split(",");
                 if (orderData[0].equals(orderID)) {
-                    return orderData[3]; // Assuming OrderAmount is at index 3
+                    return orderData[3]; 
                 }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return "0.0"; // Return default value if OrderAmount is not found
+        return "0.0"; 
     }
 
+    //get vendorid from orderid
     public String getVendorID(String orderID) {
         try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
             String orderLine;
             while ((orderLine = orderReader.readLine()) != null) {
                 String[] orderData = orderLine.split(",");
                 if (orderData[0].equals(orderID)) {
-                    return orderData[6]; // Assuming CustomerUserID is at index 5
+                    return orderData[6]; 
                 }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return "-1"; // Return default value if CustomerUserID is not found
+        return "-1"; 
     }
     
+    //get customerid from orderid
     public String getCustomerUserID(String orderID) {
         try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
             String orderLine;
@@ -292,23 +286,24 @@ public class VendorOrder extends User {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return "-1"; // Return default value if CustomerUserID is not found
+        return "-1"; 
     }
 
+    //get service type for order
     public String getServiceTypeForOrder(String orderID) throws IOException {
-        // Read the order file to find the ServiceType for the given OrderID
         try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
             String orderLine;
             while ((orderLine = orderReader.readLine()) != null) {
                 String[] orderData = orderLine.split(",");
                 if (orderData.length >= 1 && orderData[0].equals(orderID)) {
-                    return orderData[7]; // Assuming ServiceType is at index 7
+                    return orderData[7]; 
                 }
             }
         }
-        return ""; // Return empty string if ServiceType is not found for the given OrderID
+        return ""; 
     }
 
+    //create credit transaction
     public void createCreditTransaction(String orderID, String orderAmount) {
         try {
             String transactionID = generateNewTransactionID();
@@ -334,6 +329,7 @@ public class VendorOrder extends User {
         }
     }
 
+    //generate new transaction id
     public String generateNewTransactionID() {
         String lastTransactionID = null;
         try {
@@ -347,7 +343,6 @@ public class VendorOrder extends User {
                 int transactionID = Integer.parseInt(lastTransactionID.substring(lastTransactionID.length() - 5)) + 1;
                 lastTransactionID = String.format("T%05d", transactionID);
             } else {
-                // If no line is found, set the default value
                 lastTransactionID = "T00001";
             }
         } catch (FileNotFoundException ex) {
@@ -358,25 +353,24 @@ public class VendorOrder extends User {
         return lastTransactionID;
     }
 
+    //generate new taskid
     public int generateNewTaskID(String filePath) throws IOException {
-        int newTaskID = 1; // Default value for the first TaskID
+        int newTaskID = 1; 
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            // Skip the header if needed
             reader.readLine();
 
-            // Count the existing TaskIDs
             while (reader.readLine() != null) {
                 newTaskID++;
             }
         } catch (FileNotFoundException e) {
-            // Handle file not found exception
             e.printStackTrace();
         }
 
         return newTaskID;
     }
 
+    //update customer and vendor credit
     public void updateCustomerandVendorCredit(String customerUserID, int vendorUserID, double totalAmount, Boolean flag) {
         double customerUpdatedCredit = getCustomerUpdatedCredit(customerUserID, totalAmount, flag);
         double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID, totalAmount, flag);
@@ -384,7 +378,8 @@ public class VendorOrder extends User {
         String vendorID = String.valueOf(vendorUserID);
         updateCreditInFile(vendorID, vendorUpdatedCredit);
     }
-
+    
+    //get customer updated credit
     public double getCustomerUpdatedCredit(String customerID, double totalAmount, Boolean flag) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
@@ -412,9 +407,9 @@ public class VendorOrder extends User {
         return 0;
     }
 
+    //get vendor updated credit
     private double getVendorUpdatedCredit(int vendorID, double totalAmount, Boolean flag) {
         try {
-            // Read the content of the file
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -441,6 +436,7 @@ public class VendorOrder extends User {
         return 0;
     }
 
+    //update credit in file
     public void updateCreditInFile(String userID, double updatedCredit) {
         try (BufferedReader reader = new BufferedReader(new FileReader(userFilePath))) {
             StringBuilder content = new StringBuilder();
@@ -461,6 +457,7 @@ public class VendorOrder extends User {
         }
     }
 
+    //get order status from file
     public List<List<String>> getOrderStatusFromFile(String status) {
         List<List<String>> ordersWithStatus = new ArrayList<>();
 
@@ -480,6 +477,7 @@ public class VendorOrder extends User {
         return ordersWithStatus;
     }
 
+    //filter order by date
     public List<List<String>> filterOrderByDateInterval(List<List<String>> orderItems, String selectedDateInterval) {
         LocalDateTime current = LocalDateTime.now();
         LocalDateTime orderTime;
@@ -508,7 +506,7 @@ public class VendorOrder extends User {
                 case "Quarterly":
                     // Compare orderTime with current year and quarter
                     if (orderTime.getYear() == current.getYear()) {
-                        int orderQuarter = (orderTime.getMonthValue() - 1) / 3 + 1; // Calculate the quarter
+                        int orderQuarter = (orderTime.getMonthValue() - 1) / 3 + 1;
                         int currentQuarter = (current.getMonthValue() - 1) / 3 + 1;
 
                         if (orderQuarter == currentQuarter) {

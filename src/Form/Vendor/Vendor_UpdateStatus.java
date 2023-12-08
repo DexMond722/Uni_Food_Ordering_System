@@ -43,7 +43,7 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         table_OrderStatus.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
         for (List<String> orderItem : orderItems) {
-            String orderStatus = orderItem.get(4); // Assuming OrderStatus is at index 4
+            String orderStatus = orderItem.get(4);
             String serviceType = orderItem.get(7);
 
             if (("Accepted".equals(orderStatus) || "Food_Preparing".equals(orderStatus))
@@ -52,13 +52,13 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
                     && "Delivery".equals(serviceType))) {
 
                 List<String> displayData = new ArrayList<>();
-                displayData.add(orderItem.get(0));  // OrderID
-                displayData.add(orderItem.get(1));  // OrderPlacementTime
-                displayData.add(orderItem.get(2));  // OrderItemID
-                displayData.add(orderItem.get(3));  // OrderAmount
-                displayData.add(orderStatus);       // OrderStatus
-                displayData.add(orderItem.get(5));  // CustomerUserID
-                displayData.add(serviceType);       // ServiceType
+                displayData.add(orderItem.get(0));
+                displayData.add(orderItem.get(1));
+                displayData.add(orderItem.get(2));
+                displayData.add(orderItem.get(3));
+                displayData.add(orderStatus);
+                displayData.add(orderItem.get(5));
+                displayData.add(serviceType);
                 model.addRow(displayData.toArray());
             }
         }
@@ -69,34 +69,34 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
 
         if (selectedRow != -1) {
             DefaultTableModel model = (DefaultTableModel) table_OrderStatus.getModel();
-            String orderID = (String) model.getValueAt(selectedRow, 0); // Assuming OrderID is at index 0
-            String orderStatus = (String) model.getValueAt(selectedRow, 4); // Assuming OrderStatus is at index 4
-            String serviceType = (String) model.getValueAt(selectedRow, 6); // Assuming ServiceType is at index 6
+            String orderID = (String) model.getValueAt(selectedRow, 0); // 
+            String orderStatus = (String) model.getValueAt(selectedRow, 4); 
+            String serviceType = (String) model.getValueAt(selectedRow, 6); // 
 
             if ("Accepted".equals(orderStatus) && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))) {
-                model.setValueAt("Food_Preparing", selectedRow, 4); // Updating OrderStatus to Food_Preparing
+                model.setValueAt("Food_Preparing", selectedRow, 4); // 
 
                 vendorUpdStatus.updateOrderFile(orderID, "Food_Preparing");
                 JOptionPane.showMessageDialog(this, "Status Updated");
 
             } else if ("Food_Preparing".equals(orderStatus) && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))) {
-                model.setValueAt("Completed", selectedRow, 4); // Updating OrderStatus to Order Completed
+                model.setValueAt("Completed", selectedRow, 4); // 
 
                 vendorUpdStatus.updateOrderFile(orderID, "Completed");
                 JOptionPane.showMessageDialog(this, "Order Completed");
 
             } else if ("Delivered".equals(orderStatus) && ("Delivery".equals(serviceType))) {
-                model.setValueAt("Completed", selectedRow, 4); // Updating OrderStatus to Order Completed
+                model.setValueAt("Completed", selectedRow, 4); 
 
                 vendorUpdStatus.updateOrderFile(orderID, "Completed");
                 JOptionPane.showMessageDialog(this, "Order Completed");
 
             } else if ("No_runner".equals(orderStatus) && ("Delivery".equals(serviceType))) {
-                model.setValueAt("Refunded", selectedRow, 4); // Updating OrderStatus to Order Completed
+                model.setValueAt("Refunded", selectedRow, 4); 
 
                 vendorUpdStatus.updateOrderFile(orderID, "Refunded");
                 JOptionPane.showMessageDialog(this, "Order Refunded");
-                
+
             }
 
         } else {
@@ -106,7 +106,7 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
 
     private void refreshOrderTable() {
         DefaultTableModel model = (DefaultTableModel) table_OrderStatus.getModel();
-        model.setRowCount(0); // Clear the existing rows
+        model.setRowCount(0); 
 
         List<List<String>> orderItems = vendorOrder.getVendorOrder(username);
         displayOrder(orderItems);
@@ -217,7 +217,7 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String orderStatus = (String) table_OrderStatus.getValueAt(selectedRow, 4);
             if (orderStatus.equals("No_runner")) {
-                String orderID = (String) table_OrderStatus.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
+                String orderID = (String) table_OrderStatus.getValueAt(selectedRow, 0); 
                 String customerID = (String) table_OrderStatus.getValueAt(selectedRow, 5);
                 int vendorID = Integer.parseInt(vendorOrder.getVendorID(orderID));
                 String orderAmount = vendorOrder.getOrderAmount(orderID);

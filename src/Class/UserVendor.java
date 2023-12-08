@@ -43,17 +43,20 @@ public class UserVendor extends User {
         return menuItems;
     }
 
+    //return menu item
     public String MenuItem(int foodID, String foodName, double price) {
         String formattedFoodID = "F" + String.format("%02d", foodID);
         return formattedFoodID + "," + foodName + "," + price;
     }
 
+    //add new menu items
     public void addMenuItem(String vendorName, String foodName, double price) {
         String menuFilePath = menuFolderPath + vendorName + "Menu.txt";
         String newItem = MenuItem(getNextFoodID(menuFilePath), foodName, price);
         writeMenuItemToFile(menuFilePath, newItem);
     }
 
+    //write menu items to file
     private void writeMenuItemToFile(String menuFilePath, String item) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(menuFilePath, true))) {
             writer.write(item);
@@ -63,6 +66,7 @@ public class UserVendor extends User {
         }
     }
 
+    //edit menu
     public void editMenuItem(String vendorName, String foodID, String editedFoodName, double editedPrice) {
         String menuFilePath = menuFolderPath + vendorName + "Menu.txt";
         try {
@@ -71,12 +75,10 @@ public class UserVendor extends User {
                 String menuline = menulines.get(i);
                 String[] menudata = menuline.split(",");
                 if (menudata[0].equals(foodID)) {
-                    // Update the line with the edited food name and price
                     menulines.set(i, foodID + "," + editedFoodName + "," + editedPrice);
                     break;
                 }
             }
-            // Write the updated content back to the file using BufferedWriter
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(menuFilePath))) {
                 for (String line : menulines) {
                     writer.write(line);
@@ -88,13 +90,14 @@ public class UserVendor extends User {
         }
     }
 
+    //delete menu items
     public void deleteMenuItem(String vendorName, int selectedRow) {
         String menuFilePath = menuFolderPath + vendorName + "Menu.txt";
 
         if (selectedRow != -1) {
             try {
                 List<String> menuLines = Files.readAllLines(Paths.get(menuFilePath));
-                menuLines.remove(selectedRow + 1); // Adjust for header (if any)
+                menuLines.remove(selectedRow + 1);
 
                 Files.write(Paths.get(menuFilePath), menuLines);
             } catch (IOException ex) {
@@ -103,11 +106,11 @@ public class UserVendor extends User {
         }
     }
 
+    //get food name from table
     public String getCurrentFoodNameFromTable(int selectedRow, String vendorName) {
         String menuFilePath = "src/Database/Menu/" + vendorName + "Menu.txt";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(menuFilePath))) {
-            // Skipping the header line if applicable
             reader.readLine();
 
             String line;
@@ -115,7 +118,7 @@ public class UserVendor extends User {
             while ((line = reader.readLine()) != null) {
                 if (currentRow == selectedRow) {
                     String[] names = line.split(",");
-                    return names[1]; // Assuming FoodName is in the second column
+                    return names[1];
                 }
                 currentRow++;
             }
@@ -123,9 +126,10 @@ public class UserVendor extends User {
             e.printStackTrace();
         }
 
-        return ""; // Return empty string if no data found or in case of an error
+        return "";
     }
 
+    //get next food id
     private int getNextFoodID(String menuFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(menuFilePath))) {
             reader.readLine();
@@ -134,7 +138,7 @@ public class UserVendor extends User {
 
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                int currentFoodID = Integer.parseInt(parts[0].substring(1)); // Extract the numeric part of FoodID
+                int currentFoodID = Integer.parseInt(parts[0].substring(1));
                 lastFoodID = Math.max(lastFoodID, currentFoodID);
             }
 

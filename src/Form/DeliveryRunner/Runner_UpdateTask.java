@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import Class.RunnerUptStatus;
 import Class.VendorOrder;
 import java.awt.Font;
-import java.util.ArrayList;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -42,11 +41,11 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
         List<List<String>> acceptedOrderDetailsList = runnerUptStatus.getAcceptedOrderDetails(runnerID);
 
         DefaultTableModel model = (DefaultTableModel) table_taskstatus.getModel();
-        model.setRowCount(0); // Clear existing rows in the table
+        model.setRowCount(0); 
 
         for (List<String> acceptedOrderDetails : acceptedOrderDetailsList) {
             if (acceptedOrderDetails != null && acceptedOrderDetails.size() >= 8) {
-                // Extract individual values from the list
+
                 String OrderID = acceptedOrderDetails.get(0);
                 String OrderPlacementTime = acceptedOrderDetails.get(1);
                 String OrderItemID = acceptedOrderDetails.get(2);
@@ -55,7 +54,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
                 String CustomerUserID = acceptedOrderDetails.get(5);
                 String VendorUserID = acceptedOrderDetails.get(6);
 
-                // Add a row to the table with order details
+
                 model.addRow(acceptedOrderDetails.toArray());
             }
         }
@@ -63,13 +62,12 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
 
     private void refreshTable(String runnerID) {
         DefaultTableModel model = (DefaultTableModel) table_taskstatus.getModel();
-        model.setRowCount(0); // Clear existing rows in the table
+        model.setRowCount(0); 
 
         List<List<String>> acceptedOrderDetailsList = runnerUptStatus.getAcceptedOrderDetails(runnerID);
 
         for (List<String> acceptedOrderDetails : acceptedOrderDetailsList) {
             if (acceptedOrderDetails != null && acceptedOrderDetails.size() >= 8) {
-                // Extract individual values from the list
                 String OrderID = acceptedOrderDetails.get(0);
                 String OrderPlacementTime = acceptedOrderDetails.get(1);
                 String OrderItemID = acceptedOrderDetails.get(2);
@@ -78,7 +76,6 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
                 String CustomerUserID = acceptedOrderDetails.get(5);
                 String VendorUserID = acceptedOrderDetails.get(6);
 
-                // Add a row to the table with order details
                 model.addRow(acceptedOrderDetails.toArray());
             }
         }
@@ -230,7 +227,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
             String orderStatus = (String) table_taskstatus.getValueAt(selectedRow, 4);
             if (orderStatus.equals("Accepted")) {
                 String orderID = (String) table_taskstatus.getValueAt(selectedRow, 0);
-                int vendorID = Integer.parseInt(runnerUptStatus.getVendorID(orderID));// Assuming OrderID is in the first column
+                int vendorID = Integer.parseInt(runnerUptStatus.getVendorID(orderID));
                 int customerID= Integer.parseInt(vo.getCustomerUserID(orderID));
 
                 runnerUptStatus.updateOrderFile(orderID, "Pick-Up");
@@ -247,7 +244,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String orderStatus = (String) table_taskstatus.getValueAt(selectedRow, 4);
             if (orderStatus.equals("Pick-Up")) {
-                String orderID = (String) table_taskstatus.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
+                String orderID = (String) table_taskstatus.getValueAt(selectedRow, 0); 
                 int vendorID = Integer.parseInt(runnerUptStatus.getVendorID(orderID));
                 int customerID= Integer.parseInt(vo.getCustomerUserID(orderID));
 
