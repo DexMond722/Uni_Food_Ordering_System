@@ -10,8 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,15 +21,10 @@ import java.util.List;
  */
 public class VendorUpdStatus {
 
-    private VendorOrder vendorOrder;
     private static final String userFilePath = "src/Database/users.txt";
     private static final String orderFilePath = "src/Database/order.txt/";
     private static final String runnerFilePath = "src/Database/runnertask.txt";
     private static final String creditTransactionFilePath = "src/Database/credit_transaction.txt";
-
-    public VendorUpdStatus(int id, String username, String password, String role) {
-
-    }
 
     public VendorUpdStatus() {
 
@@ -89,7 +82,7 @@ public class VendorUpdStatus {
                 if (orderData[0].equals(orderID)) {
                     return orderData[6]; // Assuming CustomerUserID is at index 5
                 }
-            }
+            }  
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -6,6 +6,7 @@ package Form.Vendor;
 
 import Class.VendorOrder;
 import Class.VendorUpdStatus;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -31,28 +32,24 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         displayOrder(vendorOrder.getVendorOrder(username));
         preventMenuEdited();
 
-        table_OrderStatus.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = table_OrderStatus.getSelectedRow();
-                    if (selectedRow != -1) {
-                        // Get the OrderItemID from the selected row
-                        String orderItemID = (String) table_OrderStatus.getValueAt(selectedRow, 2);
-                    }
-                }
-            }
-        });
+        
     }
 
     private void displayOrder(List<List<String>> orderItems) {
         DefaultTableModel model = (DefaultTableModel) table_OrderStatus.getModel();
         model.setRowCount(0);
+        table_OrderStatus.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+
 
         for (List<String> orderItem : orderItems) {
             String orderStatus = orderItem.get(4); // Assuming OrderStatus is at index 4
             String serviceType = orderItem.get(7);
-            if (("Accepted".equals(orderStatus) && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))) || "No_Runner".equals(orderStatus) || "Food_Preparing".equals(orderStatus)) {
+
+            if (("Accepted".equals(orderStatus) || "Food_Preparing".equals(orderStatus))
+                && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))
+                || (("No_Runner".equals(orderStatus) || "Delivered".equals(orderStatus))
+                && "Delivery".equals(serviceType))) {
+                
                 List<String> displayData = new ArrayList<>();
                 displayData.add(orderItem.get(0));  // OrderID
                 displayData.add(orderItem.get(1));  // OrderPlacementTime
@@ -78,19 +75,24 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
             if ("Accepted".equals(orderStatus) && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))) {
                 model.setValueAt("Food_Preparing", selectedRow, 4); // Updating OrderStatus to Food_Preparing
 
-                // Update order.txt file
                 vendorUpdStatus.updateOrderFile(orderID, "Food_Preparing");
                 JOptionPane.showMessageDialog(this, "Status Updated");
+
             } else if ("Food_Preparing".equals(orderStatus) && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))) {
                 model.setValueAt("Completed", selectedRow, 4); // Updating OrderStatus to Order Completed
 
-                // Update order.txt file
                 vendorUpdStatus.updateOrderFile(orderID, "Completed");
                 JOptionPane.showMessageDialog(this, "Order Completed");
-            } else if ("No_Runner".equals(orderStatus)) {
+
+            } else if ("Delivered".equals(orderStatus) && ("Delivery".equals(serviceType))) {
+                model.setValueAt("Completed", selectedRow, 4); // Updating OrderStatus to Order Completed
+
+                vendorUpdStatus.updateOrderFile(orderID, "Completed");
+                JOptionPane.showMessageDialog(this, "Order Completed");
+
+            } else if ("No_Runner".equals(orderStatus) && ("Delivery".equals(serviceType))) {
                 model.setValueAt("Refunded", selectedRow, 4); // Updating OrderStatus to Order Completed
 
-                // Update order.txt file
                 vendorUpdStatus.updateOrderFile(orderID, "Refunded");
                 JOptionPane.showMessageDialog(this, "Order Refunded");
             }
@@ -98,10 +100,6 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Please select a specific row to update status");
         }
-    }
-
-    private void updateCreditInFile(String userID, double updatedCredit) {
-
     }
 
     private void refreshOrderTable() {
@@ -175,7 +173,9 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(20, 60, 660, 300);
 
+        btn_UpdateStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btn_UpdateStatus.setText("Update Status");
+        btn_UpdateStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_UpdateStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_UpdateStatusActionPerformed(evt);
@@ -219,10 +219,10 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
                 updateOrderStatus();
                 vendorUpdStatus.createCreditTransaction(orderID, orderAmount);
                 vendorUpdStatus.updateCustomerandVendorCredit(customerID, vendorID, doubleAmount, true);
-            }   else if(orderStatus.equals("Accepted")|| orderStatus.equals("Food_Preparing")){
+            } else if (orderStatus.equals("Accepted") || orderStatus.equals("Food_Preparing") || orderStatus.equals("Delivered")) {
                 updateOrderStatus();
             }
-            
+
             refreshOrderTable();
         }
 

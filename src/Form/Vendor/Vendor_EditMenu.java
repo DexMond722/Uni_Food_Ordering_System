@@ -1,6 +1,5 @@
 package Form.Vendor;
 
-import Class.MenuItem;
 import Class.UserVendor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -62,7 +61,7 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
     private void preventMenuEdited() {
         table_Menu.setDefaultEditor(Object.class, null);
     }
-
+        
     private void addMenuItem() {
         String foodName = JOptionPane.showInputDialog(this, "Enter Food Name:");
         if (foodName == null) {
@@ -76,7 +75,7 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
                 try {
                     double price = Double.parseDouble(inputPrice);
                     String selectedVendor = username;
-                    UserVendor.addMenuItem(selectedVendor, foodName, price);
+                    userVendor.addMenuItem(selectedVendor, foodName, price);
                     refreshMenuTable(selectedVendor);
 
                     JOptionPane.showMessageDialog(this, "Menu item added successfully!");
@@ -96,51 +95,51 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
         return table_Menu.getValueAt(selectedRow, 1).toString(); // Assuming FoodName is in the second column
     }
 
-    private void editMenuItem() {
-        int selectedRow = table_Menu.getSelectedRow();
-        if (selectedRow != -1) {
-            String foodID = table_Menu.getValueAt(selectedRow, 0).toString(); // Assuming FoodID is in the first column
-
-            String editedFoodName = JOptionPane.showInputDialog(this, "Enter Edited FoodName:\n(If no, leave empty)");
-
-            if (editedFoodName == null) {
-                JOptionPane.showMessageDialog(this, "Editing canceled.");
-                return; // Exit the method
-            }
-
-            String newPrice = JOptionPane.showInputDialog(this, "Enter edited price:");
-
-            if (newPrice == null) {
-                JOptionPane.showMessageDialog(this, "Editing canceled.");
-                return; // Exit the method
-            }
-
-            try {
-                double editedPrice;
-                if (!newPrice.isEmpty()) {
-                    editedPrice = Double.parseDouble(newPrice);
-                } else {
-                    // Handle empty input of price
-                    JOptionPane.showMessageDialog(this, "Price input cannot be empty.");
-                    return; // Exit the method
-                }
-
-                if (!editedFoodName.isEmpty()) {
-                    userVendor.editMenuItem(username, foodID, editedFoodName, editedPrice);
-                    refreshMenuTable(username);
-                } else {
-                    // Retrieve current food name from the table data
-                    String currentFoodName = userVendor.getCurrentFoodNameFromTable(selectedRow, username);
-                    userVendor.editMenuItem(username, foodID, currentFoodName, editedPrice);
-                    refreshMenuTable(username);
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid price. Please enter a valid number.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
-        }
-    }
+//    private void editMenuItem() {
+//        int selectedRow = table_Menu.getSelectedRow();
+//        if (selectedRow != -1) {
+//            String foodID = table_Menu.getValueAt(selectedRow, 0).toString(); // Assuming FoodID is in the first column
+//
+//            String editedFoodName = JOptionPane.showInputDialog(this, "Enter Edited FoodName:\n(If no, leave empty)");
+//
+//            if (editedFoodName == null) {
+//                JOptionPane.showMessageDialog(this, "Editing canceled.");
+//                return; // Exit the method
+//            }
+//
+//            String newPrice = JOptionPane.showInputDialog(this, "Enter edited price:");
+//
+//            if (newPrice == null) {
+//                JOptionPane.showMessageDialog(this, "Editing canceled.");
+//                return; // Exit the method
+//            }
+//
+//            try {
+//                double editedPrice;
+//                if (!newPrice.isEmpty()) {
+//                    editedPrice = Double.parseDouble(newPrice);
+//                } else {
+//                    // Handle empty input of price
+//                    JOptionPane.showMessageDialog(this, "Price input cannot be empty.");
+//                    return; // Exit the method
+//                }
+//
+//                if (!editedFoodName.isEmpty()) {
+//                    userVendor.editMenuItem(username, foodID, editedFoodName, editedPrice);
+//                    refreshMenuTable(username);
+//                } else {
+//                    // Retrieve current food name from the table data
+//                    String currentFoodName = userVendor.getCurrentFoodNameFromTable(selectedRow, username);
+//                    userVendor.editMenuItem(username, foodID, currentFoodName, editedPrice);
+//                    refreshMenuTable(username);
+//                }
+//            } catch (NumberFormatException ex) {
+//                JOptionPane.showMessageDialog(this, "Invalid price. Please enter a valid number.");
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+//        }
+//    }
 
     public double getCurrentPriceFromTable(int selectedRow) {
         return Double.parseDouble(table_Menu.getValueAt(selectedRow, PRICE_COLUMN_INDEX).toString());
@@ -228,6 +227,7 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
         btn_Add = new javax.swing.JButton();
         btn_Edit = new javax.swing.JButton();
         btn_Remove = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         jMenu1.setText("jMenu1");
 
@@ -241,7 +241,7 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(750, 626));
         jPanel1.setLayout(null);
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         table_Menu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -270,26 +270,37 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
             table_Menu.getColumnModel().getColumn(2).setResizable(false);
         }
 
+        btn_Add.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_Add.setText("Add");
+        btn_Add.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AddActionPerformed(evt);
             }
         });
 
+        btn_Edit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_Edit.setText("Edit");
+        btn_Edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_EditActionPerformed(evt);
             }
         });
 
+        btn_Remove.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_Remove.setText("Remove");
+        btn_Remove.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Remove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_RemoveActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Edit Menu");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -298,45 +309,47 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(181, 181, 181)
-                        .addComponent(btn_Add)
-                        .addGap(74, 74, 74)
-                        .addComponent(btn_Edit)
-                        .addGap(73, 73, 73)
-                        .addComponent(btn_Remove))
+                        .addGap(172, 172, 172)
+                        .addComponent(btn_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(btn_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(87, 87, 87)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(101, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(307, 307, 307)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Edit)
-                    .addComponent(btn_Remove)
-                    .addComponent(btn_Add))
+                    .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 750, 440);
+        jPanel2.setBounds(10, 0, 760, 490);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, Short.MAX_VALUE)
         );
 
         pack();
@@ -382,6 +395,7 @@ public class Vendor_EditMenu extends javax.swing.JFrame {
     private javax.swing.JButton btn_Add;
     private javax.swing.JButton btn_Edit;
     private javax.swing.JButton btn_Remove;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

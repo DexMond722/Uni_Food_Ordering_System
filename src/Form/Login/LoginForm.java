@@ -38,7 +38,7 @@ public class LoginForm extends javax.swing.JFrame {
                 User user = userManager.getUserByUsernameAndPassword(username, password);
 
                 if (user != null) {
-                    openDashboard(user.getRole(), user.getUsername());
+                    openDashboard(user.getRole(), user.getUsername(),user.getId());
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -46,7 +46,7 @@ public class LoginForm extends javax.swing.JFrame {
         });
     }
 
-    private void openDashboard(String role, String username) {
+    private void openDashboard(String role, String username, int userID) {
         if (role.equals("Administrator")) {
             AdminDashboard admin = new AdminDashboard(username);
             admin.setVisible(true);
@@ -54,7 +54,7 @@ public class LoginForm extends javax.swing.JFrame {
             admin.setLocationRelativeTo(null);
             this.dispose();
         } else if (role.equals("Vendor")) {
-            VendorDashboard vendor = new VendorDashboard(username);
+            VendorDashboard vendor = new VendorDashboard(username, userID);
             vendor.setVisible(true);
             vendor.pack();
             vendor.setLocationRelativeTo(null);

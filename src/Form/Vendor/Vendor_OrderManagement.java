@@ -5,6 +5,7 @@
 package Form.Vendor;
 
 import Class.VendorOrder;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
     private void displayOrder(List<List<String>> orderItems) {
         DefaultTableModel model = (DefaultTableModel) table_Order.getModel();
         model.setRowCount(0);
+        table_Order.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
         for (List<String> orderItem : orderItems) {
             String orderStatus = orderItem.get(4); // Assuming OrderStatus is at index 4
@@ -110,12 +112,14 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         table_FoodDetails = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(750, 626));
-        setMinimumSize(new java.awt.Dimension(750, 626));
-        setPreferredSize(new java.awt.Dimension(750, 626));
+        setMaximumSize(new java.awt.Dimension(750, 660));
+        setMinimumSize(new java.awt.Dimension(750, 660));
+        setPreferredSize(new java.awt.Dimension(750, 660));
         setResizable(false);
+        setSize(new java.awt.Dimension(750, 660));
 
         jPanel1.setMaximumSize(new java.awt.Dimension(750, 626));
         jPanel1.setMinimumSize(new java.awt.Dimension(750, 626));
@@ -145,7 +149,7 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         if (table_Order.getColumnModel().getColumnCount() > 0) {
             table_Order.getColumnModel().getColumn(0).setResizable(false);
             table_Order.getColumnModel().getColumn(1).setResizable(false);
-            table_Order.getColumnModel().getColumn(1).setPreferredWidth(100);
+            table_Order.getColumnModel().getColumn(1).setPreferredWidth(120);
             table_Order.getColumnModel().getColumn(2).setResizable(false);
             table_Order.getColumnModel().getColumn(3).setResizable(false);
             table_Order.getColumnModel().getColumn(4).setResizable(false);
@@ -154,25 +158,27 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(40, 40, 670, 240);
+        jScrollPane1.setBounds(40, 100, 670, 240);
 
         btn_Accept.setText("Accept");
+        btn_Accept.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AcceptActionPerformed(evt);
             }
         });
         jPanel1.add(btn_Accept);
-        btn_Accept.setBounds(440, 420, 100, 40);
+        btn_Accept.setBounds(440, 470, 100, 40);
 
         btn_Cancel.setText("Reject");
+        btn_Cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelActionPerformed(evt);
             }
         });
         jPanel1.add(btn_Cancel);
-        btn_Cancel.setBounds(590, 420, 100, 40);
+        btn_Cancel.setBounds(590, 470, 100, 40);
 
         table_FoodDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,17 +208,24 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         }
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(40, 330, 370, 210);
+        jScrollPane2.setBounds(40, 390, 370, 210);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setText("Ordered Items Details");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(40, 300, 190, 30);
+        jLabel1.setBounds(40, 350, 190, 30);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Order Details");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(40, 10, 190, 30);
+        jLabel2.setBounds(40, 60, 190, 30);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 102, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Accept/Cancel Order");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(260, 20, 230, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -222,7 +235,9 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 21, Short.MAX_VALUE))
         );
 
         pack();
@@ -300,6 +315,7 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
     private javax.swing.JButton btn_Cancel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

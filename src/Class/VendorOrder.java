@@ -260,7 +260,7 @@ public class VendorOrder extends User {
         }
         return "-1"; // Return default value if CustomerUserID is not found
     }
-    
+
     public String getServiceTypeForOrder(String orderID) throws IOException {
         // Read the order file to find the ServiceType for the given OrderID
         try (BufferedReader orderReader = new BufferedReader(new FileReader(orderFilePath))) {
@@ -274,7 +274,7 @@ public class VendorOrder extends User {
         }
         return ""; // Return empty string if ServiceType is not found for the given OrderID
     }
-    
+
     public void createCreditTransaction(String orderID, String orderAmount) {
         try {
             String transactionID = generateNewTransactionID();
@@ -287,7 +287,7 @@ public class VendorOrder extends User {
                     + currentDateTime + ",Debit,Payment Refunded";
             transactionWriter.write(newTransaction);
             transactionWriter.newLine();
-            
+
             int lastTransactionID = Integer.parseInt(transactionID.substring(transactionID.length() - 5)) + 1;
             String lastTransactionId = String.format("T%05d", lastTransactionID);
             String creditTransaction = lastTransactionId + "," + vendorUserID + "," + orderAmount + ","
@@ -299,7 +299,7 @@ public class VendorOrder extends User {
             ex.printStackTrace();
         }
     }
-      
+
     public String generateNewTransactionID() {
         String lastTransactionID = null;
         try {
@@ -342,7 +342,7 @@ public class VendorOrder extends User {
 
         return newTaskID;
     }
-    
+
     public void updateCustomerandVendorCredit(String customerUserID, int vendorUserID, double totalAmount, Boolean flag) {
         double customerUpdatedCredit = getCustomerUpdatedCredit(customerUserID, totalAmount, flag);
         double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID, totalAmount, flag);
@@ -427,4 +427,69 @@ public class VendorOrder extends User {
         }
     }
 
+    public List<List<String>> getOrderStatusFromFile(String status) {
+        List<List<String>> ordersWithStatus = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(orderFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] orderDetails = line.split(",");
+                if (orderDetails.length > 4 && orderDetails[4].equals(status)) {
+                    List<String> orderItemList = Arrays.asList(orderDetails);
+                    ordersWithStatus.add(orderItemList); // Add the order as a list of strings
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ordersWithStatus;
+    }
+
+    public static List<List<String>> filterOrderByDateInterval(List<List<String>> orderItems, String selectedDateInterval) {
+        LocalDateTime current = LocalDateTime.now();
+        LocalDateTime orderTime;
+        List<List<String>> filteredOrders = new ArrayList<>();
+
+        for (List<String> orderItem : orderItems) {
+            orderTime = LocalDateTime.parse(orderItem.get(1), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            switch (selectedDateInterval) {
+                case "All":
+                    // No date filtering needed, add all orders
+                    filteredOrders.add(orderItem);
+                    break;
+                case "Daily":
+                    // Compare orderTime with today's date
+                    if (orderTime.toLocalDate().equals(current.toLocalDate())) {
+                        filteredOrders.add(orderItem);
+                    }
+                    break;
+                case "Monthly":
+                    // Compare orderTime with this month's date
+                    if (orderTime.getMonth().equals(current.getMonth()) && orderTime.getYear() == current.getYear()) {
+                        filteredOrders.add(orderItem);
+                    }
+                    break;
+                case "Quarterly":
+                    // Compare orderTime with current year and quarter
+                    if (orderTime.getYear() == current.getYear()) {
+                        int orderQuarter = (orderTime.getMonthValue() - 1) / 3 + 1; // Calculate the quarter
+                        int currentQuarter = (current.getMonthValue() - 1) / 3 + 1;
+
+                        if (orderQuarter == currentQuarter) {
+                            filteredOrders.add(orderItem);
+                        }
+                    }
+                    break;
+                case "Yearly":
+                    // Compare orderTime year with current year
+                    if (orderTime.getYear() == current.getYear()) {
+                        filteredOrders.add(orderItem);
+                    }
+                    break;
+            }
+        }
+        return filteredOrders;
+    }
 }

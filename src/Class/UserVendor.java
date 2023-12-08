@@ -2,15 +2,12 @@ package Class;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,10 +18,6 @@ public class UserVendor extends User {
 
     private static final String userFilePath = "src/Database/users.txt";
     private static final String menuFolderPath = "src/Database/Menu/";
-
-    public UserVendor(int id, String username, String password, String role) {
-
-    }
 
     public UserVendor() {
 
@@ -50,15 +43,20 @@ public class UserVendor extends User {
         return menuItems;
     }
 
-    public static void addMenuItem(String vendorName, String foodName, double price) {
+    public String MenuItem(int foodID, String foodName, double price) {
+        String formattedFoodID = "F" + String.format("%02d", foodID);
+        return formattedFoodID + "," + foodName + "," + price;
+    }
+
+    public void addMenuItem(String vendorName, String foodName, double price) {
         String menuFilePath = menuFolderPath + vendorName + "Menu.txt";
-        MenuItem newItem = new MenuItem(getNextFoodID(menuFilePath), foodName, price);
+        String newItem = MenuItem(getNextFoodID(menuFilePath), foodName, price);
         writeMenuItemToFile(menuFilePath, newItem);
     }
 
-    private static void writeMenuItemToFile(String menuFilePath, MenuItem item) {
+    private void writeMenuItemToFile(String menuFilePath, String item) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(menuFilePath, true))) {
-            writer.write(item.toString());
+            writer.write(item);
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +87,7 @@ public class UserVendor extends User {
             ex.printStackTrace();
         }
     }
-    
+
     public void deleteMenuItem(String vendorName, int selectedRow) {
         String menuFilePath = menuFolderPath + vendorName + "Menu.txt";
 
@@ -104,8 +102,6 @@ public class UserVendor extends User {
             }
         }
     }
-    
-
 
     public String getCurrentFoodNameFromTable(int selectedRow, String vendorName) {
         String menuFilePath = "src/Database/Menu/" + vendorName + "Menu.txt";
@@ -130,7 +126,7 @@ public class UserVendor extends User {
         return ""; // Return empty string if no data found or in case of an error
     }
 
-    private static int getNextFoodID(String menuFilePath) {
+    private int getNextFoodID(String menuFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(menuFilePath))) {
             reader.readLine();
             String line;
