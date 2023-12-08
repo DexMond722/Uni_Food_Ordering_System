@@ -3,7 +3,6 @@ package Form.Customer;
 import Class.UserCustomer;
 import Class.CustomerOrder;
 import Class.CustomerCredit;
-import Class.UserCredit;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.*;

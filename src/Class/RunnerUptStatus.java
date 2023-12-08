@@ -29,6 +29,7 @@ public class RunnerUptStatus extends User {
 
     }
 
+    //geT runnerid by username
     public String getRunnerUserIdByUsername(String runnerID) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
@@ -36,7 +37,7 @@ public class RunnerUptStatus extends User {
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
                 String userName = userData[1].trim();
-                String userID = userData[0].trim(); // Assuming UserID is at index 0
+                String userID = userData[0].trim();
                 if (userName.equalsIgnoreCase(runnerID)) {
                     return userID;
                 }
@@ -46,24 +47,23 @@ public class RunnerUptStatus extends User {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return null; // Return -1 if the username is not found (handle appropriately in your code)
+        return null; 
     }
-
+    
+    //get Accepted order details
     public List<List<String>> getAcceptedOrderDetails(String runnerID) {
         List<List<String>> acceptedOrderDetailsList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(runnertaskFilePath))) {
             String line;
-            br.readLine(); // Skip header line
+            br.readLine(); 
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                // Assuming the order of columns in the file is TaskID,RunnerID,OrderID,VendorID,TaskStatus
                 if (values.length >= 5) {
                     String taskRunnerID = values[1].trim();
                     if (taskRunnerID.equals(runnerID)) {
                         int orderID = Integer.parseInt(values[2].trim());
                         String taskStatus = values[4].trim();
-                        // Check if TaskStatus is "Accepted" before adding the Order details to the list
                         if ("Accepted".equals(taskStatus)) {
                             List<String> orderDetails = getOrderItemDetails(orderID);
                             String orderStatus = orderDetails.get(4);
@@ -82,23 +82,21 @@ public class RunnerUptStatus extends User {
 
         return acceptedOrderDetailsList;
     }
-
+    
+    //geT accepted delivery order id
     public List<Integer> getAcceptedDeliveryOrderIDs(String orderFilePath) {
         List<Integer> acceptedDeliveryOrderIDs = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(orderFilePath))) {
             String line;
-            // Skip the header line if it exists
             br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                // Assuming the order of columns in the file is OrderID,OrderPlacementTime,OrderItemID,OrderAmount,OrderStatus,CustomerUserID,VendorUserID,ServiceType,TransactionID
                 int orderID = Integer.parseInt(values[0].trim());
                 String orderStatus = values[4].trim();
                 String serviceType = values[7].trim();
 
-                // Check if OrderStatus is "Accepted" and ServiceType is "Delivery" and add the OrderID to the list
                 if ("Accepted".equalsIgnoreCase(orderStatus) && "Delivery".equalsIgnoreCase(serviceType)) {
                     acceptedDeliveryOrderIDs.add(orderID);
                 }
@@ -110,10 +108,10 @@ public class RunnerUptStatus extends User {
         return acceptedDeliveryOrderIDs;
     }
 
+    //get orderitem details
     public List<String> getOrderItemDetails(int orderID) {
         try (BufferedReader br = new BufferedReader(new FileReader(orderFilePath))) {
             String line;
-            // Skip the header line if it exists
             br.readLine();
 
             while ((line = br.readLine()) != null) {
@@ -128,9 +126,10 @@ public class RunnerUptStatus extends User {
             e.printStackTrace();
         }
 
-        return null; // Return null if order details are not found
+        return null; 
     }
 
+    //update order file
     public void updateOrderFile(String orderID, String newStatus) {
         try {
             List<String> updatedOrders = new ArrayList<>();
@@ -159,19 +158,19 @@ public class RunnerUptStatus extends User {
             e.printStackTrace();
         }
     }
-
+    
+    //get vendor id based on oorderid
     public String getVendorID(String orderID) {
         try (BufferedReader br = new BufferedReader(new FileReader(orderFilePath))) {
             String line;
-            br.readLine(); // Skip header line
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                // Assuming the order of columns in the file is OrderID,OrderPlacementTime,OrderItemID,OrderAmount,OrderStatus,CustomerUserID,VendorUserID,ServiceType,TransactionID
                 if (values.length >= 8) {
                     String currentOrderID = values[0].trim();
                     if (currentOrderID.equals(orderID)) {
-                        return values[6].trim(); // Return the VendorID
+                        return values[6].trim();
                     }
                 }
             }
@@ -179,9 +178,10 @@ public class RunnerUptStatus extends User {
             e.printStackTrace();
         }
 
-        return null; // Return null if the order ID is not found (handle appropriately in your code)
+        return null; 
     }
 
+    //create credit transaction
     public void createCreditTransaction(String runnerID, String orderID) {
         double orderAmount = 4.00;
         try {
@@ -207,6 +207,7 @@ public class RunnerUptStatus extends User {
         }
     }
 
+    //update runner and vendor credit
     public void updateRunnerandVendorCredit(int runnerUserID, int vendorUserID, Boolean flag) {
         double runnerUpdatedCredit = getRunnerUpdatedCredit(runnerUserID, flag);
         double vendorUpdatedCredit = getVendorUpdatedCredit(vendorUserID, flag);
@@ -214,6 +215,7 @@ public class RunnerUptStatus extends User {
         cc.updateCreditInFile(vendorUserID, vendorUpdatedCredit);
     }
 
+    //generate order pick up notification
     public void generatePickUpNotification(int userId, String orderID) {
         String dateTime = dt.getCurrentDateTime();
         String content = "Order ID: " + orderID + " has been picked up by Runner";
@@ -231,6 +233,7 @@ public class RunnerUptStatus extends User {
         }
     }
 
+    //generate order delivered notification
     public void generateDeliveredNotification(int userId, String orderID) {
         String dateTime = dt.getCurrentDateTime();
         String content = "Order ID: " + orderID + " has been delivered";
@@ -248,6 +251,7 @@ public class RunnerUptStatus extends User {
         }
     }
 
+    //generate delivery fee debit notification
     public void generateDebitFeeNotification(int userId, String orderID) {
         String dateTime = dt.getCurrentDateTime();
         String content = "Delivery Fee for Order ID: " + orderID + " has been debited";
@@ -265,6 +269,7 @@ public class RunnerUptStatus extends User {
         }
     }
 
+    //get userID based on orderID
     public String getUserID(String orderID) {
         String userID = null;
         try {
@@ -286,7 +291,7 @@ public class RunnerUptStatus extends User {
         return userID;
     }
 
-    // updated credit for a customer
+    // get vendor updated credit
     private double getVendorUpdatedCredit(int vendorID, Boolean flag) {
         double totalAmount = 4.00;
         try {
@@ -315,7 +320,7 @@ public class RunnerUptStatus extends User {
         return 0;
     }
 
-    // updated credit for a vendor
+    // get runner updated credit
     private double getRunnerUpdatedCredit(int runnerID, Boolean flag) {
         double totalAmount = 4.00;
         try {

@@ -47,7 +47,6 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = table_Order.getSelectedRow();
                     if (selectedRow != -1) {
-                        // Get the OrderItemID from the selected row
                         String orderItemID = (String) table_Order.getValueAt(selectedRow, 2);
                         try {
                             vendorOrder.displayFoodDetails((DefaultTableModel) table_FoodDetails.getModel(), orderItemID);
@@ -66,16 +65,16 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         table_Order.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
         for (List<String> orderItem : orderItems) {
-            String orderStatus = orderItem.get(4); // Assuming OrderStatus is at index 4
+            String orderStatus = orderItem.get(4); 
             if ("Pending".equals(orderStatus)) {
                 List<String> displayData = new ArrayList<>();
-                displayData.add(orderItem.get(0));  // OrderID
-                displayData.add(orderItem.get(1));  // OrderPlacementTime
-                displayData.add(orderItem.get(2));  // OrderItemID
-                displayData.add(orderItem.get(3));  // OrderAmount
-                displayData.add(orderItem.get(4));  // OrderStatus
-                displayData.add(orderItem.get(5));  // CustomerUserID
-                displayData.add(orderItem.get(7));  // ServiceType
+                displayData.add(orderItem.get(0));  
+                displayData.add(orderItem.get(1));  
+                displayData.add(orderItem.get(2));  
+                displayData.add(orderItem.get(3));  
+                displayData.add(orderItem.get(4));  
+                displayData.add(orderItem.get(5));  
+                displayData.add(orderItem.get(7));  
                 model.addRow(displayData.toArray());
             }
         }
@@ -83,9 +82,8 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
 
     private void refreshOrderTable() {
         DefaultTableModel model = (DefaultTableModel) table_Order.getModel();
-        model.setRowCount(0); // Clear the existing rows
+        model.setRowCount(0); 
 
-        // Get the updated order items and display them in the table
         List<List<String>> orderItems = vendorOrder.getVendorOrder(username);
         displayOrder(orderItems);
     }
@@ -253,7 +251,7 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
     private void btn_AcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AcceptActionPerformed
         int selectedRow = table_Order.getSelectedRow();
         if (selectedRow != -1) {
-            String orderID = (String) table_Order.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
+            String orderID = (String) table_Order.getValueAt(selectedRow, 0);
             vendorOrder.assignRunnerForDelivery(orderID);
             vendorOrder.updateOrderStatus(orderID, "Accepted");
             refreshOrderTable();
@@ -267,7 +265,7 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
     private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelActionPerformed
         int selectedRow = table_Order.getSelectedRow();
         if (selectedRow != -1) {
-            String orderID = (String) table_Order.getValueAt(selectedRow, 0); // Assuming OrderID is in the first column
+            String orderID = (String) table_Order.getValueAt(selectedRow, 0); 
             String customerID = (String) table_Order.getValueAt(selectedRow, 5);
             int vendorID = Integer.parseInt(vendorOrder.getVendorID(orderID));
             String orderAmount = vendorOrder.getOrderAmount(orderID);

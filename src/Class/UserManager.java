@@ -24,10 +24,12 @@ public class UserManager {
         lastid = calculateLastUserId();
     }
 
+    //get all users into a list
     public List<User> getAllUsers() {
         return new ArrayList<>(users);
     }
 
+    //return the last userid
     private int calculateLastUserId() {
         if (users.isEmpty()) {
             return 0;
@@ -36,6 +38,7 @@ public class UserManager {
         }
     }
 
+    //load users from text file
     private void loadUsers() {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
@@ -54,6 +57,7 @@ public class UserManager {
         }
     }
 
+    //add user
     public void addUser(User user) {
         int newUserId = ++lastid;
         user.setId(newUserId);
@@ -65,6 +69,7 @@ public class UserManager {
         saveUsers();
     }
 
+    //save users
     public void saveUsers() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (User user : users) {
@@ -76,6 +81,7 @@ public class UserManager {
         }
     }
 
+    //return user by username and password
     public User getUserByUsernameAndPassword(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
@@ -85,6 +91,7 @@ public class UserManager {
         return null;
     }
 
+    //get user by username
     public User getUserByUsername(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -94,6 +101,7 @@ public class UserManager {
         return null;
     }
 
+    //get user by userID
     public User getUserById(int userId) {
         for (User user : users) {
             if (user.getId() == userId) {
@@ -103,6 +111,7 @@ public class UserManager {
         return null;
     }
 
+    //get userID by username
     public int getUserIdByUsername(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -112,6 +121,7 @@ public class UserManager {
         return -1; // Return -1 if the username is not found
     }
 
+    //delete user
     public boolean deleteUser(String username) {
         User userToDelete = null;
         for (User user : users) {
@@ -131,16 +141,25 @@ public class UserManager {
         return false;
     }
 
+    //update user from old to new
     public void updateUser(String oldUsername, String newUsername, String newPassword, String newRole) {
         User userToUpdate = getUserByUsername(oldUsername);
         if (userToUpdate != null) {
+            if ("vendor".equalsIgnoreCase(newRole)) {
+                VendorMenu.createVendorMenu(newUsername);
+            } else if ("vendor".equalsIgnoreCase(userToUpdate.getRole())) {
+                VendorMenu.deleteVendorMenu(oldUsername);
+            }
+
             userToUpdate.setUsername(newUsername);
             userToUpdate.setPassword(newPassword);
             userToUpdate.setRole(newRole);
+
             saveUsers();
         }
     }
 
+    //get next user id
     public int getNextUserId() {
         return lastid + 1;
     }

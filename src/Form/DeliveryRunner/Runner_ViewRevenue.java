@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.UIManager;
@@ -50,16 +49,16 @@ public class Runner_ViewRevenue extends javax.swing.JFrame {
 
     private void displayDebitTransactions(List<List<String>> debitTransactions) {
         DefaultTableModel model = (DefaultTableModel) table_revenue.getModel();
-        model.setRowCount(0); // Clear existing rows
+        model.setRowCount(0); 
         table_revenue.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         table_revenue.setRowHeight(18);
         for (List<String> transactionLine : debitTransactions) {
 
             List<String> displayData = new ArrayList<>();
-            displayData.add(transactionLine.get(0));  // OrderID
-            displayData.add(transactionLine.get(2));  // OrderPlacementTime
-            displayData.add(transactionLine.get(3));  // OrderItemID
-            displayData.add(transactionLine.get(4));  // OrderAmount
+            displayData.add(transactionLine.get(0));  
+            displayData.add(transactionLine.get(2));  
+            displayData.add(transactionLine.get(3));  
+            displayData.add(transactionLine.get(4)); 
             displayData.add(transactionLine.get(5));
             model.addRow(displayData.toArray());
         }
@@ -115,7 +114,6 @@ public class Runner_ViewRevenue extends javax.swing.JFrame {
     }
 
     private void updateTableBasedOnDate(String selectedDateInterval) {
-        // Read the order file and filter orders based on the selected status and date interval
         List<List<String>> filteredOrders = runnerRevenue.getDebitTransaction(username);
         filterTransactionByDateInterval(filteredOrders, selectedDateInterval);
 

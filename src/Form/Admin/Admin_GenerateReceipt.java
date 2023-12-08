@@ -50,7 +50,6 @@ public class Admin_GenerateReceipt extends javax.swing.JFrame {
                 User user = userManager.getUserById(userId);
 
                 if (user != null) {
-                    // Call the displayTransactions method on the userCredit instance
                     userCredit.displayTransactions(userId, model);
                 } else {
                     JOptionPane.showMessageDialog(null, "User ID not found", "Error", JOptionPane.ERROR_MESSAGE);

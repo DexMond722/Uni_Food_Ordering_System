@@ -6,7 +6,6 @@ package Form.DeliveryRunner;
 
 import Class.Review;
 import Class.RunnerReview;
-import Class.RunnerTask;
 import Class.UserCustomer;
 import java.awt.Font;
 import java.util.List;
@@ -45,21 +44,20 @@ public class Runner_ReadCustomerReview extends javax.swing.JFrame {
     private void displayCustomerReviews(int runnerID) {
         DefaultTableModel model = (DefaultTableModel) table_customerreview.getModel();
 
-        // Clear existing rows from the table
         model.setRowCount(0);
 
-        // Use the getOrderIdsByRunnerId method to get the list of order IDs
+
         List<Integer> orderIds = runnerReview.getOrderIdsByRunnerId(runnerID);
 
-        // Use the getReviewDataByOrderID method to get the review data for the list of order IDs
+
         List<String[]> reviewDataList = runnerReview.getReviewDataByOrderID(orderIds);
 
-        // Add the review data to the table
+
         for (String[] reviewData : reviewDataList) {
             model.addRow(new Object[]{
-                reviewData[1], // OrderID
-                reviewData[2], // Rating
-                reviewData[3] // Feedback
+                reviewData[1], 
+                reviewData[2], 
+                reviewData[3] 
             });
         }
     }

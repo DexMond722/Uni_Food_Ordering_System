@@ -26,6 +26,7 @@ public class RunnerRevenue extends User {
         this.username = username;
     }
     
+    //Get runner id by username
     public String getRunnerUserIdByUsername(String runnerID) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(userFilePath));
@@ -33,7 +34,7 @@ public class RunnerRevenue extends User {
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
                 String userName = userData[1].trim();
-                String userID = userData[0].trim(); // Assuming UserID is at index 0
+                String userID = userData[0].trim(); 
                 if (userName.equalsIgnoreCase(runnerID)) {
                     return userID;
                 }
@@ -43,21 +44,21 @@ public class RunnerRevenue extends User {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return null; // Return -1 if the username is not found (handle appropriately in your code)
+        return null;
     }
 
-
+    //Get debit transaction
     public List<List<String>> getDebitTransaction(String runnerID) {
         List<List<String>> debitTransactions = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(creditTransactionFilePath));
-            reader.readLine(); // Skipping the header
+            reader.readLine();
             String line;
             while ((line = reader.readLine()) != null) {
                 List<String> transactionDetails = Arrays.asList(line.split(","));
-                String transactionType = transactionDetails.get(4); // Assuming TransactionType is at index 4
-                String transactionUserID = transactionDetails.get(1); // Assuming UserID is at index 1
+                String transactionType = transactionDetails.get(4); 
+                String transactionUserID = transactionDetails.get(1); 
 
                 if (transactionType.equals("Debit") && transactionUserID.equals(String.valueOf(getRunnerUserIdByUsername(runnerID)))) {
                     debitTransactions.add(transactionDetails);
@@ -65,7 +66,7 @@ public class RunnerRevenue extends User {
             }
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace(); 
         }
 
         return debitTransactions;
