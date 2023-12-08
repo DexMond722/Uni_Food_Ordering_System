@@ -7,7 +7,7 @@ package Form.DeliveryRunner;
 import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import Class.RunnerUptStatus;
+import Class.RunnerUpdStatus;
 import Class.VendorOrder;
 import java.awt.Font;
 import javax.swing.table.JTableHeader;
@@ -18,7 +18,7 @@ import javax.swing.table.JTableHeader;
  */
 public class Runner_UpdateTask extends javax.swing.JFrame {
 
-    private RunnerUptStatus runnerUptStatus;
+    private RunnerUpdStatus runnerUptStatus;
     private String username;
     private String runnerID;
     VendorOrder vo = new VendorOrder();
@@ -28,7 +28,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
      */
     public Runner_UpdateTask(String username) {
         initComponents();
-        runnerUptStatus = new RunnerUptStatus();
+        runnerUptStatus = new RunnerUpdStatus();
         runnerID = (runnerUptStatus.getRunnerUserIdByUsername(username));
         displayTaskStatus(runnerUptStatus.getRunnerUserIdByUsername(username));
         JTableHeader tableHeader1 = table_taskstatus.getTableHeader();

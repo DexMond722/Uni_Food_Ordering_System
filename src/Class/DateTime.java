@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author desmondcwf
  */
-public class DateTime {
+public class DateTime extends User {
 
     public DateTime() {
         

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author User
  */
-public class RunnerUptStatus extends User {
+public class RunnerUpdStatus extends User {
 
     private static final String runnertaskFilePath = "src/Database/runnertask.txt";
     private static final String userFilePath = "src/Database/users.txt";
@@ -25,7 +25,7 @@ public class RunnerUptStatus extends User {
     UserCredit uc = new UserCredit();
     CustomerCredit cc = new CustomerCredit();
 
-    public RunnerUptStatus() {
+    public RunnerUpdStatus() {
 
     }
 
