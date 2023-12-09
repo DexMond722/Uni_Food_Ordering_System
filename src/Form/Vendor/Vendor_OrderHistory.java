@@ -128,15 +128,16 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(750, 565));
-        setMinimumSize(new java.awt.Dimension(750, 565));
+        setMaximumSize(new java.awt.Dimension(750, 580));
+        setMinimumSize(new java.awt.Dimension(750, 580));
         setPreferredSize(new java.awt.Dimension(750, 565));
-        setSize(new java.awt.Dimension(750, 565));
+        setSize(new java.awt.Dimension(750, 580));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setMaximumSize(new java.awt.Dimension(750, 565));
-        jPanel1.setMinimumSize(new java.awt.Dimension(750, 565));
+        jPanel1.setMaximumSize(new java.awt.Dimension(750, 580));
+        jPanel1.setMinimumSize(new java.awt.Dimension(750, 580));
+        jPanel1.setPreferredSize(new java.awt.Dimension(750, 580));
 
         table_AllOrder.setFont(new java.awt.Font("Georgia", 0, 16)); // NOI18N
         table_AllOrder.setModel(new javax.swing.table.DefaultTableModel(
@@ -236,7 +237,7 @@ public class Vendor_OrderHistory extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 750, 565);
+        jPanel1.setBounds(0, 0, 750, 580);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

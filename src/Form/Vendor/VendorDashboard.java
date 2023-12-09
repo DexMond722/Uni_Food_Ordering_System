@@ -133,10 +133,11 @@ public class VendorDashboard extends javax.swing.JFrame {
         btn_RevenueDashboard = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(500, 700));
+        setMaximumSize(new java.awt.Dimension(530, 730));
+        setMinimumSize(new java.awt.Dimension(530, 730));
         setPreferredSize(new java.awt.Dimension(500, 700));
         setResizable(false);
-        setSize(new java.awt.Dimension(500, 700));
+        setSize(new java.awt.Dimension(530, 730));
 
         jPanel1.setMaximumSize(new java.awt.Dimension(500, 700));
         jPanel1.setMinimumSize(new java.awt.Dimension(500, 700));
@@ -166,10 +167,10 @@ public class VendorDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_Icon)
                 .addGap(18, 18, 18)
-                .addComponent(lbl_Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_Notification)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         PanelTopLayout.setVerticalGroup(
             PanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,11 +187,11 @@ public class VendorDashboard extends javax.swing.JFrame {
         );
 
         jPanel1.add(PanelTop);
-        PanelTop.setBounds(0, 0, 500, 120);
+        PanelTop.setBounds(0, 0, 530, 120);
 
         PanelBottom.setBackground(new java.awt.Color(204, 255, 204));
-        PanelBottom.setMaximumSize(new java.awt.Dimension(500, 530));
-        PanelBottom.setPreferredSize(new java.awt.Dimension(500, 610));
+        PanelBottom.setMaximumSize(new java.awt.Dimension(500, 580));
+        PanelBottom.setPreferredSize(new java.awt.Dimension(500, 600));
 
         btn_EditMenu.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         btn_EditMenu.setText("Edit Menu");
@@ -236,16 +237,16 @@ public class VendorDashboard extends javax.swing.JFrame {
         PanelBottom.setLayout(PanelBottomLayout);
         PanelBottomLayout.setHorizontalGroup(
             PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBottomLayout.createSequentialGroup()
-                .addContainerGap(167, Short.MAX_VALUE)
-                .addGroup(PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_OrderHistory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                    .addComponent(btn_EditMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_OrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(154, 154, 154))
+            .addGroup(PanelBottomLayout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addGroup(PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_OrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_OrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_EditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         PanelBottomLayout.setVerticalGroup(
             PanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,19 +255,19 @@ public class VendorDashboard extends javax.swing.JFrame {
                 .addComponent(btn_EditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(btn_OrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(btn_OrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
+                .addComponent(btn_UpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(btn_OrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btn_RevenueDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addComponent(btn_LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jPanel1.add(PanelBottom);
-        PanelBottom.setBounds(-10, 120, 510, 610);
+        PanelBottom.setBounds(0, 120, 530, 610);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -276,7 +277,7 @@ public class VendorDashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();

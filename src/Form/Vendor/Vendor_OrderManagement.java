@@ -208,8 +208,11 @@ public class Vendor_OrderManagement extends javax.swing.JFrame {
         jScrollPane2.setViewportView(table_FoodDetails);
         if (table_FoodDetails.getColumnModel().getColumnCount() > 0) {
             table_FoodDetails.getColumnModel().getColumn(0).setResizable(false);
+            table_FoodDetails.getColumnModel().getColumn(0).setPreferredWidth(40);
             table_FoodDetails.getColumnModel().getColumn(1).setResizable(false);
+            table_FoodDetails.getColumnModel().getColumn(1).setPreferredWidth(100);
             table_FoodDetails.getColumnModel().getColumn(2).setResizable(false);
+            table_FoodDetails.getColumnModel().getColumn(2).setPreferredWidth(40);
         }
 
         jPanel1.add(jScrollPane2);

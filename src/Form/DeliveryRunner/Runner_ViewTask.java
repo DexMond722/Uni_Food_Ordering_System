@@ -9,6 +9,7 @@ import Class.UserCustomer;
 import Class.VendorOrder;
 import java.awt.Font;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -191,6 +192,7 @@ public class Runner_ViewTask extends javax.swing.JFrame {
 
                 String runnerID = String.valueOf(userCustomer.getUserID(username));
                 displayTask(runnerTask.getRunnerTask(runnerID, true));
+                JOptionPane.showMessageDialog(this, "Task Declined", "Task Declined", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btn_declineActionPerformed
@@ -211,7 +213,7 @@ public class Runner_ViewTask extends javax.swing.JFrame {
                 
                 runnerTask.generateDeliveryAssignedNotification(customerID, orderID);
                 runnerTask.generateDeliveryAssignedNotification(vendorID, orderID);
-                
+                JOptionPane.showMessageDialog(this, "Task Accepted", "Task Accepted", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btn_acceptActionPerformed

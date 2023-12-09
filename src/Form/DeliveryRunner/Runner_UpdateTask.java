@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import Class.RunnerUpdStatus;
 import Class.VendorOrder;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -233,6 +234,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
                 runnerUptStatus.updateOrderFile(orderID, "Pick-Up");
                 runnerUptStatus.generatePickUpNotification(vendorID, orderID);
                 runnerUptStatus.generatePickUpNotification(customerID, orderID);
+                JOptionPane.showMessageDialog(this, "Order Picked Up", "Order Picked Up", JOptionPane.INFORMATION_MESSAGE);
             }
 
         }
@@ -258,6 +260,7 @@ public class Runner_UpdateTask extends javax.swing.JFrame {
                 runnerUptStatus.generateDeliveredNotification(customerID, orderID);
                 
                 runnerUptStatus.generateDebitFeeNotification(Integer.parseInt(runnerID), orderID);
+                JOptionPane.showMessageDialog(this, "Order Delivered", "Order Delivered", JOptionPane.INFORMATION_MESSAGE);
             }
 
         }

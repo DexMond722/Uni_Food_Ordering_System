@@ -48,7 +48,7 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
 
             if (("Accepted".equals(orderStatus) || "Food_Preparing".equals(orderStatus))
                     && ("DineIn".equals(serviceType) || "TakeAway".equals(serviceType))
-                    || (("No_runner".equals(orderStatus) || "Delivered".equals(orderStatus))
+                    || (("No_Runner".equals(orderStatus) || "Delivered".equals(orderStatus))
                     && "Delivery".equals(serviceType))) {
 
                 List<String> displayData = new ArrayList<>();
@@ -231,6 +231,9 @@ public class Vendor_UpdateStatus extends javax.swing.JFrame {
             }
 
             refreshOrderTable();
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Please select a row first");
         }
 
     }//GEN-LAST:event_btn_UpdateStatusActionPerformed

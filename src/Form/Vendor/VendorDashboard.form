@@ -3,15 +3,18 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[530, 730]"/>
+    </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[500, 700]"/>
+      <Dimension value="[530, 730]"/>
     </Property>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[500, 700]"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[500, 700]"/>
+      <Dimension value="[530, 730]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -38,7 +41,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="1" pref="735" max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -71,7 +74,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="500" height="120"/>
+              <AbsoluteConstraints x="0" y="0" width="530" height="120"/>
             </Constraint>
           </Constraints>
 
@@ -82,10 +85,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lbl_Icon" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lbl_Welcome" min="-2" pref="324" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbl_Welcome" min="-2" pref="302" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btn_Notification" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="25" max="32767" attributes="0"/>
+                      <EmptySpace pref="71" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -141,32 +144,32 @@
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[500, 530]"/>
+              <Dimension value="[500, 580]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[500, 610]"/>
+              <Dimension value="[500, 600]"/>
             </Property>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="-10" y="120" width="510" height="610"/>
+              <AbsoluteConstraints x="0" y="120" width="530" height="610"/>
             </Constraint>
           </Constraints>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="167" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btn_LogOut" max="32767" attributes="0"/>
-                          <Component id="btn_RevenueDashboard" max="32767" attributes="0"/>
-                          <Component id="btn_OrderHistory" max="32767" attributes="0"/>
-                          <Component id="btn_UpdateStatus" pref="179" max="32767" attributes="0"/>
-                          <Component id="btn_EditMenu" max="32767" attributes="0"/>
-                          <Component id="btn_OrderStatus" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="164" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btn_LogOut" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="btn_RevenueDashboard" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="btn_OrderHistory" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="btn_UpdateStatus" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="btn_OrderStatus" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="btn_EditMenu" min="-2" pref="194" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="154" max="-2" attributes="0"/>
+                      <EmptySpace pref="172" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -177,13 +180,13 @@
                       <Component id="btn_EditMenu" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="btn_OrderStatus" min="-2" pref="53" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="btn_UpdateStatus" min="-2" pref="53" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="btn_OrderHistory" min="-2" pref="53" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="btn_RevenueDashboard" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="btn_UpdateStatus" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="btn_OrderHistory" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="btn_RevenueDashboard" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="btn_LogOut" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace pref="68" max="32767" attributes="0"/>
                   </Group>

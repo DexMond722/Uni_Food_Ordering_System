@@ -32,7 +32,7 @@ public class RunnerTask extends User {
     public RunnerTask() {
 
     }
-
+    
     //load runnertask 
     public List<List<String>> getRunnerTask(String runnerID, Boolean flag) {
         List<List<String>> taskItems = new ArrayList<>();
@@ -229,7 +229,7 @@ public class RunnerTask extends User {
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length >= 1 && fields[0].equals(orderID)) {
-                    fields[4] = "No_runner";
+                    fields[4] = "No_Runner";
                 }
                 String modifiedLine = String.join(",", fields);
                 content.append(modifiedLine).append("\n");
