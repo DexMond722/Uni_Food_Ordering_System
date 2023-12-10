@@ -497,18 +497,21 @@ public class Customer_ViewMenu extends javax.swing.JFrame {
         String serviceType = getServiceType();
         double totalAmount = getTotalAmountOfFoodOrdered();
         String selectedVendor = (String) comboBox_Vendor.getSelectedItem();
+        if (table_Cart.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Please add food into the cart.", "No Food is Ordered", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         // check the service type radio button is selected or not
         if (serviceType.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a service type.", "Service Type not selected", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (table_Cart.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Please add food into the cart.", "No Food is Ordered", JOptionPane.WARNING_MESSAGE);
-            return;
+        if (serviceType.equals("Delivery")){
+            totalAmount += 4.00;
         }
 
         if (customerCredit.checkCredit(totalAmount, username)) {
-            customerOrder.placeOrder(totalAmount, userCustomer.getUserID(username), userCustomer.getUserID(selectedVendor), serviceType, getTableCartOrderItemsData());
+            customerOrder.placeOrder(totalAmount-4.00, userCustomer.getUserID(username), userCustomer.getUserID(selectedVendor), serviceType, getTableCartOrderItemsData());
             JOptionPane.showMessageDialog(this, "Order Successfully", "Order Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);

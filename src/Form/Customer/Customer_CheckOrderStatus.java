@@ -401,12 +401,16 @@ public class Customer_CheckOrderStatus extends javax.swing.JFrame {
             int vendorID = Integer.parseInt(customerOrder.getVendorID(orderID));
             double orderAmount = Double.parseDouble(table_OrderHistory.getValueAt(selectedRowIndex, 2).toString());
             String serviceType = table_OrderHistory.getValueAt(selectedRowIndex, 4).toString();
-            if (serviceType.equals("Delivery")) {
-                orderAmount -= 4.00;
+            if (customerCredit.checkCredit(orderAmount, username)) {
+                if (serviceType.equals("Delivery")) {
+                    orderAmount -= 4.00;
+                }
+                List<List<String>> orderItemsData = customerOrder.getOrderItemsDataForReorder(orderID);
+                customerOrder.placeOrder(orderAmount, customerID, vendorID, serviceType, orderItemsData);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please top up credit, credit is not enough for the order", "Credit Insufficient", JOptionPane.WARNING_MESSAGE);
+                return;
             }
-            List<List<String>> orderItemsData = customerOrder.getOrderItemsDataForReorder(orderID);
-            customerOrder.placeOrder(orderAmount, customerID, vendorID, serviceType, orderItemsData);
-
         } else {
             JOptionPane.showMessageDialog(this, "Please select an order.", "No Order Selected", JOptionPane.INFORMATION_MESSAGE);
         }
